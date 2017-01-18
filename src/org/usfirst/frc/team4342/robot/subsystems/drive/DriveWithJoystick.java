@@ -6,33 +6,34 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveWithJoystick extends Command
 {
-	private DriveTrain dt;	
-	
 	public DriveWithJoystick(DriveTrain dt)
 	{
-		this.dt = dt;
+		super();
+		this.requires(dt);
 	}
-	
-	@Override
-	protected boolean isFinished() {
-		return false;
-	}
-	
+		
 	@Override
 	protected void execute()
 	{
-		IO.setDrive(IO.getDriveX(), IO.getDriveY());
+		IO.Drive.set(IO.Drive.getX(), IO.Drive.getY());
 	}
 	
 	@Override
 	protected void end()
 	{
-		
+		IO.Drive.set(0, 0);
+		IO.Drive.disablePID();
 	}
 	
 	@Override
 	public void interrupted()
 	{
 		this.end();
+	}
+	
+	@Override
+	protected boolean isFinished() 
+	{
+		return false;
 	}
 }
