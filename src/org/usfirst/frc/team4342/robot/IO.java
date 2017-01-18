@@ -4,6 +4,8 @@ import org.usfirst.frc.team4342.robot.subsystems.drive.DriveTrain;
 
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -13,9 +15,10 @@ public class IO
 	private static boolean initialized;
 	
 	private static Joystick driveStick;
-	private static CANTalon fr, fl, mr, ml, rr, rl;
+	private static CANTalon fr, fl, rr, rl;
 	private static DriveTrain driveTrain;
 	private static AHRS navx;
+	public static DigitalInput rsensor, lsensor; 
 	private static PIDController yawPID;
 	
 	public static void initialize()
@@ -27,12 +30,12 @@ public class IO
 		driveStick = new Joystick(0);
 		fr = new CANTalon(0);
 		fl = new CANTalon(1);
-		mr = new CANTalon(2);
-		ml = new CANTalon(3);
-		rr = new CANTalon(4);
-		rl = new CANTalon(5);
+		rr = new CANTalon(2);
+		rl = new CANTalon(3);
 		driveTrain = new DriveTrain();
 		navx = new AHRS(Port.kMXP);
+		rsensor = new DigitalInput(8);
+		lsensor = new DigitalInput(9);
 		yawPID = new PIDController(Drive.P, Drive.I, Drive.D, navx, driveTrain);
 		yawPID.setInputRange(-180.0, 180.0);
 		yawPID.setOutputRange(-1.0, 1.0);
@@ -106,10 +109,22 @@ public class IO
 			
 			fr.set(right);
 			fl.set(left);
-			mr.set(right);
-			ml.set(left);
 			rr.set(right);
 			rl.set(left);
 		}
 	}
+	
+	public static class Sensors
+	{
+		public static boolean getRightSensor()
+		{
+			return rsensor.get();
+		}
+		
+		public static boolean getLeftSensor()
+		{
+			return lsensor.get();
+		}
+	}
+	
 }
