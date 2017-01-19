@@ -6,12 +6,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveWithJoystick extends Command
 {
-	public DriveWithJoystick(DriveTrain dt)
-	{
-		super();
-		this.requires(dt);
-	}
-		
 	@Override
 	protected void execute()
 	{

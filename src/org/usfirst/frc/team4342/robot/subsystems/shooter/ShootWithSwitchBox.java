@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ShootWithSwitchBox extends Command
 {
-	
-	private static boolean hasAccumulated, hasAgitated, hasShot;
 
 	@Override
 	protected boolean isFinished() 
@@ -28,38 +26,20 @@ public class ShootWithSwitchBox extends Command
 		final boolean USER_AGITATE = IO.Shooter.getRawButton(IO.Shooter.AGITATE_BUTTON);
 		final boolean USER_SHOOT = IO.Shooter.getRawButton(IO.Shooter.SHOOT_BUTTON);
 	
-		if (USER_ACCUMULATE && !hasAccumulated) 
-		{
+		if (USER_ACCUMULATE) 
 			IO.Shooter.accumulate();
-			hasAccumulated = true;
-		}
-		else if (hasAccumulated)
-		{
+		else
 			IO.Shooter.stopAccumulating();
-			hasAccumulated = false;
-		}
 		
-		if (USER_AGITATE && !hasAgitated)
-		{
+		if (USER_AGITATE)
 			IO.Shooter.agitate();
-			hasAgitated = true;
-		}
-		else if (hasAgitated)
-		{
+		else
 			IO.Shooter.stopAgitating();
-			hasAgitated = false;
-		}
 		
-		if (USER_SHOOT && !hasShot)
-		{
+		if (USER_SHOOT)
 			IO.Shooter.shoot();
-			hasShot = true;
-		}
-		else if (hasShot)
-		{
+		else
 			IO.Shooter.stopShooting();
-			hasShot = false;
-		}
 		
 	}
 	

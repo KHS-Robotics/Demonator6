@@ -6,8 +6,10 @@ import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SPI.Port;
 
 public class IO 
@@ -18,7 +20,7 @@ public class IO
 	private static CANTalon fr, fl, rr, rl;
 	private static DriveTrain driveTrain;
 	private static AHRS navx;
-	public static DigitalInput rsensor, lsensor; 
+	private static DigitalInput rsensor, lsensor; 
 	private static PIDController yawPID;
 	
 	private static CANTalon scaleMotor;
@@ -26,6 +28,9 @@ public class IO
 	
 	private static Joystick switchBox;
 	private static CANTalon intake, agitator, shooter;
+	
+	private static DoubleSolenoid placer;
+	
 	
 	public static void initialize()
 	{
@@ -56,6 +61,9 @@ public class IO
 		intake = new CANTalon(5);
 		agitator = new CANTalon(6);
 		shooter = new CANTalon(7);
+		
+		//Gear Placer
+	    placer = new DoubleSolenoid(1, 2);
 		
 	}
 	
@@ -111,6 +119,9 @@ public class IO
 		
 		public static void set(double x, double y)
 		{
+			if(yawPID.isEnabled())
+				return;
+			
 			double right = y - x;
 			double left = y + x;
 			
@@ -146,18 +157,26 @@ public class IO
 	
 	public static class Scaler
 	{
+		private static double output;
+		
 		public static void enable()
 		{
+			if(Math.abs(0.5 - output) < 0.05)
+				return;
+			
 			scaleMotor.set(0.5);
 		}
 		
 		public static void disable()
 		{
+			if(Math.abs(0 - output) < 0.05)
+				return;
+			
 			scaleMotor.set(0);
 		}
 		
 		public static boolean hasScaled()
-		{
+		{	
 			return scaleSwitch.get();
 		}
 	}
@@ -165,42 +184,88 @@ public class IO
 	public static class Shooter
 	{
 		public static final int ACCUMULATE_BUTTON = 1, AGITATE_BUTTON = 2, SHOOT_BUTTON = 3;
+		private static double currentOutputIntake, currentOutputAgitator, currentOutputShooter;
 		
 		public static boolean getRawButton(int number)
-		{
+		{		
 			return switchBox.getRawButton(number);
 		}
 		
 		public static void accumulate()
 		{
+			if(Math.abs(0.67 - currentOutputIntake) < 0.05)
+				return;
+				
 			intake.set(0.67);
 		}
 		
 		public static void stopAccumulating()
 		{
+			if(Math.abs(0 - currentOutputIntake) < 0.05)
+				return;
+			
 			intake.set(0);
 		}
 		
 		public static void agitate()
 		{
+			if(Math.abs(0.8 - currentOutputAgitator) < 0.05)
+				return;
+			
 			agitator.set(0.8);
 		}
 		
 		public static void stopAgitating()
 		{
+			if(Math.abs(0 - currentOutputAgitator) < 0.05)
+				return;
+			
 			agitator.set(0);
 		}
 		
 		public static void shoot()
 		{
+			if(Math.abs(0.85 - currentOutputShooter) < 0.05)
+				return;
+			
 			shooter.set(0.85);
 		}
 		
 		public static void stopShooting()
 		{
+			if(Math.abs(0 - currentOutputShooter) < 0.05)
+				return;
+			
 			shooter.set(0);
 		}
 		
+	}
+	
+	public static class GearPlacer
+	{
+		public static final int LOWER_BUTTON = 4;
+		private static Value currentValue;
+		
+		public static void lower()
+		{
+			if(currentValue == Value.kForward)
+				return;
+				
+			placer.set(Value.kForward);
+		}
+		
+		public static void raise()
+		{
+			if(currentValue == Value.kReverse)
+				return;
+			
+			placer.set(Value.kReverse);
+		}
+		
+		public static boolean getRawButton(int button)
+		{
+			return switchBox.getRawButton(button);
+		}
 	}
 	
 }
