@@ -21,6 +21,9 @@ public class IO
 	public static DigitalInput rsensor, lsensor; 
 	private static PIDController yawPID;
 	
+	private static CANTalon scaleMotor;
+	private static DigitalInput scaleSwitch;
+	
 	public static void initialize()
 	{
 		if(initialized)
@@ -40,6 +43,10 @@ public class IO
 		yawPID.setInputRange(-180.0, 180.0);
 		yawPID.setOutputRange(-1.0, 1.0);
 		yawPID.setContinuous();
+		
+		//Scaling mechanism
+		scaleMotor = new CANTalon(4);
+		scaleSwitch = new DigitalInput(0);
 	}
 	
 	public static class Drive
@@ -126,5 +133,24 @@ public class IO
 			return lsensor.get();
 		}
 	}
+	
+	public static class Scaler
+	{
+		public static void enable()
+		{
+			scaleMotor.set(0.5);
+		}
+		
+		public static void disable()
+		{
+			scaleMotor.set(0);
+		}
+		
+		public static boolean hasScaled()
+		{
+			return scaleSwitch.get();
+		}
+	}
+	
 	
 }
