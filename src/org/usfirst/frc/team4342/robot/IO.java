@@ -24,6 +24,9 @@ public class IO
 	private static CANTalon scaleMotor;
 	private static DigitalInput scaleSwitch;
 	
+	private static Joystick switchBox;
+	private static CANTalon intake, agitator, shooter;
+	
 	public static void initialize()
 	{
 		if(initialized)
@@ -47,6 +50,13 @@ public class IO
 		//Scaling mechanism
 		scaleMotor = new CANTalon(4);
 		scaleSwitch = new DigitalInput(0);
+		
+		//Shooter
+		switchBox = new Joystick(1);
+		intake = new CANTalon(5);
+		agitator = new CANTalon(6);
+		shooter = new CANTalon(7);
+		
 	}
 	
 	public static class Drive
@@ -152,5 +162,45 @@ public class IO
 		}
 	}
 	
+	public static class Shooter
+	{
+		public static final int ACCUMULATE_BUTTON = 1, AGITATE_BUTTON = 2, SHOOT_BUTTON = 3;
+		
+		public static boolean getRawButton(int number)
+		{
+			return switchBox.getRawButton(number);
+		}
+		
+		public static void accumulate()
+		{
+			intake.set(0.67);
+		}
+		
+		public static void stopAccumulating()
+		{
+			intake.set(0);
+		}
+		
+		public static void agitate()
+		{
+			agitator.set(0.8);
+		}
+		
+		public static void stopAgitating()
+		{
+			agitator.set(0);
+		}
+		
+		public static void shoot()
+		{
+			shooter.set(0.85);
+		}
+		
+		public static void stopShooting()
+		{
+			shooter.set(0);
+		}
+		
+	}
 	
 }
