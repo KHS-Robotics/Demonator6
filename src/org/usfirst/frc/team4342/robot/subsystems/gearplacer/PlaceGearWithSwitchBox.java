@@ -6,6 +6,11 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class PlaceGearWithSwitchBox extends Command
 {	
+	public PlaceGearWithSwitchBox()
+	{
+		super();
+	}
+	
 	@Override
 	protected boolean isFinished() 
 	{

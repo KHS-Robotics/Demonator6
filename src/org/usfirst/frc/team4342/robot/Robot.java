@@ -25,11 +25,7 @@ public class Robot extends IterativeRobot
 		drive = new DriveWithJoystick();
 		shooter = new ShootWithSwitchBox();
 		gearPlacer = new PlaceGearWithSwitchBox();
-		
-		Scheduler.getInstance().add(drive);
-		Scheduler.getInstance().add(shooter);
-		Scheduler.getInstance().add(gearPlacer);
-		
+			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
 
@@ -37,6 +33,20 @@ public class Robot extends IterativeRobot
 	public void teleopPeriodic()
 	{
 		Scheduler.getInstance().run();
+	}
+	
+	@Override
+	public void autonomousInit()
+	{
+		Scheduler.getInstance().removeAll();
+	}
+	
+	@Override
+	public void disabledInit()
+	{
+		Scheduler.getInstance().add(drive);
+		Scheduler.getInstance().add(shooter);
+		Scheduler.getInstance().add(gearPlacer);
 	}
 	
 	@Override

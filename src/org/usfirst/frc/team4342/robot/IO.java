@@ -31,7 +31,6 @@ public class IO
 	
 	private static DoubleSolenoid placer;
 	
-	
 	public static void initialize()
 	{
 		if(initialized)

@@ -6,7 +6,13 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class Scaler extends Command
 {
-
+	public Scaler()
+	{
+		super();
+		
+		this.requires(IO.Drive.getDriveTrain());
+	}
+	
 	@Override
 	protected boolean isFinished() 
 	{

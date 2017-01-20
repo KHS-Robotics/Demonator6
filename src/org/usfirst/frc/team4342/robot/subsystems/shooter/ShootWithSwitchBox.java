@@ -6,6 +6,10 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ShootWithSwitchBox extends Command
 {
+	public ShootWithSwitchBox()
+	{
+		super();
+	}
 
 	@Override
 	protected boolean isFinished() 

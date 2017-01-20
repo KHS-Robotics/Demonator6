@@ -6,6 +6,13 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveWithJoystick extends Command
 {
+	public DriveWithJoystick()
+	{
+		super();
+		
+		this.requires(IO.Drive.getDriveTrain());
+	}
+	
 	@Override
 	protected void execute()
 	{
