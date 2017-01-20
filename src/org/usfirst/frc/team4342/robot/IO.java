@@ -118,8 +118,8 @@ public class IO
 		
 		public static void set(double x, double y)
 		{
-			double right = y - x;
-			double left = y + x;
+			double right = y + x;
+			double left = y - x;
 			
 			if (right > 1)
 				right = 1;
