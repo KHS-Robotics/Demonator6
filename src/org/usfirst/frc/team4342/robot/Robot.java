@@ -2,21 +2,17 @@ package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
-import org.usfirst.frc.team4342.robot.subsystems.drive.DriveWithJoystick;
-import org.usfirst.frc.team4342.robot.subsystems.gearplacer.PlaceGearWithSwitchBox;
-import org.usfirst.frc.team4342.robot.subsystems.shooter.ShootWithSwitchBox;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Robot extends IterativeRobot 
 {
-	private DriveWithJoystick drive;
-	private ShootWithSwitchBox shooter;
-	private PlaceGearWithSwitchBox gearPlacer;
-	
-	private static boolean ranTest;
+	private SendableChooser<String> autonomousChooser;
+	private Command autonomousRoutine;
 	
 	@Override
 	public void robotInit()
@@ -24,17 +20,12 @@ public class Robot extends IterativeRobot
 		IO.initialize();
 		DemonDashboard.start();
 		
-		drive = new DriveWithJoystick();
-		shooter = new ShootWithSwitchBox();
-		gearPlacer = new PlaceGearWithSwitchBox();
-		
-		Scheduler.getInstance().add(drive);
-		Scheduler.getInstance().add(shooter);
-		Scheduler.getInstance().add(gearPlacer);
+		autonomousChooser = new SendableChooser<String>();
+		autonomousChooser.addDefault("None", null);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
-
+	
 	@Override
 	public void teleopPeriodic()
 	{
@@ -45,24 +36,27 @@ public class Robot extends IterativeRobot
 	public void autonomousInit()
 	{
 		Scheduler.getInstance().removeAll();
+		
+		String routine = autonomousChooser.getSelected();
+		switch(routine)
+		{
+			default:
+				autonomousRoutine = null;
+		}
+	}
+	
+	@Override
+	public void autonomousPeriodic()
+	{
+		if(autonomousRoutine != null)
+			Scheduler.getInstance().run();
 	}
 	
 	@Override
 	public void disabledInit()
 	{
-		if(ranTest)
-		{
-			Scheduler.getInstance().add(drive);
-			Scheduler.getInstance().add(shooter);
-			Scheduler.getInstance().add(gearPlacer);
-			ranTest = false;
-		}
-	}
-	
-	@Override
-	public void testInit()
-	{
-		ranTest = true;
+		if(autonomousRoutine != null && autonomousRoutine.isRunning())
+			autonomousRoutine.cancel();
 	}
 	
 	@Override
