@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -11,20 +12,22 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class IO 
 {
-	public static final int ACCUMULATE_BUTTON = 5, AGITATE_BUTTON = 6, SHOOT_BUTTON = 7; 
-	public static final int LOWER_BUTTON = 8;
+	private IO() {}
 	
 	private static boolean initialized;
 	
+	// Sensors and motor controllers
 	private static Joystick driveStick, switchBox;
 	private static CANTalon fr, fl, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch;
 	private static DoubleSolenoid placer;
 	
+	// Subsystems
 	private static TankDrive drive;
 	private static Shooter shootingSubsystem;
 	private static Scaler scaler;
@@ -66,6 +69,11 @@ public class IO
 	    shootingSubsystem = new Shooter(intake, agitator, shooter);
 	    scaler = new Scaler(scaleMotor, scaleSwitch);
 	    gearPlacer = new GearPlacer(placer);
+	    
+	    // Scale when the driver presses the Scale button. This will disable DriveWithJoystick
+	    // until the Scale's isFinished() returns true or the Scale command times out (15 seconds).
+	    // Once finished, DriveWithJoystick will start again
+	    new JoystickButton(driveStick, ButtonMap.Drive.SCALE).toggleWhenPressed(new Scale(scaler, drive));
 	}
 	
 	public static TankDrive getDrive()

@@ -41,7 +41,7 @@ public class Logger
 	
 	public static void warning(String message)
 	{
-		log(Severity.WARNING, message, null, System.err);
+		log(Severity.WARNING, message, null, System.out);
 	}
 	
 	public static void error(String message, Throwable t)

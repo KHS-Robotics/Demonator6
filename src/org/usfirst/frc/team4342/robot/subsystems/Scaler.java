@@ -1,8 +1,5 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import org.usfirst.frc.team4342.robot.IO;
-import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
-
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -49,6 +46,6 @@ public class Scaler extends Subsystem
 	@Override
 	protected void initDefaultCommand() 
 	{
-		this.setDefaultCommand(new Scale(this, IO.getDrive()));
+		//this.setDefaultCommand(new Scale(this, IO.getDrive()));
 	}
 }

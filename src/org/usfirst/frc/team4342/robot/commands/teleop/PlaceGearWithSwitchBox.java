@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands.teleop;
 
-import org.usfirst.frc.team4342.robot.IO;
+import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -35,7 +35,7 @@ public class PlaceGearWithSwitchBox extends Command
 	@Override
 	protected void execute()
 	{
-		final boolean USER_LOWER = switchBox.getRawButton(IO.LOWER_BUTTON);
+		final boolean USER_LOWER = switchBox.getRawButton(ButtonMap.GearPlacer.LOWER);
 		
 		if(USER_LOWER)
 			placer.lower();

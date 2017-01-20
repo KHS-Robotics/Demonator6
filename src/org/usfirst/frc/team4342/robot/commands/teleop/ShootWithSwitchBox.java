@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands.teleop;
 
-import org.usfirst.frc.team4342.robot.IO;
+import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,6 +14,7 @@ public class ShootWithSwitchBox extends Command
 	public ShootWithSwitchBox(Joystick switchBox, Shooter shooter)
 	{
 		super();
+		
 		this.requires(shooter);
 		
 		this.switchBox = switchBox;
@@ -35,9 +36,9 @@ public class ShootWithSwitchBox extends Command
 	@Override
 	protected void execute()
 	{
-		final boolean USER_ACCUMULATE = switchBox.getRawButton(IO.ACCUMULATE_BUTTON);
-		final boolean USER_AGITATE = switchBox.getRawButton(IO.AGITATE_BUTTON);
-		final boolean USER_SHOOT = switchBox.getRawButton(IO.SHOOT_BUTTON);
+		final boolean USER_ACCUMULATE = switchBox.getRawButton(ButtonMap.Shooter.ACCUMULATE);
+		final boolean USER_AGITATE = switchBox.getRawButton(ButtonMap.Shooter.AGITATE);
+		final boolean USER_SHOOT = switchBox.getRawButton(ButtonMap.Shooter.SHOOT);
 	
 		if (USER_ACCUMULATE) 
 			shooter.accumulate();
