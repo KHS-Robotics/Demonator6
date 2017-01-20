@@ -118,9 +118,6 @@ public class IO
 		
 		public static void set(double x, double y)
 		{
-			if(yawPID.isEnabled())
-				return;
-			
 			double right = y - x;
 			double left = y + x;
 			
