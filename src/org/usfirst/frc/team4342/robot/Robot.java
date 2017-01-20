@@ -16,6 +16,8 @@ public class Robot extends IterativeRobot
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	
+	private static boolean ranTest;
+	
 	@Override
 	public void robotInit()
 	{
@@ -25,6 +27,10 @@ public class Robot extends IterativeRobot
 		drive = new DriveWithJoystick();
 		shooter = new ShootWithSwitchBox();
 		gearPlacer = new PlaceGearWithSwitchBox();
+		
+		Scheduler.getInstance().add(drive);
+		Scheduler.getInstance().add(shooter);
+		Scheduler.getInstance().add(gearPlacer);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
@@ -44,9 +50,19 @@ public class Robot extends IterativeRobot
 	@Override
 	public void disabledInit()
 	{
-		Scheduler.getInstance().add(drive);
-		Scheduler.getInstance().add(shooter);
-		Scheduler.getInstance().add(gearPlacer);
+		if(ranTest)
+		{
+			Scheduler.getInstance().add(drive);
+			Scheduler.getInstance().add(shooter);
+			Scheduler.getInstance().add(gearPlacer);
+			ranTest = false;
+		}
+	}
+	
+	@Override
+	public void testInit()
+	{
+		ranTest = true;
 	}
 	
 	@Override
