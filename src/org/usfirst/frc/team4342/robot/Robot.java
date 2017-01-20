@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot 
 {
@@ -22,6 +23,7 @@ public class Robot extends IterativeRobot
 		
 		autonomousChooser = new SendableChooser<String>();
 		autonomousChooser.addDefault("None", null);
+		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
@@ -43,6 +45,9 @@ public class Robot extends IterativeRobot
 			default:
 				autonomousRoutine = null;
 		}
+		
+		if(autonomousRoutine != null)
+			autonomousRoutine.start();
 	}
 	
 	@Override

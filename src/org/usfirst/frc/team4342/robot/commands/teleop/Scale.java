@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4342.robot.commands.teleop;
 
-import org.usfirst.frc.team4342.robot.IO;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -13,13 +12,15 @@ public class Scale extends Command
 	
 	public Scale(Scaler scaler, TankDrive drive)
 	{
-		super();
+		super(15);
 		
-		this.requires(drive);
 		this.requires(scaler);
+		this.requires(drive);
 		
 		this.scaler = scaler;
 		this.drive = drive;
+		
+		this.setInterruptible(false);
 	}
 	
 	@Override
@@ -33,7 +34,7 @@ public class Scale extends Command
 	{
 		drive.enablePID();
 		drive.setDirection(0.25);
-		drive.setHeading(IO.getDrive().getYaw());
+		drive.setHeading(drive.getYaw());
 		scaler.enable();
 	}
 	
@@ -48,11 +49,5 @@ public class Scale extends Command
 	{
 		scaler.disable();
 		drive.disablePID();
-	}
-	
-	@Override
-	protected void interrupted()
-	{
-		this.end();
 	}
 }
