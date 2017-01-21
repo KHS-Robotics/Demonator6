@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
+import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
@@ -12,8 +15,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot 
 {
+	private DriveWithJoystick drive;
+	private ShootWithSwitchBox shooter;
+	private PlaceGearWithSwitchBox gearPlacer;
+	
 	private SendableChooser<String> autonomousChooser;
 	private Command autonomousRoutine;
+	
+	private boolean removedTeleopCommands = true;
 	
 	@Override
 	public void robotInit()
@@ -21,11 +30,24 @@ public class Robot extends IterativeRobot
 		IO.initialize();
 		DemonDashboard.start();
 		
+		drive = new DriveWithJoystick(IO.getDriveSitck(), IO.getDrive());
+		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
+		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
+		
 		autonomousChooser = new SendableChooser<String>();
 		autonomousChooser.addDefault("None", null);
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
+	}
+	
+	@Override
+	public void teleopInit()
+	{
+		if(autonomousRoutine != null && autonomousRoutine.isRunning())
+			autonomousRoutine.cancel();
+		
+		startTeleopCommands();
 	}
 	
 	@Override
@@ -37,7 +59,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit()
 	{
-		Scheduler.getInstance().removeAll();
+		stopTeleopCommands();
 		
 		String routine = autonomousChooser.getSelected();
 		switch(routine)
@@ -58,15 +80,32 @@ public class Robot extends IterativeRobot
 	}
 	
 	@Override
-	public void disabledInit()
-	{
-		if(autonomousRoutine != null && autonomousRoutine.isRunning())
-			autonomousRoutine.cancel();
-	}
-	
-	@Override
 	public void testPeriodic()
 	{
 		LiveWindow.run();
+	}
+	
+	private void startTeleopCommands()
+	{
+		if(removedTeleopCommands)
+		{
+			drive.start();
+			shooter.start();
+			gearPlacer.start();
+			
+			removedTeleopCommands = false;
+		}
+	}
+	
+	private void stopTeleopCommands()
+	{
+		if(!removedTeleopCommands)
+		{
+			drive.cancel();
+			shooter.cancel();
+			gearPlacer.cancel();
+			
+			removedTeleopCommands = true;
+		}
 	}
 }

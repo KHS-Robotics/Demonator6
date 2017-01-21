@@ -1,8 +1,5 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import org.usfirst.frc.team4342.robot.IO;
-import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -43,7 +40,8 @@ public class GearPlacer extends Subsystem
 	@Override
 	protected void initDefaultCommand() 
 	{
-		this.setDefaultCommand(new PlaceGearWithSwitchBox(IO.getSwitchBox(), this));
+		this.setDefaultCommand(null);
+		//this.setDefaultCommand(new PlaceGearWithSwitchBox(IO.getSwitchBox(), this));
 	}
 
 }

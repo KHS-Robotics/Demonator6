@@ -1,8 +1,5 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import org.usfirst.frc.team4342.robot.IO;
-import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
-
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -74,6 +71,7 @@ public class Shooter extends Subsystem
 	@Override
 	protected void initDefaultCommand() 
 	{
-		this.setDefaultCommand(new ShootWithSwitchBox(IO.getSwitchBox(), this));
+		this.setDefaultCommand(null);
+		//this.setDefaultCommand(new ShootWithSwitchBox(IO.getSwitchBox(), this));
 	}
 }

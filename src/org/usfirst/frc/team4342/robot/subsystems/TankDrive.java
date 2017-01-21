@@ -1,8 +1,5 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import org.usfirst.frc.team4342.robot.IO;
-import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoystick;
-
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -97,6 +94,7 @@ public class TankDrive extends Subsystem implements PIDOutput
 	@Override
 	protected void initDefaultCommand()
 	{
-		this.setDefaultCommand(new DriveWithJoystick(IO.getDriveSitck(), this));
+		this.setDefaultCommand(null);
+		//this.setDefaultCommand(new DriveWithJoystick(IO.getDriveSitck(), this));
 	}
 }

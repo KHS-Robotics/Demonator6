@@ -46,6 +46,7 @@ public class Scaler extends Subsystem
 	@Override
 	protected void initDefaultCommand() 
 	{
+		this.setDefaultCommand(null);
 		//this.setDefaultCommand(new Scale(this, IO.getDrive()));
 	}
 }
