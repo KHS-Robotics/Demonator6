@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.IO;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -70,6 +72,29 @@ public class TankDrive extends Subsystem implements PIDOutput
 		fr.set(direction);
 		mr.set(direction);
 		rr.set(direction);
+	}
+	
+	public void goToSetpoint(double setpointAngle)
+	{
+		this.yawPID.setSetpoint(setpointAngle);
+		enablePID();
+	}
+	
+	public void goStraight(double direction)
+	{
+		setDirection(direction);
+	}
+	
+	public void goStraight(double direction, double angle)
+	{
+		goToSetpoint(angle);
+		goStraight(direction);
+	}
+	
+	public void goToAngle(double angle)
+	{
+		goToSetpoint(angle);
+		setDirection(0.0);
 	}
 	
 	public double getYaw()
