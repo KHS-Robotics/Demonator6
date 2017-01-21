@@ -29,8 +29,8 @@ public class RobotMap
 	public static final byte NAVX_UPDATE_RATE_HZ = (byte) 50;
 	
 	// DIOs
-	public static final int SCALE_SWITCH = 2;
-	public static final int RIGHT_PHOTO_SENSOR = 0;
+	public static final int SCALE_SWITCH = 3;
+	public static final int RIGHT_PHOTO_SENSOR = 2;
 	public static final int LEFT_PHOTO_SENSOR = 1;
 	
 	// Pneumatics
