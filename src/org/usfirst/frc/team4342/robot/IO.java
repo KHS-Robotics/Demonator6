@@ -6,12 +6,13 @@ import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
-import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class IO 
@@ -22,7 +23,8 @@ public class IO
 	
 	// Sensors and motor controllers
 	private static Joystick driveStick, switchBox;
-	private static CANTalon fr, fl, rr, rl, intake, agitator, shooter, scaleMotor;
+	private static Talon fr, fl, rr, rl;
+	private static Spark intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch;
 	private static DoubleSolenoid placer;
@@ -43,15 +45,16 @@ public class IO
 		driveStick = new Joystick(RobotMap.DRIVE_STICK_PORT);
 		switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
 		
-		// CANTalons
-		fr = new CANTalon(RobotMap.FRONT_RIGHT);
-		fl = new CANTalon(RobotMap.FRONT_LEFT);
-		rr = new CANTalon(RobotMap.REAR_RIGHT);
-		rl = new CANTalon(RobotMap.REAR_LEFT);
-		intake = new CANTalon(RobotMap.INTAKE);
-		agitator = new CANTalon(RobotMap.AGITATOR);
-		shooter = new CANTalon(RobotMap.SHOOTER);
-		scaleMotor = new CANTalon(RobotMap.SCALER);
+		// Talons
+		fr = new Talon(RobotMap.FRONT_RIGHT);
+		fl = new Talon(RobotMap.FRONT_LEFT);
+		rr = new Talon(RobotMap.REAR_RIGHT);
+		rl = new Talon(RobotMap.REAR_LEFT);
+		
+		//intake = new Spark(RobotMap.INTAKE);
+		//agitator = new Spark(RobotMap.AGITATOR);
+		shooter = new Spark(RobotMap.SHOOTER);
+		//scaleMotor = new Spark(RobotMap.SCALER);
 		
 		// NavX
 		navx = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
@@ -67,13 +70,13 @@ public class IO
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, rr, rl, navx);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter);
-	    scaler = new Scaler(scaleMotor, scaleSwitch);
-	    gearPlacer = new GearPlacer(placer);
+	    //scaler = new Scaler(scaleMotor, scaleSwitch);
+	    //gearPlacer = new GearPlacer(placer);
 	    
 	    // Scale when the driver presses the Scale button. This will disable DriveWithJoystick
 	    // until the Scale's isFinished() returns true or the Scale command times out (15 seconds).
 	    // Once finished, DriveWithJoystick will start again
-	    new JoystickButton(driveStick, ButtonMap.Drive.SCALE).toggleWhenPressed(new Scale(scaler, drive));
+	    //new JoystickButton(driveStick, ButtonMap.Drive.SCALE).toggleWhenPressed(new Scale(scaler, drive));
 	}
 	
 	public static TankDrive getDrive()

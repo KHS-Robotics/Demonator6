@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot
 		
 		drive = new DriveWithJoystick(IO.getDriveSitck(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
-		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
+		//gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		
 		autonomousChooser = new SendableChooser<String>();
 		autonomousChooser.addDefault("None", null);
@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot
 		{
 			drive.start();
 			shooter.start();
-			gearPlacer.start();
+			//gearPlacer.start();
 			
 			removedTeleopCommands = false;
 		}
@@ -103,7 +103,7 @@ public class Robot extends IterativeRobot
 		{
 			drive.cancel();
 			shooter.cancel();
-			gearPlacer.cancel();
+			//gearPlacer.cancel();
 			
 			removedTeleopCommands = true;
 		}

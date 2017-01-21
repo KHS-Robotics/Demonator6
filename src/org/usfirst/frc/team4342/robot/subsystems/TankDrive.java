@@ -1,23 +1,23 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDrive extends Subsystem implements PIDOutput
 {
 	private static final double P = 0.0, I = 0.0, D = 0.0;
 	
-	private CANTalon fr, fl, rr, rl;
+	private Talon fr, fl, rr, rl;
 	private AHRS navx;
 	private PIDController yawPID;
 	
 	private double direction;
 	
-	public TankDrive(CANTalon fr, CANTalon fl, CANTalon rr, CANTalon rl, AHRS navx)
+	public TankDrive(Talon fr, Talon fl, Talon rr, Talon rl, AHRS navx)
 	{
 		super();
 		

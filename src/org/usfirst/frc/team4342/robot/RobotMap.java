@@ -6,7 +6,7 @@ public class RobotMap
 {
 	private RobotMap() {}
 	
-	// Joysticks test
+	// Joysticks
 	public static final int DRIVE_STICK_PORT = 0;
 	public static final int SWITCH_BOX_PORT = 1;
 	
