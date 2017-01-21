@@ -60,7 +60,7 @@ public class IO
 		navx = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// DIOs
-		scaleSwitch = new DigitalInput(RobotMap.SCALE_SWITCH);
+		//scaleSwitch = new DigitalInput(RobotMap.SCALE_SWITCH);
 		rsensor = new DigitalInput(RobotMap.RIGHT_PHOTO_SENSOR);
 		lsensor = new DigitalInput(RobotMap.LEFT_PHOTO_SENSOR);
 		
