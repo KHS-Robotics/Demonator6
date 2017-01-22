@@ -3,6 +3,7 @@ package org.usfirst.frc.team4342.robot.subsystems;
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -13,11 +14,12 @@ public class TankDrive extends Subsystem implements PIDOutput
 	
 	private CANTalon fr, fl, rr, rl, mr , ml;
 	private AHRS navx;
+	private DigitalInput rsensor, lsensor;
 	private PIDController yawPID;
 	
 	private double direction;
 	
-	public TankDrive(CANTalon fr, CANTalon fl, CANTalon mr, CANTalon ml, CANTalon rr, CANTalon rl, AHRS navx)
+	public TankDrive(CANTalon fr, CANTalon fl, CANTalon mr, CANTalon ml, CANTalon rr, CANTalon rl, AHRS navx, DigitalInput rsensor, DigitalInput lsensor)
 	{
 		super();
 		
@@ -28,6 +30,8 @@ public class TankDrive extends Subsystem implements PIDOutput
 		this.rr = rr;
 		this.rl = rl;
 		this.navx = navx;
+		this.rsensor = rsensor;
+		this.lsensor = lsensor;
 		
 		yawPID = new PIDController(P, I, D, navx, this);
 		yawPID.setInputRange(-180.0, 180.0);
@@ -88,6 +92,16 @@ public class TankDrive extends Subsystem implements PIDOutput
 	public void setDirection(double direction)
 	{
 		this.direction = direction;
+	}
+	
+	public boolean getRightSensor()
+	{
+		return rsensor.get();
+	}
+	
+	public boolean getLeftSensor()
+	{
+		return lsensor.get();
 	}
 	
 	@Override

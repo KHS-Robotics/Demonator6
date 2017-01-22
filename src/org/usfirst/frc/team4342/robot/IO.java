@@ -67,7 +67,7 @@ public class IO
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
 	    
 	    // Subsystems
-	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx);
+	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, rsensor, lsensor);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter);
 	    scaler = new Scaler(scaleMotor, scaleSwitch);
 	    gearPlacer = new GearPlacer(placer);
@@ -106,18 +106,5 @@ public class IO
 	public static Joystick getSwitchBox()
 	{
 		return switchBox;
-	}
-	
-	public static class Sensors
-	{
-		public static boolean getRightSensor()
-		{
-			return rsensor.get();
-		}
-		
-		public static boolean getLeftSensor()
-		{
-			return lsensor.get();
-		}
 	}
 }
