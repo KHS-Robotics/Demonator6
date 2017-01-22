@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4342.robot;
 
-import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -13,7 +12,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class IO 
 {
@@ -68,7 +66,7 @@ public class IO
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
 	    
 	    // Subsystems
-	    drive = new TankDrive(fr, fl, rr, rl, navx);
+	    drive = new TankDrive(fr, fl, rr, rl, navx, rsensor, lsensor);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter);
 	    //scaler = new Scaler(scaleMotor, scaleSwitch);
 	    //gearPlacer = new GearPlacer(placer);
@@ -107,18 +105,5 @@ public class IO
 	public static Joystick getSwitchBox()
 	{
 		return switchBox;
-	}
-	
-	public static class Sensors
-	{
-		public static boolean getRightSensor()
-		{
-			return rsensor.get();
-		}
-		
-		public static boolean getLeftSensor()
-		{
-			return lsensor.get();
-		}
 	}
 }
