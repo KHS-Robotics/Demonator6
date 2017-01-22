@@ -13,20 +13,18 @@ public class TankDrive extends Subsystem implements PIDOutput
 {
 	private static final double P = 0.0, I = 0.0, D = 0.0;
 	
-	private Talon fr, fl, rr, rl, mr, ml;
+	private Talon fr, fl, rr, rl;
 	private AHRS navx;
 	private PIDController yawPID;
 	
 	private double direction;
 	
-	public TankDrive(Talon fr, Talon fl, Talon mr, Talon ml, Talon rr, Talon rl, AHRS navx)
+	public TankDrive(Talon fr, Talon fl, Talon rr, Talon rl, AHRS navx)
 	{
 		super();
 		
 		this.fr = fr;
 		this.fl = fl;
-		this.mr = mr;
-		this.ml = ml;
 		this.rr = rr;
 		this.rl = rl;
 		this.navx = navx;
@@ -54,8 +52,7 @@ public class TankDrive extends Subsystem implements PIDOutput
 		
 		fr.set(right);
 		fl.set(left);
-		mr.set(right);
-		ml.set(left);
+
 		rr.set(right);
 		rl.set(left);
 	}
@@ -63,14 +60,12 @@ public class TankDrive extends Subsystem implements PIDOutput
 	public void setLeft(double direction)
 	{
 		fl.set(direction);
-		ml.set(direction);
 		rl.set(direction);
 	}
 	
 	public void setRight(double direction)
 	{
 		fr.set(direction);
-		mr.set(direction);
 		rr.set(direction);
 	}
 	
