@@ -22,7 +22,7 @@ public class IO
 	
 	// Sensors and motor controllers
 	private static Joystick driveStick, switchBox;
-	private static CANTalon fr, fl, rr, rl, intake, agitator, shooter, scaleMotor;
+	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch;
 	private static DoubleSolenoid placer;
@@ -46,6 +46,8 @@ public class IO
 		// CANTalons
 		fr = new CANTalon(RobotMap.FRONT_RIGHT);
 		fl = new CANTalon(RobotMap.FRONT_LEFT);
+		mr = new CANTalon(RobotMap.MIDDLE_RIGHT);
+		ml = new CANTalon(RobotMap.MIDDLE_LEFT);
 		rr = new CANTalon(RobotMap.REAR_RIGHT);
 		rl = new CANTalon(RobotMap.REAR_LEFT);
 		intake = new CANTalon(RobotMap.INTAKE);
@@ -65,7 +67,7 @@ public class IO
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
 	    
 	    // Subsystems
-	    drive = new TankDrive(fr, fl, rr, rl, navx);
+	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter);
 	    scaler = new Scaler(scaleMotor, scaleSwitch);
 	    gearPlacer = new GearPlacer(placer);

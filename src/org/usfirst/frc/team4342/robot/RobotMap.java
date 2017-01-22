@@ -13,16 +13,18 @@ public class RobotMap
 	// Drive
 	public static final int FRONT_RIGHT = 0;
 	public static final int FRONT_LEFT = 1;
-	public static final int REAR_RIGHT = 2;
-	public static final int REAR_LEFT = 3;
+	public static final int MIDDLE_RIGHT = 2;
+	public static final int MIDDLE_LEFT = 3;
+	public static final int REAR_RIGHT = 4;
+	public static final int REAR_LEFT = 5;
 	
 	// Shooter
-	public static final int INTAKE = 4;
-	public static final int AGITATOR = 5;
-	public static final int SHOOTER = 6;
+	public static final int INTAKE = 6;
+	public static final int AGITATOR = 7;
+	public static final int SHOOTER = 8;
 	
 	// Scaler
-	public static final int SCALER = 7;
+	public static final int SCALER = 9;
 	
 	// NavX
 	public static final SPI.Port NAVX_PORT = SPI.Port.kMXP;
@@ -36,4 +38,5 @@ public class RobotMap
 	// Pneumatics
 	public static final int PLACER_FORWARD_CHANNEL = 1;
 	public static final int PLACER_REVERSE_CHANNEL = 2;
+	
 }
