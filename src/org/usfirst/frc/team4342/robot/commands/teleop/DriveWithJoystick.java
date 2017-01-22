@@ -23,7 +23,7 @@ public class DriveWithJoystick extends Command
 	@Override
 	protected void execute()
 	{
-		drive.set(joystick.getX(), joystick.getY());
+		drive.set(adjust(joystick.getX()), adjust(-joystick.getY()));
 	}
 	
 	@Override
@@ -43,5 +43,11 @@ public class DriveWithJoystick extends Command
 	protected boolean isFinished() 
 	{
 		return false;
+	}
+	
+	private static double adjust(double input)
+	{
+		final double SENSITIVITY = 0.67;
+		return (SENSITIVITY * Math.pow(input, 3)+ (1 - SENSITIVITY) * input);
 	}
 }
