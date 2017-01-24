@@ -23,7 +23,7 @@ public class DriveWithJoystick extends Command
 	@Override
 	protected void execute()
 	{
-		drive.set(adjust(joystick.getX()), adjust(joystick.getY()));
+		drive.set(adjust(-joystick.getX()), adjust(-joystick.getY()));
 	}
 	
 	@Override
