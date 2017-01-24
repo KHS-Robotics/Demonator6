@@ -24,6 +24,9 @@ public class DriveWithJoystick extends Command
 	protected void execute()
 	{
 		drive.set(adjust(-joystick.getX()), adjust(-joystick.getY()));
+		
+		if(joystick.getRawButton(7))
+			drive.setHeading(0);
 	}
 	
 	@Override

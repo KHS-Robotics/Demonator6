@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive extends Subsystem implements PIDOutput
 {
-	private static final double P = 0.0, I = 0.0, D = 0.0;
+	private static final double P = SmartDashboard.getNumber("P-", 0.0), I = SmartDashboard.getNumber("P-", 0.0), D = SmartDashboard.getNumber("P-", 0.0);
 	
 	private Talon fr, fl, rr, rl;
 	private AHRS navx;
