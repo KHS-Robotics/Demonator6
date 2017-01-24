@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot
 		DemonDashboard.start();
 		
 		drive = new DriveWithJoystick(IO.getDriveSitck(), IO.getDrive());
-		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
+		//shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		//gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		
 		autonomousChooser = new SendableChooser<String>();
@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot
 		if(removedTeleopCommands)
 		{
 			drive.start();
-			shooter.start();
+			//shooter.start();
 			//gearPlacer.start();
 			
 			removedTeleopCommands = false;
@@ -102,7 +102,7 @@ public class Robot extends IterativeRobot
 		if(!removedTeleopCommands)
 		{
 			drive.cancel();
-			shooter.cancel();
+			//shooter.cancel();
 			//gearPlacer.cancel();
 			
 			removedTeleopCommands = true;

@@ -53,7 +53,7 @@ public class IO
 		
 		//intake = new Spark(RobotMap.INTAKE);
 		//agitator = new Spark(RobotMap.AGITATOR);
-		shooter = new Spark(RobotMap.SHOOTER);
+		//shooter = new Spark(RobotMap.SHOOTER);
 		//scaleMotor = new Spark(RobotMap.SCALER);
 		
 		// NavX
@@ -69,7 +69,7 @@ public class IO
 	    
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, rr, rl, navx);
-	    shootingSubsystem = new Shooter(intake, agitator, shooter);
+	    //shootingSubsystem = new Shooter(intake, agitator, shooter);
 	    //scaler = new Scaler(scaleMotor, scaleSwitch);
 	    //gearPlacer = new GearPlacer(placer);
 	    
