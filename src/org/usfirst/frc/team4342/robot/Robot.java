@@ -80,6 +80,12 @@ public class Robot extends IterativeRobot
 	}
 	
 	@Override
+	public void testInit()
+	{
+		stopTeleopCommands();
+	}
+	
+	@Override
 	public void testPeriodic()
 	{
 		LiveWindow.run();

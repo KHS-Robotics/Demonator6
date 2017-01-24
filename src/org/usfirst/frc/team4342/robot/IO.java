@@ -41,7 +41,7 @@ public class IO
 		
 		// Joysticks
 		driveStick = new Joystick(RobotMap.DRIVE_STICK_PORT);
-		switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
+		//switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
 		
 		// Talons
 		fr = new Talon(RobotMap.FRONT_RIGHT);
