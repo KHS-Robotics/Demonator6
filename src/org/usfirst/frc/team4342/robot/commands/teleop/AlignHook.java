@@ -26,6 +26,8 @@ public class AlignHook extends Command
     	this.requires(drive);
     	
     	this.drive = drive;
+    	
+    	this.setInterruptible(false);
     }
     
     @Override
@@ -138,4 +140,5 @@ public class AlignHook extends Command
     {
     	this.end();
     }
+    
 }

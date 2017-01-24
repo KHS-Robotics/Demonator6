@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.teleop.AlignHook;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class IO 
 {
@@ -32,6 +34,8 @@ public class IO
 	private static Shooter shootingSubsystem;
 	private static Scaler scaler;
 	private static GearPlacer gearPlacer;
+	
+	private static AlignHook alignHook;
 	
 	public static void initialize()
 	{
@@ -75,6 +79,9 @@ public class IO
 	    // until the Scale's isFinished() returns true or the Scale command times out (15 seconds).
 	    // Once finished, DriveWithJoystick will start again
 	    //new JoystickButton(driveStick, ButtonMap.Drive.SCALE).toggleWhenPressed(new Scale(scaler, drive));
+	    
+	    alignHook = new AlignHook(drive);
+	    new JoystickButton(driveStick, ButtonMap.Drive.ALIGN_HOOK).toggleWhenPressed(alignHook);
 	}
 	
 	public static TankDrive getDrive()
@@ -105,5 +112,10 @@ public class IO
 	public static Joystick getSwitchBox()
 	{
 		return switchBox;
+	}
+	
+	public static boolean alignHookIsRunning()
+	{
+		return alignHook.isRunning();
 	}
 }

@@ -53,6 +53,9 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
+		if (!drive.isRunning() && !IO.alignHookIsRunning())
+			drive.start();
+		
 		Scheduler.getInstance().run();
 	}
 	

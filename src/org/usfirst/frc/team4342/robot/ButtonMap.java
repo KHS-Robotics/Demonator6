@@ -7,6 +7,7 @@ public class ButtonMap
 	public static class Drive
 	{
 		public static final int SCALE = 1;
+		public static final int ALIGN_HOOK = 2;
 	}
 	
 	public static class Shooter
