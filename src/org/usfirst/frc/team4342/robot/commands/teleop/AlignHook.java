@@ -1,9 +1,8 @@
-package org.usfirst.frc.team4342.robot.commands.auto;
+package org.usfirst.frc.team4342.robot.commands.teleop;
 
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -19,7 +18,6 @@ public class AlignHook extends Command
 	
 	private HookState hookState = HookState.START;
 	private int sensorAdjust;
-	private boolean r, l;
 
     public AlignHook(TankDrive drive)
     {
@@ -29,7 +27,8 @@ public class AlignHook extends Command
     	
     	this.drive = drive;
     }
-
+    
+    @Override
     protected void initialize() 
     {	
     	
@@ -37,9 +36,12 @@ public class AlignHook extends Command
 
     protected void execute() 
     {
-		double hookAngle = SmartDashboard.getNumber("Angle-Hook");
-		double hookError = SmartDashboard.getNumber("Error Value- Hook");
+		double hookAngle = 0;
+		double hookError = 3;
 		double robotAngle = drive.getYaw();
+		
+		final boolean r = drive.getRightSensor();
+		final boolean l = drive.getLeftSensor();
     		
 		if(hookState == HookState.START)
 		{
