@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive extends Subsystem implements PIDOutput
 {
-	private static final double P = SmartDashboard.getNumber("P-", 0.0), I = SmartDashboard.getNumber("P-", 0.0), D = SmartDashboard.getNumber("P-", 0.0);
+	private static final double P = 0.006, I = 0.0, D = 0.00;
 	
 	private Talon fr, fl, rr, rl;
 	private AHRS navx;
@@ -32,10 +32,19 @@ public class TankDrive extends Subsystem implements PIDOutput
 		this.rsensor = rsensor;
 		this.lsensor = lsensor;
 		
-		yawPID = new PIDController(P, I, D, navx, this);
+		yawPID = new PIDController(-P, -I, -D, navx, this);
 		yawPID.setInputRange(-180.0, 180.0);
 		yawPID.setOutputRange(-1.0, 1.0);
 		yawPID.setContinuous();
+		
+		SmartDashboard.putNumber("Drive-P", P);
+		SmartDashboard.putNumber("Drive-I", I);
+		SmartDashboard.putNumber("Drive-D", D);
+	}
+	
+	public void setPID(double p, double i, double d)
+	{
+		yawPID.setPID(p, i, d);
 	}
 	
 	public void set(double x, double y)
@@ -43,61 +52,40 @@ public class TankDrive extends Subsystem implements PIDOutput
 		double right = y + x;
 		double left = y - x;
 		
-		if (right > 1)
-			right = 1;
-		else if (right < -1)
-			right = -1;
-		
-		if (left > 1)
-			left = 1;
-		else if (left < -1)
-			left = -1;
-		
-		fr.set(right);
-		fl.set(left);
+		right = normalize(right);
+		left = normalize(left);
 
-		rr.set(right);
-		rl.set(left);
+		setLeft(left);
+		setRight(right);
 	}
 	
-	public void setLeft(double direction)
+	public void setLeft(double output)
 	{
-		fl.set(direction);
-		rl.set(direction);
+		fl.set(output);
+		rl.set(output);
 	}
 	
-	public void setRight(double direction)
+	public void setRight(double output)
 	{
-		fr.set(direction);
-		rr.set(direction);
-	}
-	
-	public void goToSetpoint(double setpointAngle)
-	{
-		this.yawPID.setSetpoint(setpointAngle);
-		enablePID();
-	}
-	
-	public void goStraight(double direction)
-	{
-		setDirection(direction);
-	}
-	
-	public void goStraight(double direction, double angle)
-	{
-		goToSetpoint(angle);
-		goStraight(direction);
-	}
-	
-	public void goToAngle(double angle)
-	{
-		goToSetpoint(angle);
-		setDirection(0.0);
+		fr.set(output);
+		rr.set(output);
 	}
 	
 	public double getYaw()
 	{
 		return navx.getYaw();
+	}
+	
+	// USED FOR TESTING ONLY!! We should NOT reset this in matches
+	public void resetNavx()
+	{
+		navx.reset();
+	}
+	
+	public void goStraight(double direction, double yaw)
+	{
+		setHeading(yaw);
+		setDirection(direction);
 	}
 	
 	public void setHeading(double yaw)
@@ -139,7 +127,27 @@ public class TankDrive extends Subsystem implements PIDOutput
 	@Override
 	public void pidWrite(double output)
 	{
-		this.set(output, direction);
+		SmartDashboard.putNumber("Drive-Error-Inst", yawPID.getError());
+		SmartDashboard.putNumber("Drive-Error-Avg", yawPID.getAvgError());
+		
+		double right = direction + output;
+		double left = direction - output;
+		
+		right = normalize(right);
+		left = normalize(left);
+
+		setLeft(left);
+		setRight(right);
+	}
+	
+	private static double normalize(double output)
+	{
+		if (output > 1)
+			return 1;
+		else if (output < -1)
+			return -1;
+		
+		return output;
 	}
 	
 	@Override

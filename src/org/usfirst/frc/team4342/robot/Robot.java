@@ -1,11 +1,14 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.teleop.AlignHook;
 import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,6 +21,7 @@ public class Robot extends IterativeRobot
 	private DriveWithJoystick drive;
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
+	private AlignHook hookAlign;
 	
 	private SendableChooser<String> autonomousChooser;
 	private Command autonomousRoutine;
@@ -29,6 +33,8 @@ public class Robot extends IterativeRobot
 	{
 		IO.initialize();
 		DemonDashboard.start();
+		
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		
 		drive = new DriveWithJoystick(IO.getDriveSitck(), IO.getDrive());
 		//shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
@@ -73,6 +79,8 @@ public class Robot extends IterativeRobot
 		
 		if(autonomousRoutine != null)
 			autonomousRoutine.start();
+		
+		SmartDashboard.putString("AutoCommand", drive.getName());
 	}
 	
 	@Override

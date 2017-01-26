@@ -27,7 +27,7 @@ public class AlignHook extends Command
     	
     	this.drive = drive;
     	
-    	//this.setInterruptible(false);
+    	this.setInterruptible(false);
     }
     
     @Override
