@@ -81,7 +81,7 @@ public class IO
 	    //new JoystickButton(driveStick, ButtonMap.Drive.SCALE).toggleWhenPressed(new Scale(scaler, drive));
 	    
 	    alignHook = new AlignHook(drive);
-	    new JoystickButton(driveStick, ButtonMap.Drive.ALIGN_HOOK).toggleWhenPressed(alignHook);
+	    //new JoystickButton(driveStick, ButtonMap.Drive.ALIGN_HOOK).toggleWhenPressed(alignHook);
 	}
 	
 	public static TankDrive getDrive()

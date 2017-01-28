@@ -36,6 +36,7 @@ public class AlignHook extends Command
     	
     }
 
+    @Override
     protected void execute() 
     {
 		double hookAngle = 0;

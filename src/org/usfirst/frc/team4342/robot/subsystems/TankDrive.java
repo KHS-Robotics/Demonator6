@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive extends Subsystem implements PIDOutput
 {
-	private static final double P = 0.006, I = 0.0, D = 0.00;
+	private static final double P = 0.015, I = 0.0, D = 0.019;
 	
 	private Talon fr, fl, rr, rl;
 	private AHRS navx;
@@ -37,9 +37,6 @@ public class TankDrive extends Subsystem implements PIDOutput
 		yawPID.setOutputRange(-1.0, 1.0);
 		yawPID.setContinuous();
 		
-		SmartDashboard.putNumber("Drive-P", P);
-		SmartDashboard.putNumber("Drive-I", I);
-		SmartDashboard.putNumber("Drive-D", D);
 	}
 	
 	public void setPID(double p, double i, double d)

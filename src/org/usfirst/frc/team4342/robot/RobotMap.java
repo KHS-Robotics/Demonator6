@@ -30,8 +30,8 @@ public class RobotMap
 	
 	// DIOs
 	public static final int SCALE_SWITCH = 3;
-	public static final int RIGHT_PHOTO_SENSOR = 2;
-	public static final int LEFT_PHOTO_SENSOR = 1;
+	public static final int RIGHT_PHOTO_SENSOR = 1;
+	public static final int LEFT_PHOTO_SENSOR = 0;
 	
 	// Pneumatics
 	public static final int PLACER_FORWARD_CHANNEL = 0;

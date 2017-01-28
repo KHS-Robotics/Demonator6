@@ -12,6 +12,10 @@ public class DriveWithJoystick extends Command
 	
 	private Joystick joystick;
 	private TankDrive drive;
+	private AlignHook align;
+	
+	private static boolean shouldSetTargetHeading = true;
+	private static double targetHeading;
 	
 	public DriveWithJoystick(Joystick joystick, TankDrive drive)
 	{
@@ -42,18 +46,30 @@ public class DriveWithJoystick extends Command
 			drive.setHeading(0);
 		}
 		
+		if(joystick.getRawButton(2))
+		{
+			drive.enablePID();
+
+			if(drive.getRightSensor() || drive.getLeftSensor())
+			{
+				targetHeading = drive.getYaw();
+			}
+			
+			drive.setHeading(targetHeading);
+		}
+		
+		targetHeading = 0;
+		
 		// EXTREMELY TEMPORARY!!
 		if(joystick.getRawButton(12)) {
+			shouldSetTargetHeading = true;
+			targetHeading = 0;
 			drive.resetNavx();
 		}
 		
 		SmartDashboard.putBoolean("Drive-PID-Enabled", drive.pidEnabled());
-		
-		drive.setPID(
-			-SmartDashboard.getNumber("Drive-P", 0.0), 
-			-SmartDashboard.getNumber("Drive-I", 0.0),
-			-SmartDashboard.getNumber("Drive-D", 0.0)
-		);
+		SmartDashboard.putBoolean("shouldSetTargetHeading", shouldSetTargetHeading);
+		SmartDashboard.putNumber("targetHeading", targetHeading);
 	}
 	
 	@Override
