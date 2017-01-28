@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearPlacer extends Subsystem
 {
+	private static final Value LOWER = Value.kForward, RAISE = Value.kReverse;
 	private DoubleSolenoid placer;
 	
 	private Value currentValue;
@@ -19,22 +20,32 @@ public class GearPlacer extends Subsystem
 	
 	public void lower()
 	{
-		if(currentValue == Value.kForward)
+		if(currentValue == LOWER)
 			return;
 		
-		currentValue = Value.kForward;
-			
-		placer.set(Value.kForward);
+		placer.set(LOWER);
+		
+		currentValue = LOWER;	
 	}
 	
 	public void raise()
 	{
-		if(currentValue == Value.kReverse)
+		if(currentValue == RAISE)
 			return;
 		
-		currentValue = Value.kReverse;
+		placer.set(RAISE);
 		
-		placer.set(Value.kReverse);
+		currentValue = RAISE;	
+	}
+	
+	public boolean isLowered()
+	{
+		return currentValue.equals(LOWER);
+	}
+	
+	public boolean isRaised()
+	{
+		return currentValue.equals(RAISE);
 	}
 	
 	@Override

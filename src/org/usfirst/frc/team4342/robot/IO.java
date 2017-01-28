@@ -11,6 +11,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -26,6 +27,7 @@ public class IO
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch;
 	private static DoubleSolenoid placer;
+	private static Encoder leftDrive, rightDrive;
 	
 	// Subsystems
 	private static TankDrive drive;
@@ -66,8 +68,12 @@ public class IO
 		// Pneumatics
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
 	    
+	    // Encoders
+	    leftDrive = new Encoder(0, 1);
+	    rightDrive = new Encoder(2, 3);
+	    
 	    // Subsystems
-	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, rsensor, lsensor);
+	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, leftDrive, rightDrive, rsensor, lsensor);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter);
 	    scaler = new Scaler(scaleMotor, scaleSwitch);
 	    gearPlacer = new GearPlacer(placer);
@@ -107,4 +113,5 @@ public class IO
 	{
 		return switchBox;
 	}
+	
 }
