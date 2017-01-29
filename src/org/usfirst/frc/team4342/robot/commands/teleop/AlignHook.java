@@ -32,8 +32,8 @@ public class AlignHook extends Command
     
     @Override
     protected void initialize() 
-    {	
-    	
+    {
+    	drive.enablePID();
     }
 
     @Override

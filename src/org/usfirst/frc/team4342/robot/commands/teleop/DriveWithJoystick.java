@@ -48,17 +48,15 @@ public class DriveWithJoystick extends Command
 		
 		if(joystick.getRawButton(2))
 		{
-			drive.enablePID();
-
-			if(drive.getRightSensor() || drive.getLeftSensor())
-			{
-				targetHeading = drive.getYaw();
-			}
+//			if(drive.getRightSensor() || drive.getLeftSensor())
+//			{
+//				targetHeading = drive.getYaw();
+//			}
+//			
+//			drive.setHeading(targetHeading);
 			
-			drive.setHeading(targetHeading);
+			align.start();
 		}
-		
-		targetHeading = 0;
 		
 		// EXTREMELY TEMPORARY!!
 		if(joystick.getRawButton(12)) {
