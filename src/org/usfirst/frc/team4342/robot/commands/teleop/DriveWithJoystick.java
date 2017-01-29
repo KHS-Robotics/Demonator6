@@ -25,11 +25,15 @@ public class DriveWithJoystick extends Command
 		
 		this.joystick = joystick;
 		this.drive = drive;
+		
+		align = new AlignHook(drive);
 	}
 	
 	@Override
 	protected void execute()
 	{
+		SmartDashboard.putString("HookState-", align.getState());
+		
 		final double JOYSTICK_X = -joystick.getX();
 		final double JOYSTICK_Y = -joystick.getY();
 		

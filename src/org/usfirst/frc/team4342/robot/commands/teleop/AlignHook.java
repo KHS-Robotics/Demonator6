@@ -40,6 +40,7 @@ public class AlignHook extends Command
     protected void execute() 
     {
 		double hookAngle = 0;
+		double increment = 20;
 		double hookError = 3;
 		double robotAngle = drive.getYaw();
 		
@@ -49,7 +50,11 @@ public class AlignHook extends Command
 		if(hookState == HookState.START)
 		{
 			sensorAdjust = 0;
-			drive.setHeading(hookAngle);
+			
+			if(robotAngle > 0)
+				drive.setHeading(robotAngle - increment);
+			else
+				drive.setHeading(robotAngle + increment);
 			
 			if(r)
 			{
@@ -120,6 +125,7 @@ public class AlignHook extends Command
 			if(r && l)
 				sensorAdjust = 0;
 			
+			drive.enablePID();
 			drive.goStraight(-0.5, (robotAngle + sensorAdjust));
 		}	
     }
@@ -140,6 +146,18 @@ public class AlignHook extends Command
     protected void interrupted() 
     {
     	this.end();
+    }
+    
+    public String getState()
+    {
+    	if(hookState == HookState.START)
+    		return "start";
+    	else if(hookState == HookState.FIXLEFT)
+    		return "fixleft";
+    	else if(hookState == HookState.FIXRIGHT)
+    		return "fixright";
+    	else
+    		return "finishing";
     }
     
 }
