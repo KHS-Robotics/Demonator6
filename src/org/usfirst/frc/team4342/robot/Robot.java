@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearLeft;
+import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
+import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
 import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
@@ -7,7 +10,7 @@ import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,7 +23,7 @@ public class Robot extends IterativeRobot
 	private PlaceGearWithSwitchBox gearPlacer;
 	
 	private SendableChooser<String> autonomousChooser;
-	private Command autonomousRoutine;
+	private CommandGroup autonomousRoutine;
 	
 	private boolean removedTeleopCommands = true;
 	
@@ -36,6 +39,9 @@ public class Robot extends IterativeRobot
 		
 		autonomousChooser = new SendableChooser<String>();
 		autonomousChooser.addDefault("None", null);
+		autonomousChooser.addObject("Place Middle Gear", "PlaceGearMiddle");
+		autonomousChooser.addObject("Place Left Gear", "PlaceGearLeft");
+		autonomousChooser.addObject("Place Right Gear", "PlaceGearRight");
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
@@ -64,6 +70,18 @@ public class Robot extends IterativeRobot
 		String routine = autonomousChooser.getSelected();
 		switch(routine)
 		{
+			case "PlaceGearMiddle":
+				autonomousRoutine = new PlaceGearMiddle(IO.getDrive(), IO.getGearPlacer());
+			break;
+			
+			case "PlaceGearLeft":
+				autonomousRoutine = new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer());
+			break;
+			
+			case "PlaceGearRight":
+				autonomousRoutine = new PlaceGearRight(IO.getDrive(), IO.getGearPlacer());
+			break;
+			
 			default:
 				autonomousRoutine = null;
 		}
@@ -77,6 +95,12 @@ public class Robot extends IterativeRobot
 	{
 		if(autonomousRoutine != null)
 			Scheduler.getInstance().run();
+	}
+	
+	@Override
+	public void testInit()
+	{
+		stopTeleopCommands();
 	}
 	
 	@Override
