@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class PlaceGear extends Command
 {
 	private GearPlacer placer;
+	private int numLoops;
+	private static final int SECONDS = 1;
 
 	public PlaceGear(GearPlacer placer)
 	{
@@ -21,6 +23,12 @@ public class PlaceGear extends Command
 	}
 	
 	@Override
+	public void execute()
+	{
+		numLoops++;
+	}
+	
+	@Override
 	public void interrupted()
 	{
 		this.end();
@@ -29,6 +37,6 @@ public class PlaceGear extends Command
 	@Override
 	protected boolean isFinished() 
 	{
-		return placer.isLowered();
+		return placer.isLowered() && numLoops >= (SECONDS * 50);
 	}
 }

@@ -2,23 +2,36 @@ package org.usfirst.frc.team4342.robot.subsystems;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem
 {
-	private CANTalon intake, agitator, shooter;
+	private static final double kF = 0.01;
 	
-	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter)
+	private CANTalon intake, agitator, shooter;
+	private Encoder shooterEnc;
+	private PIDController shooterPID;
+	
+	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc)
 	{
 		super();
 		
 		this.intake = intake;
 		this.agitator = agitator;
 		this.shooter = shooter;
+		this.shooterEnc = shooterEnc;
+		
+		shooter.setPIDSourceType(PIDSourceType.kRate);
+		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
+		shooterPID = new PIDController(0, 0, 0, kF, shooterEnc, shooter);
+		shooterPID.setInputRange(0, 100);
+		shooterPID.setOutputRange(0, 1);
 	}
 	
-	public static final int ACCUMULATE_BUTTON = 1, AGITATE_BUTTON = 2, SHOOT_BUTTON = 3;
-	private static double currentOutputIntake, currentOutputAgitator, currentOutputShooter;
+	private static double currentOutputIntake, currentOutputAgitator;
 	
 	public void accumulate()
 	{
@@ -54,18 +67,27 @@ public class Shooter extends Subsystem
 	
 	public void shoot()
 	{
-		if(Math.abs(0.85 - currentOutputShooter) < 0.05)
-			return;
-		
-		shooter.set(0.85);
+		enableShooterPID();
+		shooterPID.setSetpoint(0.85);
 	}
 	
 	public void stopShooting()
 	{
-		if(Math.abs(0 - currentOutputShooter) < 0.05)
-			return;
-		
-		shooter.set(0);
+		shooterPID.setSetpoint(0);
+		disableShooterPID();
+	}
+	
+	private void disableShooterPID()
+	{
+		if (shooterPID.isEnabled())
+		{
+			shooterPID.disable();
+		}
+	}
+	
+	private void enableShooterPID()
+	{
+		shooterPID.enable();
 	}
 	
 	@Override

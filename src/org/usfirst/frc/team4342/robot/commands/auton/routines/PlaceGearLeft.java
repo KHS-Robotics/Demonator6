@@ -18,7 +18,7 @@ public class PlaceGearLeft extends CommandGroup
 	public PlaceGearLeft(TankDrive drive, GearPlacer placer)
 	{
 		this.addSequential(new GoStraight(DIRECTION, START_YAW, DISTANCE, drive));
-		this.addSequential(new GoToAngle(drive, GEAR_YAW));
+		//this.addSequential(new AlignHook())
 		this.addSequential(new PlaceGear(placer));
 	}
 }
