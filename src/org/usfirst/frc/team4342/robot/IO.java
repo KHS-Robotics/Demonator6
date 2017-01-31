@@ -27,7 +27,7 @@ public class IO
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch;
 	private static DoubleSolenoid placer;
-	private static Encoder leftDrive, rightDrive;
+	private static Encoder leftDrive, rightDrive, shooterEnc;
 	
 	// Subsystems
 	private static TankDrive drive;
@@ -71,10 +71,11 @@ public class IO
 	    // Encoders
 	    leftDrive = new Encoder(0, 1);
 	    rightDrive = new Encoder(2, 3);
+	    shooterEnc = new Encoder(4, 5);
 	    
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, leftDrive, rightDrive, rsensor, lsensor);
-	    shootingSubsystem = new Shooter(intake, agitator, shooter);
+	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc);
 	    scaler = new Scaler(scaleMotor, scaleSwitch);
 	    gearPlacer = new GearPlacer(placer);
 	    
