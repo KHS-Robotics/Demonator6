@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class IO 
@@ -22,7 +23,8 @@ public class IO
 	private static boolean initialized;
 	
 	// Sensors and motor controllers
-	private static Joystick driveStick, switchBox;
+	private static Joystick switchBox;
+	private static XboxController driveController;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch;
@@ -42,7 +44,7 @@ public class IO
 		initialized = true;
 		
 		// Joysticks
-		driveStick = new Joystick(RobotMap.DRIVE_STICK_PORT);
+		driveController = new XboxController(RobotMap.DRIVE_STICK_PORT);
 		switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
 		
 		// CANTalons
@@ -82,7 +84,7 @@ public class IO
 	    // Scale when the driver presses the Scale button. This will disable DriveWithJoystick
 	    // until the Scale's isFinished() returns true or the Scale command times out (15 seconds).
 	    // Once finished, DriveWithJoystick will start again
-	    new JoystickButton(driveStick, ButtonMap.Drive.SCALE).toggleWhenPressed(new Scale(scaler, drive));
+	    new JoystickButton(driveController, ButtonMap.Drive.SCALE).toggleWhenPressed(new Scale(scaler, drive));
 	}
 	
 	public static TankDrive getDrive()
@@ -105,9 +107,9 @@ public class IO
 		return gearPlacer;
 	}
 	
-	public static Joystick getDriveSitck()
+	public static XboxController getDriveController()
 	{
-		return driveStick;
+		return driveController;
 	}
 	
 	public static Joystick getSwitchBox()

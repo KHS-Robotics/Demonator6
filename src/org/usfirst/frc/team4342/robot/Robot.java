@@ -3,7 +3,7 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearLeft;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
-import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithXboxController;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
@@ -18,11 +18,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot 
 {
-	private DriveWithJoystick drive;
+	private DriveWithXboxController drive;
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	
-	private SendableChooser<String> autonomousChooser;
+	private SendableChooser<CommandGroup> autonomousChooser;
 	private CommandGroup autonomousRoutine;
 	
 	private boolean removedTeleopCommands = true;
@@ -33,15 +33,15 @@ public class Robot extends IterativeRobot
 		IO.initialize();
 		DemonDashboard.start();
 		
-		drive = new DriveWithJoystick(IO.getDriveSitck(), IO.getDrive());
+		drive = new DriveWithXboxController(IO.getDriveController(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		
-		autonomousChooser = new SendableChooser<String>();
+		autonomousChooser = new SendableChooser<CommandGroup>();
 		autonomousChooser.addDefault("None", null);
-		autonomousChooser.addObject("Place Middle Gear", "PlaceGearMiddle");
-		autonomousChooser.addObject("Place Left Gear", "PlaceGearLeft");
-		autonomousChooser.addObject("Place Right Gear", "PlaceGearRight");
+		autonomousChooser.addObject("Place Middle Gear", new PlaceGearMiddle(IO.getDrive(), IO.getGearPlacer()));
+		autonomousChooser.addObject("Place Left Gear", new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer()));
+		autonomousChooser.addObject("Place Right Gear", new PlaceGearRight(IO.getDrive(), IO.getGearPlacer()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
@@ -67,24 +67,7 @@ public class Robot extends IterativeRobot
 	{
 		stopTeleopCommands();
 		
-		String routine = autonomousChooser.getSelected();
-		switch(routine)
-		{
-			case "PlaceGearMiddle":
-				autonomousRoutine = new PlaceGearMiddle(IO.getDrive(), IO.getGearPlacer());
-			break;
-			
-			case "PlaceGearLeft":
-				autonomousRoutine = new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer());
-			break;
-			
-			case "PlaceGearRight":
-				autonomousRoutine = new PlaceGearRight(IO.getDrive(), IO.getGearPlacer());
-			break;
-			
-			default:
-				autonomousRoutine = null;
-		}
+		autonomousRoutine = autonomousChooser.getSelected();
 		
 		if(autonomousRoutine != null)
 			autonomousRoutine.start();

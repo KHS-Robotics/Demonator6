@@ -26,7 +26,7 @@ public class Shooter extends Subsystem
 		
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
-		shooterPID = new PIDController(0, 0, 0, kF, shooterEnc, shooter);
+		shooterPID = new PIDController(0, 0, 0, kF, this.shooterEnc, this.shooter);
 		shooterPID.setInputRange(0, 100);
 		shooterPID.setOutputRange(0, 1);
 	}
