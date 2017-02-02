@@ -40,13 +40,11 @@ public class DriveWithXboxController extends Command
 	@Override
 	protected void execute()
 	{
-		final double LEFT = xboxController.getTriggerAxis(Hand.kLeft);
-		final double RIGHT = -xboxController.getTriggerAxis(Hand.kRight);
-		final double IMPUT_Y = LEFT + RIGHT;
-		final double LEFT_THUMB_X = xboxController.getX(Hand.kLeft);
+		final double LEFT = xboxController.getY(Hand.kLeft);
+		final double RIGHT = xboxController.getY(Hand.kRight);
 		final Double POV = pov.get(xboxController.getPOV());
 		
-		if (Math.abs(LEFT_THUMB_X) >= 0.04)
+		if (Math.abs(LEFT) >= 0.04 || Math.abs(RIGHT) >= 0.04)
 			drive.disablePID();
 		
 		if (POV != null && !POV.equals(currentPOV))
@@ -58,19 +56,8 @@ public class DriveWithXboxController extends Command
 			
 			return;
 		}
-		
-		if (drive.pidEnabled() && drive.onTarget())
-		{
-			if (Math.abs(IMPUT_Y) >= 0.04)
-			{
-				drive.set(0, adjust(IMPUT_Y));
-			}	
-			
-			return;
-		}
-		
-		drive.set(adjust(LEFT_THUMB_X), adjust(IMPUT_Y));
-		
+
+		drive.set(adjust(LEFT), adjust(RIGHT));
 	}
 	
 	@Override

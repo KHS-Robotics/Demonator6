@@ -21,6 +21,7 @@ public class TankDrive extends Subsystem implements PIDOutput
 	
 	private double direction;
 	
+	// TODO: Add DoubleSolenoid for shifting
 	public TankDrive(CANTalon fr, CANTalon fl, CANTalon mr, CANTalon ml, CANTalon rr, CANTalon rl, AHRS navx, Encoder left, Encoder right, DigitalInput rsensor, DigitalInput lsensor)
 	{
 		super();
@@ -45,11 +46,8 @@ public class TankDrive extends Subsystem implements PIDOutput
 		disablePID();
 	}
 	
-	public void set(double x, double y)
+	public void set(double left, double right)
 	{
-		double right = y + x;
-		double left = y - x;
-		
 		if (right > 1)
 			right = 1;
 		else if (right < -1)
