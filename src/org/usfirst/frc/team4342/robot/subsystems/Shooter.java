@@ -26,53 +26,66 @@ public class Shooter extends Subsystem
 		
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
-		shooterPID = new PIDController(0, 0, 0, kF, this.shooterEnc, this.shooter);
+		shooterPID = new PIDController(0, 0, 0, kF, shooterEnc, shooter);
 		shooterPID.setInputRange(0, 100);
 		shooterPID.setOutputRange(0, 1);
 	}
 	
 	private static double currentOutputIntake, currentOutputAgitator;
+	private static boolean isAccumulating, isAgitating, isShooting;
 	
 	public void accumulate()
 	{
-		if(Math.abs(0.67 - currentOutputIntake) < 0.05)
+		if(isAccumulating)
 			return;
+		isAccumulating = true;
 			
 		intake.set(0.67);
 	}
 	
 	public void stopAccumulating()
 	{
-		if(Math.abs(0 - currentOutputIntake) < 0.05)
+		if(!isAccumulating)
 			return;
+		isAccumulating = false;
 		
 		intake.set(0);
 	}
 	
 	public void agitate()
 	{
-		if(Math.abs(0.8 - currentOutputAgitator) < 0.05)
+		if(isAgitating)
 			return;
+		isAgitating = true;
 		
 		agitator.set(0.8);
 	}
 	
 	public void stopAgitating()
 	{
-		if(Math.abs(0 - currentOutputAgitator) < 0.05)
+		if(!isAgitating)
 			return;
+		isAgitating = false;
 		
 		agitator.set(0);
 	}
 	
 	public void shoot()
 	{
+		if (isShooting)
+			return;
+		isShooting = true;
+		
 		enableShooterPID();
 		shooterPID.setSetpoint(0.85);
 	}
 	
 	public void stopShooting()
 	{
+		if (!isShooting)
+			return;
+		isShooting = false;
+		
 		shooterPID.setSetpoint(0);
 		disableShooterPID();
 	}
