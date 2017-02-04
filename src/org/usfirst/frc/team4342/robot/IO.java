@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -27,8 +28,9 @@ public class IO
 	private static XboxController driveController;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
-	private static DigitalInput rsensor, lsensor, scaleSwitch;
+	private static DigitalInput rsensor, lsensor, scaleSwitch, gearPlacerSwitch;
 	private static DoubleSolenoid placer, shifter;
+	private static Solenoid shootFar;
 	private static Encoder leftDrive, rightDrive, shooterEnc;
 	
 	// Subsystems
@@ -66,10 +68,13 @@ public class IO
 		scaleSwitch = new DigitalInput(RobotMap.SCALE_SWITCH);
 		rsensor = new DigitalInput(RobotMap.RIGHT_PHOTO_SENSOR);
 		lsensor = new DigitalInput(RobotMap.LEFT_PHOTO_SENSOR);
+		gearPlacerSwitch = new DigitalInput(RobotMap.GEAR_PLACER_SWITCH);
+		
 		
 		// Pneumatics
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
 	    shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
+	    shootFar = new Solenoid(RobotMap.SHOOT_FAR_SOLENOID);
 	    
 	    // Encoders
 	    leftDrive = new Encoder(RobotMap.LEFT_DRIVE_ENC_CH_A, RobotMap.LEFT_DRIVE_ENC_CH_B);
@@ -78,9 +83,9 @@ public class IO
 	    
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor);
-	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc);
+	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc, shootFar);
 	    scaler = new Scaler(scaleMotor, scaleSwitch);
-	    gearPlacer = new GearPlacer(placer);
+	    gearPlacer = new GearPlacer(placer, gearPlacerSwitch);
 	    
 	    // Scale when the driver presses the Scale button. This will disable DriveWithJoystick
 	    // until the Scale's isFinished() returns true or the Scale command times out (15 seconds).

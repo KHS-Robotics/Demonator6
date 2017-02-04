@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -7,45 +8,36 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class GearPlacer extends Subsystem
 {
 	private static final Value LOWER = Value.kForward, RAISE = Value.kReverse;
+	
 	private DoubleSolenoid placer;
+	private DigitalInput limitSwitch;
 	
-	private Value currentValue;
-	
-	public GearPlacer(DoubleSolenoid placer)
+	public GearPlacer(DoubleSolenoid placer, DigitalInput ls)
 	{
 		super();
 		
 		this.placer = placer;
+		limitSwitch = ls;
 	}
 	
 	public void lower()
-	{
-		if(LOWER.equals(currentValue))
-			return;
-		
-		placer.set(LOWER);
-		
-		currentValue = LOWER;	
+	{	
+		placer.set(LOWER);	
 	}
 	
 	public void raise()
-	{
-		if(RAISE.equals(currentValue))
-			return;
-		
-		placer.set(RAISE);
-		
-		currentValue = RAISE;	
+	{	
+		placer.set(RAISE);	
 	}
 	
 	public boolean isLowered()
 	{
-		return LOWER.equals(currentValue);
+		return limitSwitch.get();
 	}
 	
 	public boolean isRaised()
 	{
-		return RAISE.equals(currentValue);
+		return !isLowered();
 	}
 	
 	@Override

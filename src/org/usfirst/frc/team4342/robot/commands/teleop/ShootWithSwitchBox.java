@@ -50,10 +50,10 @@ public class ShootWithSwitchBox extends Command
 		else
 			shooter.stopAgitating();
 		
-		if (USER_SHOOT)
-			shooter.shoot();
-		else
-			shooter.stopShooting();
+//		if (USER_SHOOT)
+//			shooter.shoot();
+//		else
+//			shooter.stopShooting();
 		
 	}
 	

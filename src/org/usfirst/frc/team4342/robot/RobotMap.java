@@ -42,12 +42,14 @@ public class RobotMap
 	public static final int SCALE_SWITCH = 0;
 	public static final int RIGHT_PHOTO_SENSOR = 1;
 	public static final int LEFT_PHOTO_SENSOR = 2;
+	public static final int GEAR_PLACER_SWITCH = 3;
 	
 	// Pneumatics
 	public static final int PLACER_FORWARD_CHANNEL = 1;
 	public static final int PLACER_REVERSE_CHANNEL = 2;
 	public static final int SHIFT_FORWARD_CHANNEL = 3;
 	public static final int SHIFT_REVERSE_CHANNEL = 4;
+	public static final int SHOOT_FAR_SOLENOID = 5;
 	
 	
 }

@@ -5,6 +5,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem
@@ -15,9 +16,12 @@ public class Shooter extends Subsystem
 	
 	private CANTalon intake, agitator, shooter;
 	private Encoder shooterEnc;
+	private Solenoid shootFar;
 	private PIDController shooterPID;
 	
-	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc)
+	private boolean isSetFar;
+	
+	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc, Solenoid shootFar)
 	{
 		super();
 		
@@ -25,6 +29,9 @@ public class Shooter extends Subsystem
 		this.agitator = agitator;
 		this.shooter = shooter;
 		this.shooterEnc = shooterEnc;
+		this.shootFar = shootFar;
+		
+		this.shootFar.set(false);
 		
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
@@ -69,11 +76,29 @@ public class Shooter extends Subsystem
 		agitator.set(0);
 	}
 	
-	public void shoot()
+	public void shootFar()
 	{
 		if (isShooting)
 			return;
 		isShooting = true;
+		
+		if (!isSetFar)
+			shootFar.set(true);
+		isSetFar = true;
+		
+		enableShooterPID();
+		shooterPID.setSetpoint(0.85);
+	}
+	
+	public void shootClose()
+	{
+		if (isShooting)
+			return;
+		isShooting = true;
+		
+		if (isSetFar)
+			shootFar.set(false);
+		isSetFar = false;
 		
 		enableShooterPID();
 		shooterPID.setSetpoint(0.85);
