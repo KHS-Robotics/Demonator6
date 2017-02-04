@@ -18,6 +18,14 @@ public class RobotMap
 	public static final int REAR_RIGHT = 4;
 	public static final int REAR_LEFT = 5;
 	
+	// Encoders
+	public static final int LEFT_DRIVE_ENC_CH_A = 0;
+	public static final int LEFT_DRIVE_ENC_CH_B = 1;
+	public static final int RIGHT_DRIVE_ENC_CH_A = 2;
+	public static final int RIGHT_DRIVE_ENC_CH_B = 3;
+	public static final int SHOOTER_ENC_CH_A = 4;
+	public static final int SHOOTER_ENC_CH_B = 5;
+	
 	// Shooter
 	public static final int INTAKE = 6;
 	public static final int AGITATOR = 7;
@@ -38,5 +46,8 @@ public class RobotMap
 	// Pneumatics
 	public static final int PLACER_FORWARD_CHANNEL = 1;
 	public static final int PLACER_REVERSE_CHANNEL = 2;
+	public static final int SHIFT_FORWARD_CHANNEL = 3;
+	public static final int SHIFT_REVERSE_CHANNEL = 4;
+	
 	
 }

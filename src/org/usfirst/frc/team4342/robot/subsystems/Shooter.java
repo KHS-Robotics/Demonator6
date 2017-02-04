@@ -11,6 +11,8 @@ public class Shooter extends Subsystem
 {
 	private static final double kF = 0.01;
 	
+	private boolean isAccumulating, isAgitating, isShooting;
+	
 	private CANTalon intake, agitator, shooter;
 	private Encoder shooterEnc;
 	private PIDController shooterPID;
@@ -26,13 +28,10 @@ public class Shooter extends Subsystem
 		
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
-		shooterPID = new PIDController(0, 0, 0, kF, shooterEnc, shooter);
+		shooterPID = new PIDController(0, 0, 0, kF, this.shooterEnc, this.shooter);
 		shooterPID.setInputRange(0, 100);
 		shooterPID.setOutputRange(0, 1);
 	}
-	
-	private static double currentOutputIntake, currentOutputAgitator;
-	private static boolean isAccumulating, isAgitating, isShooting;
 	
 	public void accumulate()
 	{

@@ -20,7 +20,7 @@ public class GearPlacer extends Subsystem
 	
 	public void lower()
 	{
-		if(currentValue == LOWER)
+		if(LOWER.equals(currentValue))
 			return;
 		
 		placer.set(LOWER);
@@ -30,7 +30,7 @@ public class GearPlacer extends Subsystem
 	
 	public void raise()
 	{
-		if(currentValue == RAISE)
+		if(RAISE.equals(currentValue))
 			return;
 		
 		placer.set(RAISE);
@@ -40,12 +40,12 @@ public class GearPlacer extends Subsystem
 	
 	public boolean isLowered()
 	{
-		return currentValue.equals(LOWER);
+		return LOWER.equals(currentValue);
 	}
 	
 	public boolean isRaised()
 	{
-		return currentValue.equals(RAISE);
+		return RAISE.equals(currentValue);
 	}
 	
 	@Override

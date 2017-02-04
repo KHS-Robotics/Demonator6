@@ -12,6 +12,7 @@ public class DriveWithXboxController extends Command
 {
 	private HashMap<Integer, Double> pov;
 	private Double currentPOV;
+	private boolean firstTimeCurrentYaw = true;
 	
 	private XboxController xboxController;
 	private TankDrive drive;
@@ -43,9 +44,28 @@ public class DriveWithXboxController extends Command
 		final double LEFT = xboxController.getY(Hand.kLeft);
 		final double RIGHT = xboxController.getY(Hand.kRight);
 		final Double POV = pov.get(xboxController.getPOV());
+		final boolean HOLD_CURRENT_YAW = xboxController.getAButton();
+		final boolean SHIFT = xboxController.getBumper(Hand.kRight);
 		
-		if (Math.abs(LEFT) >= 0.04 || Math.abs(RIGHT) >= 0.04)
-			drive.disablePID();
+		if(SHIFT)
+			drive.shift();
+		
+		if(HOLD_CURRENT_YAW)
+		{
+			if(firstTimeCurrentYaw)
+			{
+				drive.setHeading(drive.getYaw());
+				currentPOV = null;
+				firstTimeCurrentYaw = false;
+			}
+			
+			drive.set(LEFT, LEFT);
+			return;
+		}
+		else
+		{
+			firstTimeCurrentYaw = false;
+		}
 		
 		if (POV != null && !POV.equals(currentPOV))
 		{
@@ -56,7 +76,7 @@ public class DriveWithXboxController extends Command
 			
 			return;
 		}
-
+		
 		drive.set(adjust(LEFT), adjust(RIGHT));
 	}
 	

@@ -28,7 +28,7 @@ public class IO
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch;
-	private static DoubleSolenoid placer;
+	private static DoubleSolenoid placer, shifter;
 	private static Encoder leftDrive, rightDrive, shooterEnc;
 	
 	// Subsystems
@@ -69,14 +69,15 @@ public class IO
 		
 		// Pneumatics
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
+	    shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
 	    
 	    // Encoders
-	    leftDrive = new Encoder(0, 1);
-	    rightDrive = new Encoder(2, 3);
-	    shooterEnc = new Encoder(4, 5);
+	    leftDrive = new Encoder(RobotMap.LEFT_DRIVE_ENC_CH_A, RobotMap.LEFT_DRIVE_ENC_CH_B);
+	    rightDrive = new Encoder(RobotMap.RIGHT_DRIVE_ENC_CH_A, RobotMap.RIGHT_DRIVE_ENC_CH_B);
+	    shooterEnc = new Encoder(RobotMap.SHOOTER_ENC_CH_A, RobotMap.SHOOTER_ENC_CH_B);
 	    
 	    // Subsystems
-	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, leftDrive, rightDrive, rsensor, lsensor);
+	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc);
 	    scaler = new Scaler(scaleMotor, scaleSwitch);
 	    gearPlacer = new GearPlacer(placer);
