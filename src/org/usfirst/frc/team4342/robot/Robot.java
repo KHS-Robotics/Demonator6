@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.teleop.AlignHook;
-import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithXboxController;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
@@ -11,6 +11,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,12 +19,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot 
 {
-	private DriveWithJoystick drive;
+	private DriveWithXboxController drive;
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	private AlignHook hookAlign;
 	
-	private SendableChooser<String> autonomousChooser;
+	private SendableChooser<CommandGroup> autonomousChooser;
 	private Command autonomousRoutine;
 	
 	private boolean removedTeleopCommands = true;
@@ -36,11 +37,11 @@ public class Robot extends IterativeRobot
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		
-		drive = new DriveWithJoystick(IO.getDriveSitck(), IO.getDrive());
+		drive = new DriveWithXboxController(IO.getDriveController(), IO.getDrive());
 		//shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		//gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		
-		autonomousChooser = new SendableChooser<String>();
+		autonomousChooser = new SendableChooser<CommandGroup>();
 		autonomousChooser.addDefault("None", null);
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 			
@@ -70,12 +71,7 @@ public class Robot extends IterativeRobot
 	{
 		stopTeleopCommands();
 		
-		String routine = autonomousChooser.getSelected();
-		switch(routine)
-		{
-			default:
-				autonomousRoutine = null;
-		}
+		autonomousRoutine = autonomousChooser.getSelected();
 		
 		if(autonomousRoutine != null)
 			autonomousRoutine.start();
