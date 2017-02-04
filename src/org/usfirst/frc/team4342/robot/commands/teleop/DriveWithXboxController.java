@@ -59,7 +59,7 @@ public class DriveWithXboxController extends Command
 				firstTimeCurrentYaw = false;
 			}
 			
-			drive.set(LEFT, LEFT);
+			drive.set(adjust(LEFT), adjust(LEFT));
 			return;
 		}
 		else
