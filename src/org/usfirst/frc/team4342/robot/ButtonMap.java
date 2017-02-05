@@ -7,6 +7,8 @@ public class ButtonMap
 	public static class Drive
 	{
 		public static final int SCALE = 1;
+		public static int FLIP_ORIENTATION = 3;
+		public static int SHIFT = 4;
 	}
 	
 	public static class Shooter

@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveWithJoystick extends Command
 {
+	private boolean flipOrientation;
+	private boolean shift;
+	
 	private Joystick joystick;
 	private TankDrive drive;
 	
@@ -23,6 +26,15 @@ public class DriveWithJoystick extends Command
 	@Override
 	protected void execute()
 	{
+		flipOrientation = joystick.getRawButton(3) ? !flipOrientation : flipOrientation;
+		
+		if(flipOrientation)
+			drive.set(adjust(-joystick.getX()), adjust(joystick.getY()));
+		
+		shift = joystick.getRawButton(4);
+		if(shift)
+			drive.shift();
+		
 		drive.set(adjust(joystick.getX()), adjust(-joystick.getY()));
 	}
 	
