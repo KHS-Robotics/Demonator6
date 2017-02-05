@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive extends Subsystem implements PIDOutput
 {
@@ -44,16 +43,22 @@ public class TankDrive extends Subsystem implements PIDOutput
 		yawPID.setPID(p, i, d);
 	}
 	
-	public void set(double x, double y)
+	public void set(double left, double right)
 	{
-		double right = y + x;
-		double left = y - x;
+		if (right > 1)
+			right = 1;
+		else if (right < -1)
+			right = -1;
 		
-		right = normalize(right);
-		left = normalize(left);
-
-		setLeft(left);
-		setRight(right);
+		if (left > 1)
+			left = 1;
+		else if (left < -1)
+			left = -1;
+		
+		fr.set(right);
+		fl.set(left);
+		rr.set(right);
+		rl.set(left);
 	}
 	
 	public void setLeft(double output)
@@ -124,27 +129,7 @@ public class TankDrive extends Subsystem implements PIDOutput
 	@Override
 	public void pidWrite(double output)
 	{
-		SmartDashboard.putNumber("Drive-Error-Inst", yawPID.getError());
-		SmartDashboard.putNumber("Drive-Error-Avg", yawPID.getAvgError());
-		
-		double right = direction + output;
-		double left = direction - output;
-		
-		right = normalize(right);
-		left = normalize(left);
-
-		setLeft(left);
-		setRight(right);
-	}
-	
-	private static double normalize(double output)
-	{
-		if (output > 1)
-			return 1;
-		else if (output < -1)
-			return -1;
-		
-		return output;
+		this.set(output, direction);
 	}
 	
 	@Override
