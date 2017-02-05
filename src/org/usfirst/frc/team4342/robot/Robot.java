@@ -3,7 +3,7 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearLeft;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
-import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithXboxController;
+import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot 
 {
-	private DriveWithXboxController drive;
+	private DriveWithJoystick drive;
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	
@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot
 		IO.initialize();
 		DemonDashboard.start();
 		
-		drive = new DriveWithXboxController(IO.getDriveController(), IO.getDrive());
+		drive = new DriveWithJoystick(IO.getDriveController(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		

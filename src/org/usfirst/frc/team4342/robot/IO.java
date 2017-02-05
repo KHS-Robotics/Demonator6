@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class IO 
@@ -24,8 +23,7 @@ public class IO
 	private static boolean initialized;
 	
 	// Sensors and motor controllers
-	private static Joystick switchBox;
-	private static XboxController driveController;
+	private static Joystick switchBox, driveController;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch, gearPlacerSwitch;
@@ -46,7 +44,7 @@ public class IO
 		initialized = true;
 		
 		// Joysticks
-		driveController = new XboxController(RobotMap.DRIVE_STICK_PORT);
+		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
 		switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
 		
 		// CANTalons
@@ -113,7 +111,7 @@ public class IO
 		return gearPlacer;
 	}
 	
-	public static XboxController getDriveController()
+	public static Joystick getDriveController()
 	{
 		return driveController;
 	}

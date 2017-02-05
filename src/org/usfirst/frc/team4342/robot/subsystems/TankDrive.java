@@ -55,8 +55,10 @@ public class TankDrive extends Subsystem implements PIDOutput
 		disablePID();
 	}
 	
-	public void set(double left, double right)
+	public void set(double x, double y)
 	{
+		double right = x + y;
+		double left = y - x;
 		if (right > 1)
 			right = 1;
 		else if (right < -1)
