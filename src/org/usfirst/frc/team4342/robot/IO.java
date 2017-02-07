@@ -23,7 +23,7 @@ public class IO
 	private static boolean initialized;
 	
 	// Sensors and motor controllers
-	private static Joystick switchBox, driveController;
+	private static Joystick switchBox, leftDriveStick, rightDriveStick;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch, gearPlacerSwitch;
@@ -44,7 +44,8 @@ public class IO
 		initialized = true;
 		
 		// Joysticks
-		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
+		leftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK_PORT);
+		rightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK_PORT);
 		switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
 		
 		// CANTalons
@@ -88,7 +89,7 @@ public class IO
 	    // Scale when the driver presses the Scale button. This will disable DriveWithJoystick
 	    // until the Scale's isFinished() returns true or the Scale command times out (15 seconds).
 	    // Once finished, DriveWithJoystick will start again
-	    new JoystickButton(driveController, ButtonMap.Drive.SCALE).toggleWhenPressed(new Scale(scaler, drive));
+	    // new JoystickButton(driveController, ButtonMap.DriveStick.Right.SCALE).toggleWhenPressed(new Scale(scaler, drive));
 	}
 	
 	public static TankDrive getDrive()
@@ -111,9 +112,14 @@ public class IO
 		return gearPlacer;
 	}
 	
-	public static Joystick getDriveController()
+	public static Joystick getLeftDriveStick()
 	{
-		return driveController;
+		return leftDriveStick;
+	}
+	
+	public static Joystick getRightDriveStick()
+	{
+		return rightDriveStick;
 	}
 	
 	public static Joystick getSwitchBox()

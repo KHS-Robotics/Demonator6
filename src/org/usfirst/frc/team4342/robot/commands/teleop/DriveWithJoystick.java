@@ -1,24 +1,25 @@
 package org.usfirst.frc.team4342.robot.commands.teleop;
 
+import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveWithJoystick extends Command
-{
-	private boolean flipOrientation;
-	private boolean shift;
-	
-	private Joystick joystick;
+{	
+	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
 	
-	public DriveWithJoystick(Joystick joystick, TankDrive drive)
+	private boolean flipOrientation;
+	
+	public DriveWithJoystick(Joystick leftJoystick, Joystick rightJoystick, TankDrive drive)
 	{
 		super();
 		
 		this.requires(drive);
 		
-		this.joystick = joystick;
+		this.leftJoystick = leftJoystick;
+		this.rightJoystick = rightJoystick;
 		this.drive = drive;
 
 	}
@@ -26,16 +27,21 @@ public class DriveWithJoystick extends Command
 	@Override
 	protected void execute()
 	{
-		flipOrientation = joystick.getRawButton(3) ? !flipOrientation : flipOrientation;
+		final double LEFT_Y = leftJoystick.getY();
+		final double RIGHT_Y = rightJoystick.getY();
+		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT);
 		
-		if(flipOrientation)
-			drive.set(adjust(-joystick.getX()), adjust(joystick.getY()));
-		
-		shift = joystick.getRawButton(4);
-		if(shift)
+		if(SHIFT)
 			drive.shift();
 		
-		drive.set(adjust(joystick.getX()), adjust(-joystick.getY()));
+		flipOrientation = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.FLIP_ORIENTATION) ? !flipOrientation : flipOrientation;
+		if(flipOrientation)
+		{
+			drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
+			return;
+		}
+		
+		drive.set(adjust(-LEFT_Y), adjust(-RIGHT_Y));
 	}
 	
 	@Override

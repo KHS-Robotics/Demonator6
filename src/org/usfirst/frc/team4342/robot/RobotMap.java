@@ -7,8 +7,9 @@ public class RobotMap
 	private RobotMap() {}
 	
 	// Joysticks
-	public static final int DRIVE_STICK_PORT = 0;
-	public static final int SWITCH_BOX_PORT = 1;
+	public static final int RIGHT_DRIVE_STICK_PORT = 0;
+	public static final int LEFT_DRIVE_STICK_PORT = 1;
+	public static final int SWITCH_BOX_PORT = 2;
 	
 	// Drive
 	public static final int FRONT_RIGHT = 0;

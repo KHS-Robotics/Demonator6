@@ -35,7 +35,7 @@ public class PlaceGearWithSwitchBox extends Command
 	@Override
 	protected void execute()
 	{
-		final boolean USER_LOWER = switchBox.getRawButton(ButtonMap.GearPlacer.LOWER);
+		final boolean USER_LOWER = switchBox.getRawButton(ButtonMap.SwitchBox.GearPlacer.LOWER);
 		
 		if(USER_LOWER)
 			placer.lower();

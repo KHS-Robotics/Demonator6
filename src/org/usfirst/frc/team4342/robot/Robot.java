@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot
 		IO.initialize();
 		DemonDashboard.start();
 		
-		drive = new DriveWithJoystick(IO.getDriveController(), IO.getDrive());
+		drive = new DriveWithJoystick(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		
