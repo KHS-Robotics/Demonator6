@@ -36,25 +36,27 @@ public class ShootWithSwitchBox extends Command
 	@Override
 	protected void execute()
 	{
-		final boolean USER_ACCUMULATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.ACCUMULATE);
-		final boolean USER_AGITATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.AGITATE);
-		final boolean USER_SHOOT = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT);
+		final boolean ACCUMULATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.ACCUMULATE);
+		final boolean AGITATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.AGITATE);
+		final boolean SHOOT_CLOSE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
+		final boolean SHOOT_FAR = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_FAR);
 	
-		if (USER_ACCUMULATE) 
+		if (ACCUMULATE) 
 			shooter.accumulate();
 		else
 			shooter.stopAccumulating();
 		
-		if (USER_AGITATE)
+		if (AGITATE)
 			shooter.agitate();
 		else
 			shooter.stopAgitating();
-		
-//		if (USER_SHOOT)
-//			shooter.shoot();
-//		else
-//			shooter.stopShooting();
-		
+	
+		if (SHOOT_CLOSE)
+			shooter.shootClose();
+		else if (SHOOT_FAR)
+			shooter.shootFar();
+		else
+			shooter.stopShooting();
 	}
 	
 	@Override
