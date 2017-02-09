@@ -2,9 +2,7 @@ package org.usfirst.frc.team4342.robot.commands.auton;
 
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class GoStraight extends Command
+public class GoStraight extends AutonomousCommand
 {
 	private double direction, yaw, leftVal, rightVal, distance;
 	private TankDrive drive;

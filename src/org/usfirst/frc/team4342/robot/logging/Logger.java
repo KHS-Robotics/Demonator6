@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.logging;
 
-import java.io.PrintStream;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Logger 
 {
@@ -13,17 +13,20 @@ public class Logger
 		severity = sev;
 	}
 	
-	public static void log(Severity sev, String message, Throwable t, PrintStream stream)
+	public static void log(Severity sev, String message, Throwable t)
 	{
 		if(sev.value() <= severity.value())
 		{
-			stream.println(sev.toString().toUpperCase() + ": " + message);
-		
+			if (sev.value() <= Severity.ERROR.value())
+				DriverStation.reportError(sev.toString().toUpperCase() + ": " + message, false);
+			else
+				DriverStation.reportWarning(sev.toString().toUpperCase() + ": " + message, false);
+				
 			if(t != null)
 			{
 				for(StackTraceElement ste : t.getStackTrace())
 				{
-					stream.println(ste.toString());
+					System.err.println(ste);
 				}
 			}
 		}
@@ -31,21 +34,21 @@ public class Logger
 	
 	public static void debug(String message)
 	{
-		log(Severity.DEBUG, message, null, System.out);
+		log(Severity.DEBUG, message, null);
 	}
 	
 	public static void info(String message)
 	{
-		log(Severity.INFO, message, null, System.out);
+		log(Severity.INFO, message, null);
 	}
 	
 	public static void warning(String message)
 	{
-		log(Severity.WARNING, message, null, System.out);
+		log(Severity.WARNING, message, null);
 	}
 	
 	public static void error(String message, Throwable t)
 	{
-		log(Severity.ERROR, message, null, System.err);
+		log(Severity.ERROR, message, null);
 	}
 }
