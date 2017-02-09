@@ -16,17 +16,33 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * FRC Team 4342's robot code for Steamworks
+ * 
+ * @author Liam Briening
+ * @author Harry Lehr
+ * @author Jacob Rainbow
+ * @author Katie Schuetz
+ * @author Harrison Stankiewicz
+ * @author Brian Lucas
+ * @author Ernie Wilson
+ */
 public class Robot extends IterativeRobot 
 {
+	// Teleop commands
 	private DriveWithJoystick drive;
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	
+	// Autonomous choose and routine
 	private SendableChooser<CommandGroup> autonomousChooser;
 	private CommandGroup autonomousRoutine;
 	
 	private boolean startedTeleopCommands;
 	
+	/**
+	 * Robot-wide initialization code
+	 */
 	@Override
 	public void robotInit()
 	{
@@ -47,6 +63,9 @@ public class Robot extends IterativeRobot
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
 	
+	/**
+	 * Initialization code for teleop mode (operator control)
+	 */
 	@Override
 	public void teleopInit()
 	{
@@ -56,12 +75,18 @@ public class Robot extends IterativeRobot
 		startTeleopCommands();
 	}
 	
+	/**
+	 * Periodic code for teleop mode
+	 */
 	@Override
 	public void teleopPeriodic()
 	{
 		Scheduler.getInstance().run();
 	}
 	
+	/**
+	 * Initialization code for autonomous mode 
+	 */
 	@Override
 	public void autonomousInit()
 	{
@@ -73,6 +98,9 @@ public class Robot extends IterativeRobot
 			autonomousRoutine.start();
 	}
 	
+	/**
+	 * Periodic code for autonomous mode
+	 */
 	@Override
 	public void autonomousPeriodic()
 	{
@@ -80,18 +108,27 @@ public class Robot extends IterativeRobot
 			Scheduler.getInstance().run();
 	}
 	
+	/**
+	 * Initialization code for test mode 
+	 */
 	@Override
 	public void testInit()
 	{
 		stopTeleopCommands();
 	}
 	
+	/**
+	 * Periodic code for test mode
+	 */
 	@Override
 	public void testPeriodic()
 	{
 		LiveWindow.run();
 	}
 	
+	/**
+	 * Starts the commands needed for operator control
+	 */
 	private void startTeleopCommands()
 	{
 		if(!startedTeleopCommands)
@@ -104,6 +141,9 @@ public class Robot extends IterativeRobot
 		}
 	}
 	
+	/**
+	 * Stops the commands needed for operator control
+	 */
 	private void stopTeleopCommands()
 	{
 		if(startedTeleopCommands)

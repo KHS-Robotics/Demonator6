@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+/**
+ * Class that holds direct access to the <code>Subsystem</code> objects
+ */
 public class IO 
 {
 	private IO() {}
@@ -37,6 +40,9 @@ public class IO
 	private static Scaler scaler;
 	private static GearPlacer gearPlacer;
 	
+	/**
+	 * Initializes subsystems and components.
+	 */
 	public static void initialize()
 	{
 		if(initialized)
@@ -92,36 +98,64 @@ public class IO
 	    // new JoystickButton(driveController, ButtonMap.DriveStick.Right.SCALE).toggleWhenPressed(new Scale(scaler, drive));
 	}
 	
+	/**
+	 * Gets the drive subsystem.
+	 * @return the drive subsystem
+	 */
 	public static TankDrive getDrive()
 	{
 		return drive;
 	}
 	
+	/**
+	 * Gets the shooter subsystem.
+	 * @return the shooter subsystem
+	 */
 	public static Shooter getShooter()
 	{
 		return shootingSubsystem;
 	}
 	
+	/**
+	 * Gets the scaling subsystem.
+	 * @return the scaling subsystem
+	 */
 	public static Scaler getScaler()
 	{
 		return scaler;
 	}
 	
+	/**
+	 * Gets the gear placing subsystem.
+	 * @return the gear placing subsystem
+	 */
 	public static GearPlacer getGearPlacer()
 	{
 		return gearPlacer;
 	}
 	
+	/**
+	 * Gets the left joystick.
+	 * @return the left joystick.
+	 */
 	public static Joystick getLeftDriveStick()
 	{
 		return leftDriveStick;
 	}
 	
+	/**
+	 * Gets the right joystick.
+	 * @return the right joystick
+	 */
 	public static Joystick getRightDriveStick()
 	{
 		return rightDriveStick;
 	}
 	
+	/**
+	 * Gets the switch box subsystem.
+	 * @return the switch box subsystem
+	 */
 	public static Joystick getSwitchBox()
 	{
 		return switchBox;
