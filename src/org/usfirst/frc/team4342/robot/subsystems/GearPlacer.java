@@ -9,6 +9,8 @@ public class GearPlacer extends Subsystem
 {
 	private static final Value LOWER = Value.kForward, RAISE = Value.kReverse;
 	
+	private Value current;
+	
 	private DoubleSolenoid placer;
 	private DigitalInput limitSwitch;
 	
@@ -21,13 +23,21 @@ public class GearPlacer extends Subsystem
 	}
 	
 	public void lower()
-	{	
+	{
+		if(LOWER.equals(current))
+			return;
+		
 		placer.set(LOWER);	
+		current = LOWER;
 	}
 	
 	public void raise()
 	{	
+		if(RAISE.equals(current))
+			return;
+		
 		placer.set(RAISE);	
+		current = RAISE;
 	}
 	
 	public boolean isLowered()

@@ -12,7 +12,7 @@ public class Scale extends Command
 	
 	public Scale(Scaler scaler, TankDrive drive)
 	{
-		super(15);
+		super(10);
 		
 		this.requires(scaler);
 		this.requires(drive);
@@ -26,15 +26,13 @@ public class Scale extends Command
 	@Override
 	protected boolean isFinished() 
 	{
-		return scaler.hasScaled();
+		return scaler.hasScaled() || this.isTimedOut();
 	}
 	
 	@Override
 	public void initialize()
 	{
-		drive.enablePID();
-		drive.setDirection(0.25);
-		drive.setHeading(drive.getYaw());
+		drive.goStraight(0.25, drive.getYaw());
 		scaler.enable();
 	}
 	

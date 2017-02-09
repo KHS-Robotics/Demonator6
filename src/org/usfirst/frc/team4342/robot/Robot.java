@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot
 	private SendableChooser<CommandGroup> autonomousChooser;
 	private CommandGroup autonomousRoutine;
 	
-	private boolean removedTeleopCommands = true;
+	private boolean startedTeleopCommands;
 	
 	@Override
 	public void robotInit()
@@ -94,25 +94,25 @@ public class Robot extends IterativeRobot
 	
 	private void startTeleopCommands()
 	{
-		if(removedTeleopCommands)
+		if(!startedTeleopCommands)
 		{
 			drive.start();
 			shooter.start();
 			gearPlacer.start();
 			
-			removedTeleopCommands = false;
+			startedTeleopCommands = true;
 		}
 	}
 	
 	private void stopTeleopCommands()
 	{
-		if(!removedTeleopCommands)
+		if(startedTeleopCommands)
 		{
 			drive.cancel();
 			shooter.cancel();
 			gearPlacer.cancel();
 			
-			removedTeleopCommands = true;
+			startedTeleopCommands = false;
 		}
 	}
 }

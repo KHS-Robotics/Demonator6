@@ -23,10 +23,9 @@ public class TankDrive extends Subsystem implements PIDOutput
 	private DigitalInput rsensor, lsensor;
 	private PIDController yawPID;
 	
-	private Value currentGear = LOW_GEAR;
+	private Value currentGear;
 	private double direction;
 	
-	// TODO: Add DoubleSolenoid for shifting
 	public TankDrive(CANTalon fr, CANTalon fl, CANTalon mr, CANTalon ml, CANTalon rr, CANTalon rl, AHRS navx,
 			DoubleSolenoid shifter, Encoder left, Encoder right, DigitalInput rsensor, DigitalInput lsensor)
 	{
@@ -57,15 +56,8 @@ public class TankDrive extends Subsystem implements PIDOutput
 	
 	public void set(double left, double right)
 	{
-		if (right > 1)
-			right = 1;
-		else if (right < -1)
-			right = -1;
-		
-		if (left > 1)
-			left = 1;
-		else if (left < -1)
-			left = -1;
+		left = normalizeOutput(left);
+		right = normalizeOutput(right);
 		
 		fr.set(right);
 		fl.set(left);
@@ -118,7 +110,7 @@ public class TankDrive extends Subsystem implements PIDOutput
 	
 	public void setHeading(double yaw)
 	{
-		yawPID.setSetpoint(yaw);
+		yawPID.setSetpoint(normalizeYaw(yaw));
 	}
 	
 	public void enablePID()
@@ -140,13 +132,18 @@ public class TankDrive extends Subsystem implements PIDOutput
 	public void goStraight(double direction, double yaw)
 	{
 		enablePID();
-		this.setHeading(yaw);
+		this.setHeading(normalizeYaw(yaw));
 		this.setDirection(direction);
 	}
 
 	public void setDirection(double direction)
 	{
 		this.direction = direction;
+	}
+	
+	public void setYawOffset(double offset)
+	{
+		navx.setAngleAdjustment(normalizeYaw(offset));
 	}
 	
 	public boolean getRightSensor()
@@ -167,7 +164,29 @@ public class TankDrive extends Subsystem implements PIDOutput
 	@Override
 	public void pidWrite(double output)
 	{
-		this.set(output, direction);
+		double left = direction + output;
+		double right = direction - output;
+		
+		this.set(left, right);
+	}
+	
+	private static double normalizeOutput(double output)
+	{
+		if(output > 1)
+			return 1;
+		else if(output < -1)
+			return -1;
+		return output;
+	}
+	
+	private static double normalizeYaw(double yaw)
+	{
+		while(yaw >= 180)
+			yaw -= 360;
+		while(yaw <= -180)
+			yaw += 360;
+		
+		return yaw;
 	}
 	
 	@Override

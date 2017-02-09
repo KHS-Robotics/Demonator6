@@ -17,6 +17,8 @@ public class PlaceGearRight extends CommandGroup
 	
 	public PlaceGearRight(TankDrive drive, GearPlacer placer)
 	{
+		super(PlaceGearRight.class.getName());;
+		
 		this.addSequential(new GoStraight(DIRECTION, START_YAW, DISTANCE, drive));
 		this.addSequential(new GoToAngle(drive, GEAR_YAW));
 		this.addSequential(new PlaceGear(placer));

@@ -15,6 +15,8 @@ public class PlaceGearMiddle extends CommandGroup
 	
 	public PlaceGearMiddle(TankDrive drive, GearPlacer placer)
 	{
+		super(PlaceGearMiddle.class.getName());
+		
 		this.addSequential(new GoStraight(DIRECTION, YAW, DISTANCE, drive));
 		this.addSequential(new PlaceGear(placer));
 	}
