@@ -93,9 +93,11 @@ public class IO
 	    gearPlacer = new GearPlacer(placer, gearPlacerSwitch);
 	    
 	    // Scale when the driver presses the Scale button. This will disable DriveWithJoystick
-	    // until the Scale's isFinished() returns true or the Scale command times out (15 seconds).
+	    // until the Scale's isFinished() returns true or the Scale command times out (10 seconds).
 	    // Once finished, DriveWithJoystick will start again
 	    // new JoystickButton(driveController, ButtonMap.DriveStick.Right.SCALE).toggleWhenPressed(new Scale(scaler, drive));
+	    
+	    // TODO: Attach AlignHookTeleop command onto a JoystickButton like the Scaler above
 	}
 	
 	/**
@@ -160,5 +162,4 @@ public class IO
 	{
 		return switchBox;
 	}
-	
 }

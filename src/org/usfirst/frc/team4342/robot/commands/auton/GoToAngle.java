@@ -2,41 +2,62 @@ package org.usfirst.frc.team4342.robot.commands.auton;
 
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
+/**
+ * Command to orient the robot to a certain yaw
+ * 
+ * @see org.usfirst.frc.team4342.robot.commands.auton.AutonomousCommand
+ */
 public class GoToAngle extends AutonomousCommand
 {
-	private TankDrive drive;
 	private double yaw;
+	private TankDrive drive;
 	
-	public GoToAngle(TankDrive drive, double yaw)
+	/**
+	 * Creates a new <code>GoToAngle</code> command.
+	 * @param yaw the yaw the robot should orient to from -180 to 180
+	 * @param drive the <code>TankDrive</code> subsystem to output to
+	 */
+	public GoToAngle(double yaw, TankDrive drive)
 	{
 		this.requires(drive);
 		
-		this.drive = drive;
 		this.yaw = yaw;
+		this.drive = drive;
 	}
 	
+	/**
+	 * Enables the drive PID and sets the setpoint to
+	 * the specified yaw
+	 */
+	@Override
+	protected void initialize()
+	{
+		drive.enablePID();
+		drive.setHeading(yaw);
+	}
+	
+	/**
+	 * Disabled the drive PID and zeros the outputs
+	 */
+	@Override
+	protected void end()
+	{
+		drive.disablePID();
+		drive.set(0, 0);
+	}
+	
+	/**
+	 * Returns if the robot is oriented at the specified yaw
+	 * within the three degree tolerance range
+	 * @return true if the robot is oriented at the specified yaw, false otherwise
+	 */
 	@Override
 	protected boolean isFinished() 
 	{
 		return drive.onTarget();
 	}
 	
+	/** {@inheritDoc} */
 	@Override
-	public void initialize()
-	{
-		drive.enablePID();
-		drive.setHeading(yaw);
-	}
-	
-	@Override
-	public void end()
-	{
-		drive.disablePID();
-	}
-	
-	@Override
-	public void interrupted()
-	{
-		this.end();
-	}
+	protected void execute() {}
 }

@@ -2,6 +2,10 @@ package org.usfirst.frc.team4342.robot;
 
 import edu.wpi.first.wpilibj.SPI;
 
+/**
+ * Class that holds the port configuration for the motor
+ * controllers and sensors
+ */
 public class RobotMap 
 {
 	private RobotMap() {}
@@ -51,6 +55,4 @@ public class RobotMap
 	public static final int SHIFT_FORWARD_CHANNEL = 3;
 	public static final int SHIFT_REVERSE_CHANNEL = 4;
 	public static final int SHOOT_FAR_SOLENOID = 5;
-	
-	
 }

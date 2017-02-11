@@ -6,11 +6,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Shooter extends Subsystem
+/**
+ * Shooter subsystem to shoot fuel into the boilers
+ */
+public class Shooter extends DemonSubsystem
 {
-	private static final double kF = 0.01;
+	private static final double P = 0.0, I = 0.0, D = 0.0, F = 0.01;
 	
 	private boolean isAccumulating, isAgitating, isShooting;
 	
@@ -21,6 +23,14 @@ public class Shooter extends Subsystem
 	
 	private boolean isSetFar;
 	
+	/**
+	 * Creates a new <code>Shooter</code> subsystem
+	 * @param intake the motor to intake fuel
+	 * @param agitator the motor to agitate the fuel to help the shooter
+	 * @param shooter the motor to shoot the fuel
+	 * @param shooterEnc the shoot motor encoder to utilize a rate PID controller
+	 * @param shootFar the solenoid to change the trajectory of the fuel to shoot far or close
+	 */
 	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc, Solenoid shootFar)
 	{
 		super();
@@ -35,11 +45,14 @@ public class Shooter extends Subsystem
 		
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
-		shooterPID = new PIDController(0, 0, 0, kF, this.shooterEnc, this.shooter);
+		shooterPID = new PIDController(P, I, D, F, this.shooterEnc, this.shooter);
 		shooterPID.setInputRange(0, 100);
 		shooterPID.setOutputRange(0, 1);
 	}
 	
+	/**
+	 * Enables the accumulator
+	 */
 	public void accumulate()
 	{
 		if(isAccumulating)
@@ -49,6 +62,9 @@ public class Shooter extends Subsystem
 		intake.set(0.67);
 	}
 	
+	/**
+	 * Disables the accumulator
+	 */
 	public void stopAccumulating()
 	{
 		if(!isAccumulating)
@@ -58,6 +74,9 @@ public class Shooter extends Subsystem
 		intake.set(0);
 	}
 	
+	/**
+	 * Enables the agitator
+	 */
 	public void agitate()
 	{
 		if(isAgitating)
@@ -67,6 +86,9 @@ public class Shooter extends Subsystem
 		agitator.set(0.8);
 	}
 	
+	/**
+	 * Disables the agitator
+	 */
 	public void stopAgitating()
 	{
 		if(!isAgitating)
@@ -76,6 +98,9 @@ public class Shooter extends Subsystem
 		agitator.set(0);
 	}
 	
+	/**
+	 * Sets the solenoid to shoot far and then enables the shooter
+	 */
 	public void shootFar()
 	{
 		if (isShooting)
@@ -90,6 +115,9 @@ public class Shooter extends Subsystem
 		shooterPID.setSetpoint(0.85);
 	}
 	
+	/**
+	 * Sets the solenoid to shoot close and then enables the shooter
+	 */
 	public void shootClose()
 	{
 		if (isShooting)
@@ -104,6 +132,9 @@ public class Shooter extends Subsystem
 		shooterPID.setSetpoint(0.85);
 	}
 	
+	/**
+	 * Disables the shooter
+	 */
 	public void stopShooting()
 	{
 		if (!isShooting)
@@ -114,6 +145,9 @@ public class Shooter extends Subsystem
 		disableShooterPID();
 	}
 	
+	/**
+	 * Internal method to disable the shooter PID
+	 */
 	private void disableShooterPID()
 	{
 		if (shooterPID.isEnabled())
@@ -122,15 +156,11 @@ public class Shooter extends Subsystem
 		}
 	}
 	
+	/**
+	 * Internal method to enable the shooter PID
+	 */
 	private void enableShooterPID()
 	{
 		shooterPID.enable();
-	}
-	
-	@Override
-	protected void initDefaultCommand() 
-	{
-		this.setDefaultCommand(null);
-		//this.setDefaultCommand(new ShootWithSwitchBox(IO.getSwitchBox(), this));
 	}
 }

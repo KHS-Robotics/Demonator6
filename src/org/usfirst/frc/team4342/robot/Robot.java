@@ -3,11 +3,12 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearLeft;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
-import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
+import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -30,7 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot 
 {
 	// Teleop commands
-	private DriveWithJoystick drive;
+	private DriveWithJoysticks drive;
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	
@@ -48,8 +49,9 @@ public class Robot extends IterativeRobot
 	{
 		IO.initialize();
 		DemonDashboard.start();
+		PDPLogger.start();
 		
-		drive = new DriveWithJoystick(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
+		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		

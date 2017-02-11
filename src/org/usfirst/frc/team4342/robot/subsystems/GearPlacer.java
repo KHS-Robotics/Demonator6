@@ -3,9 +3,11 @@ package org.usfirst.frc.team4342.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class GearPlacer extends Subsystem
+/**
+ * Gear Placer subsystem to place gears on pegs for the airship
+ */
+public class GearPlacer extends DemonSubsystem
 {
 	private static final Value LOWER = Value.kForward, RAISE = Value.kReverse;
 	
@@ -14,6 +16,11 @@ public class GearPlacer extends Subsystem
 	private DoubleSolenoid placer;
 	private DigitalInput limitSwitch;
 	
+	/**
+	 * Creates a new <code>GearPlacer</code> subsystem.
+	 * @param placer the double solenoid to raise and lower the gear placer
+	 * @param ls the limit switch to determine if the gear placer is lowered or raised
+	 */
 	public GearPlacer(DoubleSolenoid placer, DigitalInput ls)
 	{
 		super();
@@ -22,6 +29,9 @@ public class GearPlacer extends Subsystem
 		limitSwitch = ls;
 	}
 	
+	/**
+	 * Lowers the gear placer. Effectively sets the <code>DoubleSolenoid</code> to kFORWARD
+	 */
 	public void lower()
 	{
 		if(LOWER.equals(current))
@@ -31,6 +41,9 @@ public class GearPlacer extends Subsystem
 		current = LOWER;
 	}
 	
+	/**
+	 * Raises the gear placer. Effectively sets the <code>DoubleSolenoid</code> to kREVERSE
+	 */
 	public void raise()
 	{	
 		if(RAISE.equals(current))
@@ -40,21 +53,21 @@ public class GearPlacer extends Subsystem
 		current = RAISE;
 	}
 	
+	/**
+	 * Gets if the gear placer is lowered. Effectively checks the limit switch's state
+	 * @return true if the gear placer is lowered, false otherwise
+	 */
 	public boolean isLowered()
 	{
 		return limitSwitch.get();
 	}
 	
+	/**
+	 * Gets if the gear placer is raised. Effectively checks the limit switch's state
+	 * @return true if the gear placer is raised, false otherwise
+	 */
 	public boolean isRaised()
 	{
 		return !isLowered();
 	}
-	
-	@Override
-	protected void initDefaultCommand() 
-	{
-		this.setDefaultCommand(null);
-		//this.setDefaultCommand(new PlaceGearWithSwitchBox(IO.getSwitchBox(), this));
-	}
-
 }
