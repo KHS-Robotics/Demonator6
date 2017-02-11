@@ -155,7 +155,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	
 	/**
 	 * Sets the internal PID conroller's setpoint to the specified yaw and enables PID
-	 * @param yaw
+	 * @param yaw the yaw to orient the robot to
 	 */
 	public void setHeading(double yaw)
 	{

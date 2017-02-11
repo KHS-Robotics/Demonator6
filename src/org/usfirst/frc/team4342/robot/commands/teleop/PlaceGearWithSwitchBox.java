@@ -19,7 +19,7 @@ public class PlaceGearWithSwitchBox extends TeleopCommand
 	 * Creates a new <code>PlaceGearWithSwitchBox</code> command.
 	 * @param switchBox the switch box to poll inputs from
 	 * @param placer the <code>GearPlacer</code> subsystem
-	 * @see org.usfirst.frc.team4342.robot.GearPlacer
+	 * @see org.usfirst.frc.team4342.robot.subsystems.GearPlacer
 	 */
 	public PlaceGearWithSwitchBox(Joystick switchBox, GearPlacer placer)
 	{

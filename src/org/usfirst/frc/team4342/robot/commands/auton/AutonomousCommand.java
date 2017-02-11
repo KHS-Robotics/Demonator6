@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * Superclass for our autonomous commands so they all have access
  * to some important functions that may be needed to run the commands
  * 
- * @see edu.wpi.first.wpilibj.command.Command;
+ * @see edu.wpi.first.wpilibj.command.Command
  */
 public abstract class AutonomousCommand extends Command
 {
