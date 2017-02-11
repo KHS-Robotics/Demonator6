@@ -112,7 +112,7 @@ public class Shooter extends DemonSubsystem
 		isSetFar = true;
 		
 		enableShooterPID();
-		shooterPID.setSetpoint(0.85);
+		shooterPID.setSetpoint(85);
 	}
 	
 	/**

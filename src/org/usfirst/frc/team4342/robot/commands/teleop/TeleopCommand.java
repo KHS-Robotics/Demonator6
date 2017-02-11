@@ -31,11 +31,14 @@ public abstract class TeleopCommand extends Command
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	protected abstract void initialize();
 	
 	/** {@inheritDoc} */
+	@Override
 	protected abstract void execute();
 	
 	/** {@inheritDoc} */
+	@Override
 	protected abstract void end();
 }
