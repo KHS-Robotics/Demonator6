@@ -68,4 +68,8 @@ public abstract class AutonomousCommand extends Command
 	/** {@inheritDoc} */
 	@Override
 	protected abstract void end();
+	
+	/** {@inheritDoc} */
+	@Override
+	protected abstract boolean isFinished();
 }

@@ -44,6 +44,7 @@ public class PDPLogger
 	 */
 	private static void free()
 	{
+		timer.stop();
 		timer = null;
 		
 		pdp.free();
@@ -57,6 +58,8 @@ public class PDPLogger
 	 */
 	private static class PDPLoggingThread extends Thread implements Runnable
 	{	
+		private static final String RETURN_FEED = System.getProperty("line.separator");
+		private static final int SLEEP_SECONDS = 5;
 		private static boolean errored;
 		
 		/**
@@ -87,11 +90,11 @@ public class PDPLogger
 				
 				writer.write("Timestamp");
 				
-				writer.write('\r');
+				writer.write(RETURN_FEED);
 	
 				while((int)timer.get() < LOGGING_SECONDS && !errored) 
 				{
-			        for(int channel = 0; channel < 16; channel++) 
+			        for(int channel = 0; channel < NUM_CHANNELS; channel++) 
 			        {
 			        	writer.write("" + pdp.getCurrent(channel));
 			        	writer.write(',');
@@ -102,10 +105,10 @@ public class PDPLogger
 			        
 			        writer.write(new Date(System.currentTimeMillis()).toString());
 			        
-			        writer.write('\r');
+			        writer.write(RETURN_FEED);
 			        writer.flush();
 			        
-			        Thread.sleep(5000);
+			        Thread.sleep(SLEEP_SECONDS * 1000);
 				}
 			}
 			catch(Exception ex)

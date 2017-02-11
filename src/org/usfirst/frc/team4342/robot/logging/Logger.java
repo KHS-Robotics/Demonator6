@@ -79,6 +79,6 @@ public class Logger
 	 */
 	public static void error(String message, Throwable t)
 	{
-		log(Severity.ERROR, message, null);
+		log(Severity.ERROR, message, t);
 	}
 }
