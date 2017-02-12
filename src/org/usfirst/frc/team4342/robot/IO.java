@@ -78,7 +78,7 @@ public class IO
 		
 		// Pneumatics
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
-	    shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
+	    shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD_CHANNEL, RobotMap.SHIFT_REVERSE_CHANNEL);
 	    shootFar = new Solenoid(RobotMap.SHOOT_FAR_SOLENOID);
 	    
 	    // Encoders

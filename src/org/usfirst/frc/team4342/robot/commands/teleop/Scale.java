@@ -3,6 +3,7 @@ package org.usfirst.frc.team4342.robot.commands.teleop;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -11,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Scale extends Command
 {
 	private Scaler scaler;
-	private TankDrive drive;
+//	private TankDrive drive;
 	
 	/**
 	 * Creates a new <code>Scale</code> command with a 10 second timeout.
@@ -20,15 +21,15 @@ public class Scale extends Command
 	 * @see org.usfirst.frc.team4342.robot.subsystems.Scaler
 	 * @see org.usfirst.frc.team4342.robot.subsystems.TankDrive
 	 */
-	public Scale(Scaler scaler, TankDrive drive)
+	public Scale(Joystick j, Scaler scaler)
 	{
 		super(10);
 		
 		this.requires(scaler);
-		this.requires(drive);
+//		this.requires(drive);
 		
 		this.scaler = scaler;
-		this.drive = drive;
+//		this.drive = drive;
 		
 		this.setInterruptible(false);
 	}
@@ -40,8 +41,8 @@ public class Scale extends Command
 	@Override
 	public void initialize()
 	{
-		drive.goStraight(0.25, drive.getHeading());
-		scaler.enable();
+//		drive.goStraight(0.25, drive.getHeading());
+//		scaler.enable();
 	}
 	
 	/**
@@ -51,8 +52,8 @@ public class Scale extends Command
 	protected void end()
 	{
 		scaler.disable();
-		drive.disablePID();
-		drive.set(0, 0);
+		//drive.disablePID();
+//		drive.set(0, 0);
 	}
 	
 	/**
@@ -67,5 +68,8 @@ public class Scale extends Command
 	
 	/** {@inheritDoc} */
 	@Override
-	protected void execute() {}
+	protected void execute() 
+	{
+		scaler.enable();
+	}
 }

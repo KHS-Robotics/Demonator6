@@ -5,6 +5,7 @@ import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
 import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
+import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot
 	private DriveWithJoysticks drive;
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
+	private Scale scaler;
 	
 	// Autonomous choose and routine
 	private SendableChooser<CommandGroup> autonomousChooser;
@@ -54,7 +56,7 @@ public class Robot extends IterativeRobot
 		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
-		
+		scaler = new Scale(IO.getRightDriveStick(), IO.getScaler());
 		autonomousChooser = new SendableChooser<CommandGroup>();
 		autonomousChooser.addDefault("None", null);
 		autonomousChooser.addObject("Place Middle Gear", new PlaceGearMiddle(IO.getDrive(), IO.getGearPlacer()));
@@ -138,6 +140,7 @@ public class Robot extends IterativeRobot
 			drive.start();
 			shooter.start();
 			gearPlacer.start();
+			scaler.start();
 			
 			startedTeleopCommands = true;
 		}
