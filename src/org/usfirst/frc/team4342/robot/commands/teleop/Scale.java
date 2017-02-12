@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands.teleop;
 
+import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -9,9 +10,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Command to scale the airship
  */
-public class Scale extends Command
+public class Scale extends TeleopCommand
 {
 	private Scaler scaler;
+	private Joystick j;
 //	private TankDrive drive;
 	
 	/**
@@ -23,11 +25,12 @@ public class Scale extends Command
 	 */
 	public Scale(Joystick j, Scaler scaler)
 	{
-		super(10);
+		super();
 		
 		this.requires(scaler);
 //		this.requires(drive);
 		
+		this.j = j;
 		this.scaler = scaler;
 //		this.drive = drive;
 		
@@ -43,6 +46,15 @@ public class Scale extends Command
 	{
 //		drive.goStraight(0.25, drive.getHeading());
 //		scaler.enable();
+	}
+	
+	@Override
+	protected void execute() 
+	{
+		final boolean SCALE = j.getRawButton(ButtonMap.DriveStick.Right.SCALE);
+		
+		if(SCALE)
+			scaler.enable();
 	}
 	
 	/**
@@ -64,12 +76,5 @@ public class Scale extends Command
 	protected boolean isFinished() 
 	{
 		return scaler.hasScaled() || this.isTimedOut();
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	protected void execute() 
-	{
-		scaler.enable();
 	}
 }

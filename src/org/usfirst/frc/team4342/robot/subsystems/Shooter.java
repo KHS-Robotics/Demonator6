@@ -132,6 +132,20 @@ public class Shooter extends DemonSubsystem
 		shooterPID.setSetpoint(0.85);
 	}
 	
+	public void shoot(int power)
+	{
+		if (isShooting)
+			return;
+		isShooting = true;
+		
+		if (isSetFar)
+			shootFar.set(false);
+		isSetFar = false;
+		
+		enableShooterPID();
+		shooterPID.setSetpoint(power);
+	}
+	
 	/**
 	 * Disables the shooter
 	 */

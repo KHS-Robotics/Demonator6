@@ -45,6 +45,7 @@ public class ButtonMap
 			public static final int AGITATE = 2;
 			public static final int SHOOT_CLOSE = 3;
 			public static final int SHOOT_FAR = 4;
+			public static final int SHOOT_FULL_POWER = 5;
 		}
 		
 		/**
