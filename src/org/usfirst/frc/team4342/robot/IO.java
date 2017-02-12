@@ -89,7 +89,7 @@ public class IO
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc, shootFar);
-	    scaler = new Scaler(scaleMotor, scaleSwitch);
+	    scaler = new Scaler(scaleMotor, scaleSwitch, rightDriveStick);
 	    gearPlacer = new GearPlacer(placer, gearPlacerSwitch);
 	    
 	    // Scale when the driver presses the Scale button. This will disable DriveWithJoystick
