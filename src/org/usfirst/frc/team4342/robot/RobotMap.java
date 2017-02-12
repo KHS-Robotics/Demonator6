@@ -36,4 +36,8 @@ public class RobotMap
 	// Pneumatics
 	public static final int PLACER_FORWARD_CHANNEL = 0;
 	public static final int PLACER_REVERSE_CHANNEL = 1;
+	
+	// Ultrasonic Sensor
+	public static final int ULTRASONIC_OUTPUT = 8;
+	public static final int ULTRASONIC_INPUT = 9;
 }

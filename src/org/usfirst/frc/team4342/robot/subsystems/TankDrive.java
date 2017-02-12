@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TankDrive extends Subsystem implements PIDOutput
@@ -16,10 +17,12 @@ public class TankDrive extends Subsystem implements PIDOutput
 	private AHRS navx;
 	private DigitalInput rsensor, lsensor;
 	private PIDController yawPID;
+	private Ultrasonic ultra;
 	
 	private double direction;
 	
-	public TankDrive(Talon fr, Talon fl, Talon rr, Talon rl, AHRS navx, DigitalInput rsensor, DigitalInput lsensor)
+	public TankDrive(Talon fr, Talon fl, Talon rr, Talon rl, AHRS navx, DigitalInput rsensor, DigitalInput lsensor, 
+			Ultrasonic ultra)
 	{
 		super();
 		
@@ -30,6 +33,7 @@ public class TankDrive extends Subsystem implements PIDOutput
 		this.navx = navx;
 		this.rsensor = rsensor;
 		this.lsensor = lsensor;
+		this.ultra = ultra;
 		
 		yawPID = new PIDController(-P, -I, -D, navx, this);
 		yawPID.setInputRange(-180.0, 180.0);
@@ -124,6 +128,11 @@ public class TankDrive extends Subsystem implements PIDOutput
 	public boolean getLeftSensor()
 	{
 		return lsensor.get();
+	}
+	
+	public double getUltrasonic()
+	{
+		return ultra.getRangeInches();
 	}
 	
 	@Override

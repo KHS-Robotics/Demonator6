@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -30,6 +31,7 @@ public class IO
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, scaleSwitch;
 	private static DoubleSolenoid placer;
+	private static Ultrasonic ultra;
 	
 	// Subsystems
 	private static TankDrive drive;
@@ -64,11 +66,14 @@ public class IO
 		rsensor = new DigitalInput(RobotMap.RIGHT_PHOTO_SENSOR);
 		lsensor = new DigitalInput(RobotMap.LEFT_PHOTO_SENSOR);
 		
+		// Ultrasonic Sensor
+		ultra = new Ultrasonic(RobotMap.ULTRASONIC_OUTPUT, RobotMap.ULTRASONIC_INPUT);
+		
 		// Pneumatics
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
 	    
 	    // Subsystems
-	    drive = new TankDrive(fr, fl, rr, rl, navx, rsensor, lsensor);
+	    drive = new TankDrive(fr, fl, rr, rl, navx, rsensor, lsensor, ultra);
 	    //shootingSubsystem = new Shooter(intake, agitator, shooter);
 	    //scaler = new Scaler(scaleMotor, scaleSwitch);
 	    //gearPlacer = new GearPlacer(placer);
@@ -115,5 +120,10 @@ public class IO
 	public static boolean alignHookIsRunning()
 	{
 		return alignHook.isRunning();
+	}
+	
+	public static Ultrasonic getUltrasonic()
+	{
+		return ultra;
 	}
 }
