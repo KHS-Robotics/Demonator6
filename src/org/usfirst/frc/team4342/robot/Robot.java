@@ -156,6 +156,7 @@ public class Robot extends IterativeRobot
 			drive.cancel();
 			shooter.cancel();
 			gearPlacer.cancel();
+			scaler.cancel();
 			
 			startedTeleopCommands = false;
 		}
