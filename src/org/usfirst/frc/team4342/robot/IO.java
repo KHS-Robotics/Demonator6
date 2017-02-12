@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
-import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
+
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * Class that holds direct access to the <code>Subsystem</code> objects

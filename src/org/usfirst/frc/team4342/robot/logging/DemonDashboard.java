@@ -56,6 +56,7 @@ public class DemonDashboard
 					SmartDashboard.putBoolean("Photo-Right", IO.getDrive().getRightSensor());
 					SmartDashboard.putBoolean("Photo-Left", IO.getDrive().getLeftSensor());
 					SmartDashboard.putBoolean("hasScaled", IO.getScaler().hasScaled());
+					SmartDashboard.putNumber("Shooter Speed ", IO.getShooter().getSpeed());
 					
 					Thread.sleep(20);
 				}

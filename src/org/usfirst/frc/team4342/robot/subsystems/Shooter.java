@@ -6,13 +6,15 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Shooter subsystem to shoot fuel into the boilers
  */
 public class Shooter extends DemonSubsystem
 {
-	private static final double P = 0.0, I = 0.0, D = 0.0, F = 0.01;
+	//public static final double P = SmartDashboard.getNumber("P ", 0.0), I = SmartDashboard.getNumber("I ", 0.0), D = SmartDashboard.getNumber("D ", 0.0), F = 0.01;
+	public static final double P = 0.01, I = 0.0, D = 0.01, F = 0.01;
 	
 	private boolean isAccumulating, isAgitating, isShooting;
 	
@@ -107,9 +109,9 @@ public class Shooter extends DemonSubsystem
 			return;
 		isShooting = true;
 		
+		isSetFar = true;
 		if (!isSetFar)
 			shootFar.set(true);
-		isSetFar = true;
 		
 		enableShooterPID();
 		shooterPID.setSetpoint(85);
@@ -119,14 +121,14 @@ public class Shooter extends DemonSubsystem
 	 * Sets the solenoid to shoot close and then enables the shooter
 	 */
 	public void shootClose()
-	{
+	{	
 		if (isShooting)
 			return;
 		isShooting = true;
 		
+		isSetFar = false;
 		if (isSetFar)
 			shootFar.set(false);
-		isSetFar = false;
 		
 		enableShooterPID();
 		shooterPID.setSetpoint(0.85);
@@ -138,9 +140,9 @@ public class Shooter extends DemonSubsystem
 			return;
 		isShooting = true;
 		
+		isSetFar = false;
 		if (isSetFar)
 			shootFar.set(false);
-		isSetFar = false;
 		
 		enableShooterPID();
 		shooterPID.setSetpoint(power);
@@ -176,5 +178,10 @@ public class Shooter extends DemonSubsystem
 	private void enableShooterPID()
 	{
 		shooterPID.enable();
+	}
+	
+	public double getSpeed()
+	{
+		return shooter.getSpeed();
 	}
 }

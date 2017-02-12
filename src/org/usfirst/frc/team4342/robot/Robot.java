@@ -63,6 +63,9 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Place Left Gear", new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer()));
 		autonomousChooser.addObject("Place Right Gear", new PlaceGearRight(IO.getDrive(), IO.getGearPlacer()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+		SmartDashboard.putNumber("P -", 0.0);
+		SmartDashboard.putNumber("I -", 0.0);
+		SmartDashboard.putNumber("D -", 0.0);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}

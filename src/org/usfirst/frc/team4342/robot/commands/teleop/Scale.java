@@ -5,7 +5,6 @@ import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Command to scale the airship
@@ -55,6 +54,8 @@ public class Scale extends TeleopCommand
 		
 		if(SCALE)
 			scaler.enable();
+		else
+			scaler.disable();
 	}
 	
 	/**
@@ -75,6 +76,6 @@ public class Scale extends TeleopCommand
 	@Override
 	protected boolean isFinished() 
 	{
-		return scaler.hasScaled() || this.isTimedOut();
+		return this.isTimedOut();
 	}
 }

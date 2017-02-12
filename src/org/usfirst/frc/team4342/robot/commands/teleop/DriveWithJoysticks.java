@@ -50,7 +50,7 @@ public class DriveWithJoysticks extends TeleopCommand
 	protected void execute()
 	{
 		final double LEFT_Y = leftJoystick.getY();
-		final double RIGHT_Y = rightJoystick.getY();
+		final double RIGHT_Y = -rightJoystick.getY();
 		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT);
 		flipOrientation = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.FLIP_ORIENTATION) ? !flipOrientation : flipOrientation;
 		
@@ -59,11 +59,11 @@ public class DriveWithJoysticks extends TeleopCommand
 		
 		if(flipOrientation)
 		{
-			drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
+			drive.set(adjust(RIGHT_Y), adjust(LEFT_Y));
 			return;
 		}
 		
-		drive.set(adjust(-LEFT_Y), adjust(-RIGHT_Y));
+		drive.set(adjust(-RIGHT_Y), adjust(-LEFT_Y));
 	}
 	
 	/**
