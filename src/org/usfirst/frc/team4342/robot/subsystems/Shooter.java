@@ -6,14 +6,12 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Shooter subsystem to shoot fuel into the boilers
  */
 public class Shooter extends DemonSubsystem
 {
-	//public static final double P = SmartDashboard.getNumber("P ", 0.0), I = SmartDashboard.getNumber("I ", 0.0), D = SmartDashboard.getNumber("D ", 0.0), F = 0.01;
 	public static final double P = 0.01, I = 0.0, D = 0.01, F = 0.01;
 	
 	private boolean isAccumulating, isAgitating, isShooting;

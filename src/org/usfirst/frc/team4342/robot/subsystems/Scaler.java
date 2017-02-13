@@ -1,11 +1,8 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import org.usfirst.frc.team4342.robot.ButtonMap;
-
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * Scaler subsystem to scale the airship
@@ -14,7 +11,6 @@ public class Scaler extends DemonSubsystem
 {
 	private CANTalon motor;
 	private DigitalInput limitSwitch;
-	private Joystick rightstick;
 	
 	private boolean enabled;
 	
@@ -24,13 +20,12 @@ public class Scaler extends DemonSubsystem
 	 * @param limitSwitch the limit switch to recognize when
 	 * the robot is fully scaled
 	 */
-	public Scaler(CANTalon motor, DigitalInput limitSwitch, Joystick rightstick)
+	public Scaler(CANTalon motor, DigitalInput limitSwitch)
 	{
 		super();
 		
 		this.motor = motor;
 		this.limitSwitch = limitSwitch;
-		this.rightstick = rightstick;
 	}
 	
 	/**

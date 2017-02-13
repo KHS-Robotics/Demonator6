@@ -12,6 +12,7 @@ import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -37,7 +38,7 @@ public class Robot extends IterativeRobot
 	private PlaceGearWithSwitchBox gearPlacer;
 	private Scale scaler;
 	
-	// Autonomous choose and routine
+	// Autonomous chooser and routine
 	private SendableChooser<CommandGroup> autonomousChooser;
 	private CommandGroup autonomousRoutine;
 	
@@ -56,16 +57,14 @@ public class Robot extends IterativeRobot
 		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
-		scaler = new Scale(IO.getRightDriveStick(), IO.getScaler());
+		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.SCALE));
+		
 		autonomousChooser = new SendableChooser<CommandGroup>();
 		autonomousChooser.addDefault("None", null);
 		autonomousChooser.addObject("Place Middle Gear", new PlaceGearMiddle(IO.getDrive(), IO.getGearPlacer()));
 		autonomousChooser.addObject("Place Left Gear", new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer()));
 		autonomousChooser.addObject("Place Right Gear", new PlaceGearRight(IO.getDrive(), IO.getGearPlacer()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
-		SmartDashboard.putNumber("P -", 0.0);
-		SmartDashboard.putNumber("I -", 0.0);
-		SmartDashboard.putNumber("D -", 0.0);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}

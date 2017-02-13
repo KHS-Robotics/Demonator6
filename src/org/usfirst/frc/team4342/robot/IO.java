@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4342.robot;
 
-
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -88,15 +87,8 @@ public class IO
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc, shootFar);
-	    scaler = new Scaler(scaleMotor, scaleSwitch, rightDriveStick);
+	    scaler = new Scaler(scaleMotor, scaleSwitch);
 	    gearPlacer = new GearPlacer(placer, gearPlacerSwitch);
-	    
-	    // Scale when the driver presses the Scale button. This will disable DriveWithJoystick
-	    // until the Scale's isFinished() returns true or the Scale command times out (10 seconds).
-	    // Once finished, DriveWithJoystick will start again
-	    // new JoystickButton(driveController, ButtonMap.DriveStick.Right.SCALE).toggleWhenPressed(new Scale(scaler, drive));
-	    
-	    // TODO: Attach AlignHookTeleop command onto a JoystickButton like the Scaler above
 	}
 	
 	/**
