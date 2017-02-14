@@ -47,8 +47,8 @@ public class ShootWithSwitchBox extends TeleopCommand
 	{
 		final boolean ACCUMULATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.ACCUMULATE);
 		final boolean AGITATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.AGITATE);
-		final boolean SHOOT_CLOSE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
 		final boolean SHOOT_FAR = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_FAR);
+		final boolean SHOOT_CLOSE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
 	
 		if (ACCUMULATE) 
 			shooter.accumulate();
@@ -60,10 +60,10 @@ public class ShootWithSwitchBox extends TeleopCommand
 		else
 			shooter.stopAgitating();
 	
-		if (SHOOT_CLOSE)
-			shooter.shootClose();
-		else if (SHOOT_FAR)
+		if (SHOOT_FAR)
 			shooter.shootFar();
+		else if (SHOOT_CLOSE)
+			shooter.shootClose();
 		else
 			shooter.stopShooting();
 		

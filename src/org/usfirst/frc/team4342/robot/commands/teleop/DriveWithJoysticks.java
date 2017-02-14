@@ -15,7 +15,7 @@ public class DriveWithJoysticks extends TeleopCommand
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
 	
-	private boolean flipOrientation, pressedButtonLastIteration;
+	private boolean flipOrientation, pressedFlipButtonLastIteration;
 	
 	/**
 	 * Creates a new <code>DriveWithJoysticks</code> command.
@@ -53,11 +53,13 @@ public class DriveWithJoysticks extends TeleopCommand
 		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT);
 		final boolean FLIP_ORIENTATION = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.FLIP_ORIENTATION);
 		
-		flipOrientation = FLIP_ORIENTATION && !pressedButtonLastIteration ? !flipOrientation : flipOrientation;
-		pressedButtonLastIteration = FLIP_ORIENTATION;
+		flipOrientation = FLIP_ORIENTATION && !pressedFlipButtonLastIteration ? !flipOrientation : flipOrientation;
+		pressedFlipButtonLastIteration = FLIP_ORIENTATION;
 		
 		if(SHIFT)
-			drive.shift();
+			drive.shiftHigh();
+		else
+			drive.shiftLow();
 		
 		if(flipOrientation)
 		{

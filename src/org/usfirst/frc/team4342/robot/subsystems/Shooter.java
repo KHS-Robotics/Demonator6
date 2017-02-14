@@ -147,9 +147,9 @@ public class Shooter extends DemonSubsystem
 	 */
 	private void setFar()
 	{
-		if (!isSetFar)
-			shootFar.set(true);
-		isSetFar = true;
+		if (isSetFar)
+			shootFar.set(false);
+		isSetFar = false;
 	}
 	
 	/**
@@ -157,9 +157,9 @@ public class Shooter extends DemonSubsystem
 	 */
 	private void setClose()
 	{
-		if (isSetFar)
-			shootFar.set(false);
-		isSetFar = false;
+		if (!isSetFar)
+			shootFar.set(true);
+		isSetFar = true;
 	}
 	
 	/**

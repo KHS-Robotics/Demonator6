@@ -9,7 +9,6 @@ import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
-import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -54,7 +53,6 @@ public class Robot extends IterativeRobot
 		
 		IO.initialize();
 		DemonDashboard.start();
-		PDPLogger.start();
 		
 		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());

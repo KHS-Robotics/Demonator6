@@ -50,9 +50,9 @@ public class RobotMap
 	public static final int GEAR_PLACER_SWITCH = 9;
 	
 	// Pneumatics
-	public static final int PLACER_FORWARD_CHANNEL = 1;
-	public static final int PLACER_REVERSE_CHANNEL = 2;
-	public static final int SHIFT_FORWARD_CHANNEL = 3;
-	public static final int SHIFT_REVERSE_CHANNEL = 4;
-	public static final int SHOOT_FAR_SOLENOID = 5;
+	public static final int PLACER_FORWARD_CHANNEL = 2;
+	public static final int PLACER_REVERSE_CHANNEL = 3;
+	public static final int SHIFT_FORWARD_CHANNEL = 0;
+	public static final int SHIFT_REVERSE_CHANNEL = 1;
+	public static final int SHOOT_FAR_SOLENOID = 4;
 }

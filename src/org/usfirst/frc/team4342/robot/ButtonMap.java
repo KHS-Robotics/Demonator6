@@ -25,9 +25,9 @@ public class ButtonMap
 		 */
 		public static class Right
 		{
-			public static final int SCALE = 1;
+			public static final int SCALE = 7;
 			public static int FLIP_ORIENTATION = 3;
-			public static int SHIFT = 4;
+			public static int SHIFT = 2;
 		}
 	}
 	
@@ -43,8 +43,8 @@ public class ButtonMap
 		{
 			public static final int ACCUMULATE = 1;
 			public static final int AGITATE = 2;
-			public static final int SHOOT_CLOSE = 3;
-			public static final int SHOOT_FAR = 4;
+			public static final int SHOOT_FAR = 3;
+			public static final int SHOOT_CLOSE = 4;
 		}
 		
 		/**
