@@ -13,7 +13,7 @@ public class Scale extends TeleopCommand
 	private JoystickButton button;
 	
 	/**
-	 * Creates a new <code>Scale</code> command with a 10 second timeout.
+	 * Creates a new <code>Scale</code> command.
 	 * @param scaler the <code>Scaler</code> subsystem
 	 * @param button the joystick button to poll
 	 * @see org.usfirst.frc.team4342.robot.subsystems.Scaler
