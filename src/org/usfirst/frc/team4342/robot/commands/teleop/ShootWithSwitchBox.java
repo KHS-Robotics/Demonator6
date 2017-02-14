@@ -29,6 +29,8 @@ public class ShootWithSwitchBox extends TeleopCommand
 		this.shooter = shooter;
 	}
 	
+	
+	
 	/**
 	 * Main logic to run the shooter in teleop. The method does the following in
 	 * the specified order:
@@ -64,6 +66,7 @@ public class ShootWithSwitchBox extends TeleopCommand
 			shooter.shootFar();
 		else
 			shooter.stopShooting();
+		
 	}
 	
 	/**

@@ -79,10 +79,12 @@ public class IO
 	    shootFar = new Solenoid(RobotMap.SHOOT_FAR_SOLENOID);
 	    
 	    // Encoders
-	    // TODO: Set distance per pulse for each encoder
 	    leftDrive = new Encoder(RobotMap.LEFT_DRIVE_ENC_CH_A, RobotMap.LEFT_DRIVE_ENC_CH_B);
 	    rightDrive = new Encoder(RobotMap.RIGHT_DRIVE_ENC_CH_A, RobotMap.RIGHT_DRIVE_ENC_CH_B);
 	    shooterEnc = new Encoder(RobotMap.SHOOTER_ENC_CH_A, RobotMap.SHOOTER_ENC_CH_B);
+	    
+	    // TODO: Set distance per pulse for each encoder
+	    shooterEnc.setDistancePerPulse(Math.PI / 5.0);
 	    
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor);

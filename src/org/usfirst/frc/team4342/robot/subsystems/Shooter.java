@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
  */
 public class Shooter extends DemonSubsystem
 {
-	public static final double P = 0.01, I = 0.0, D = 0.01, F = 0.01;
+	public static final double P = 0.007, I = 0.0, D = 0.0082, F = 1 / 1400;
 	
 	private boolean isAccumulating, isAgitating, isShooting, isSetFar;
 	
@@ -42,8 +42,8 @@ public class Shooter extends DemonSubsystem
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
 		shooterPID = new PIDController(P, I, D, F, this.shooterEnc, this.shooter);
-		shooterPID.setInputRange(0, 100);
-		shooterPID.setOutputRange(0, 1);
+		shooterPID.setInputRange(-1400, 0);
+		shooterPID.setOutputRange(-1, 0);
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public class Shooter extends DemonSubsystem
 		isShooting = true;
 		
 		setFar();
-		shoot(62);
+		shoot(-1176);
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class Shooter extends DemonSubsystem
 		isShooting = true;
 		
 		setClose();
-		shoot(62);
+		shoot(-868);
 	}
 	
 	/**
@@ -169,6 +169,11 @@ public class Shooter extends DemonSubsystem
 	 */
 	private void shoot(int setpoint)
 	{
+		if(setpoint > 0)
+			setpoint = 0;
+		else if(setpoint < -1400)
+			setpoint = -1400;
+		
 		shooterPID.setSetpoint(setpoint);
 		enableShooterPID();
 	}
@@ -178,7 +183,10 @@ public class Shooter extends DemonSubsystem
 	 */
 	private void enableShooterPID()
 	{
-		shooterPID.enable();
+		if(!shooterPID.isEnabled())
+		{
+			shooterPID.enable();
+		}
 	}
 	
 	/**
