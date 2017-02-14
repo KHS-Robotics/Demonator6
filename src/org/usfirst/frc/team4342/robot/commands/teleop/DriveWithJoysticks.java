@@ -26,7 +26,7 @@ public class DriveWithJoysticks extends TeleopCommand
 	 */
 	public DriveWithJoysticks(Joystick leftJoystick, Joystick rightJoystick, TankDrive drive)
 	{
-		super();
+		super(DriveWithJoysticks.class.getName());
 		
 		this.requires(drive);
 		

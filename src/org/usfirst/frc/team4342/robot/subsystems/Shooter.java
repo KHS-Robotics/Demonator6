@@ -14,14 +14,12 @@ public class Shooter extends DemonSubsystem
 {
 	public static final double P = 0.01, I = 0.0, D = 0.01, F = 0.01;
 	
-	private boolean isAccumulating, isAgitating, isShooting;
+	private boolean isAccumulating, isAgitating, isShooting, isSetFar;
 	
 	private CANTalon intake, agitator, shooter;
 	private Encoder shooterEnc;
 	private Solenoid shootFar;
 	private PIDController shooterPID;
-	
-	private boolean isSetFar;
 	
 	/**
 	 * Creates a new <code>Shooter</code> subsystem
@@ -33,15 +31,13 @@ public class Shooter extends DemonSubsystem
 	 */
 	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc, Solenoid shootFar)
 	{
-		super();
+		super(Shooter.class.getName());
 		
 		this.intake = intake;
 		this.agitator = agitator;
 		this.shooter = shooter;
 		this.shooterEnc = shooterEnc;
 		this.shootFar = shootFar;
-		
-		this.shootFar.set(false);
 		
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
@@ -59,7 +55,7 @@ public class Shooter extends DemonSubsystem
 			return;
 		isAccumulating = true;
 			
-		intake.set(0.67);
+		intake.set(-1.0);
 	}
 	
 	/**
@@ -107,12 +103,8 @@ public class Shooter extends DemonSubsystem
 			return;
 		isShooting = true;
 		
-		isSetFar = true;
-		if (!isSetFar)
-			shootFar.set(true);
-		
-		enableShooterPID();
-		shooterPID.setSetpoint(85);
+		setFar();
+		shoot(62);
 	}
 	
 	/**
@@ -124,26 +116,8 @@ public class Shooter extends DemonSubsystem
 			return;
 		isShooting = true;
 		
-		isSetFar = false;
-		if (isSetFar)
-			shootFar.set(false);
-		
-		enableShooterPID();
-		shooterPID.setSetpoint(0.85);
-	}
-	
-	public void shoot(int power)
-	{
-		if (isShooting)
-			return;
-		isShooting = true;
-		
-		isSetFar = false;
-		if (isSetFar)
-			shootFar.set(false);
-		
-		enableShooterPID();
-		shooterPID.setSetpoint(power);
+		setClose();
+		shoot(62);
 	}
 	
 	/**
@@ -155,8 +129,56 @@ public class Shooter extends DemonSubsystem
 			return;
 		isShooting = false;
 		
-		shooterPID.setSetpoint(0);
 		disableShooterPID();
+	}
+	
+	/**
+	 * Gets the current speed of the shooter
+	 * @return the speed of the shooter, as read by the encoder
+	 * @see {@link edu.wpi.first.wpilibj.Encoder#getRate()}
+	 */
+	public double getSpeed()
+	{
+		return shooterEnc.getRate();
+	}
+	
+	/**
+	 * Sets the solenoid on the shooter to a longer ranged shot
+	 */
+	private void setFar()
+	{
+		if (!isSetFar)
+			shootFar.set(true);
+		isSetFar = true;
+	}
+	
+	/**
+	 * Sets the solenoid on the shooter to a shorter ranged shot
+	 */
+	private void setClose()
+	{
+		if (isSetFar)
+			shootFar.set(false);
+		isSetFar = false;
+	}
+	
+	/**
+	 * Sets the shooter PID to a specified setpoint
+	 * @param setpoint the setpoint for the shooter, ranging from
+	 * zero percent to 100 percent
+	 */
+	private void shoot(int setpoint)
+	{
+		shooterPID.setSetpoint(setpoint);
+		enableShooterPID();
+	}
+	
+	/**
+	 * Internal method to enable the shooter PID
+	 */
+	private void enableShooterPID()
+	{
+		shooterPID.enable();
 	}
 	
 	/**
@@ -168,18 +190,5 @@ public class Shooter extends DemonSubsystem
 		{
 			shooterPID.disable();
 		}
-	}
-	
-	/**
-	 * Internal method to enable the shooter PID
-	 */
-	private void enableShooterPID()
-	{
-		shooterPID.enable();
-	}
-	
-	public double getSpeed()
-	{
-		return shooter.getSpeed();
 	}
 }

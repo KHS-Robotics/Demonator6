@@ -23,7 +23,7 @@ public class GearPlacer extends DemonSubsystem
 	 */
 	public GearPlacer(DoubleSolenoid placer, DigitalInput ls)
 	{
-		super();
+		super(GearPlacer.class.getName());
 		
 		this.placer = placer;
 		limitSwitch = ls;

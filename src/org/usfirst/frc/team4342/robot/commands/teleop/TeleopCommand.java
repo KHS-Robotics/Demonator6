@@ -11,12 +11,21 @@ import edu.wpi.first.wpilibj.command.Command;
 public abstract class TeleopCommand extends Command 
 {
 	/**
+	 * Creates a new teleop command
+	 * @param name the name of the command
+	 */
+	public TeleopCommand(String name)
+	{
+		super(name);
+	}
+	
+	/**
 	 * Returns true because a teleop command is never complete;
 	 * you have to explicitly call {@link #cancel()}
 	 * @return true because a teleop command is never complete
 	 */
 	@Override
-	protected boolean isFinished() 
+	protected final boolean isFinished() 
 	{
 		return false;
 	}

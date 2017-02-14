@@ -23,7 +23,7 @@ public class PlaceGearWithSwitchBox extends TeleopCommand
 	 */
 	public PlaceGearWithSwitchBox(Joystick switchBox, GearPlacer placer)
 	{
-		super();
+		super(PlaceGearWithSwitchBox.class.getName());
 		
 		this.requires(placer);
 		

@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot
 	}
 	
 	/**
-	 * Initialization code for teleop mode (operator control)
+	 * Initialization code for teleop (operator control) mode
 	 */
 	@Override
 	public void teleopInit()
@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot
 	}
 	
 	/**
-	 * Periodic code for teleop mode
+	 * Periodic code for teleop (operator control) mode
 	 */
 	@Override
 	public void teleopPeriodic()

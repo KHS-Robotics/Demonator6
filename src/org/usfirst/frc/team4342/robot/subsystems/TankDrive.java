@@ -46,7 +46,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	public TankDrive(CANTalon fr, CANTalon fl, CANTalon mr, CANTalon ml, CANTalon rr, CANTalon rl, AHRS navx,
 			DoubleSolenoid shifter, Encoder left, Encoder right, DigitalInput rsensor, DigitalInput lsensor)
 	{
-		super();
+		super(TankDrive.class.getName());
 		
 		this.fr = fr;
 		this.fl = fl;

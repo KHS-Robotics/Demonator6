@@ -15,26 +15,17 @@ public class Scale extends TeleopCommand
 	/**
 	 * Creates a new <code>Scale</code> command with a 10 second timeout.
 	 * @param scaler the <code>Scaler</code> subsystem
+	 * @param button the joystick button to poll
 	 * @see org.usfirst.frc.team4342.robot.subsystems.Scaler
 	 */
 	public Scale(Scaler scaler, JoystickButton button)
 	{
-		super();
+		super(Scale.class.getName());
 		
 		this.requires(scaler);
 		
 		this.scaler = scaler;
 		this.button = button;
-	}
-	
-	/**
-	 * Tells the tank drive to go straight at 1/4 power at the current 
-	 * yaw and enable the scaler
-	 */
-	@Override
-	public void initialize()
-	{
-		scaler.enable();
 	}
 	
 	/** 
@@ -52,11 +43,15 @@ public class Scale extends TeleopCommand
 	}
 	
 	/**
-	 * Disables the scaler and drive PID and zeros drive outputs
+	 * Disables the scaler
 	 */
 	@Override
 	protected void end()
 	{
 		scaler.disable();
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void initialize() {}
 }

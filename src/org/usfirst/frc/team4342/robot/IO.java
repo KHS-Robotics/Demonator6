@@ -27,7 +27,7 @@ public class IO
 	private static Joystick switchBox, leftDriveStick, rightDriveStick;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
-	private static DigitalInput rsensor, lsensor, scaleSwitch, gearPlacerSwitch;
+	private static DigitalInput rsensor, lsensor, gearPlacerSwitch;
 	private static DoubleSolenoid placer, shifter;
 	private static Solenoid shootFar;
 	private static Encoder leftDrive, rightDrive, shooterEnc;
@@ -68,7 +68,6 @@ public class IO
 		navx = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// DIOs
-		scaleSwitch = new DigitalInput(RobotMap.SCALE_SWITCH);
 		rsensor = new DigitalInput(RobotMap.RIGHT_PHOTO_SENSOR);
 		lsensor = new DigitalInput(RobotMap.LEFT_PHOTO_SENSOR);
 		gearPlacerSwitch = new DigitalInput(RobotMap.GEAR_PLACER_SWITCH);
@@ -80,6 +79,7 @@ public class IO
 	    shootFar = new Solenoid(RobotMap.SHOOT_FAR_SOLENOID);
 	    
 	    // Encoders
+	    // TODO: Set distance per pulse for each encoder
 	    leftDrive = new Encoder(RobotMap.LEFT_DRIVE_ENC_CH_A, RobotMap.LEFT_DRIVE_ENC_CH_B);
 	    rightDrive = new Encoder(RobotMap.RIGHT_DRIVE_ENC_CH_A, RobotMap.RIGHT_DRIVE_ENC_CH_B);
 	    shooterEnc = new Encoder(RobotMap.SHOOTER_ENC_CH_A, RobotMap.SHOOTER_ENC_CH_B);
@@ -87,7 +87,7 @@ public class IO
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc, shootFar);
-	    scaler = new Scaler(scaleMotor, scaleSwitch);
+	    scaler = new Scaler(scaleMotor);
 	    gearPlacer = new GearPlacer(placer, gearPlacerSwitch);
 	}
 	

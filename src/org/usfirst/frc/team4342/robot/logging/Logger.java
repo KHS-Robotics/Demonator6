@@ -31,9 +31,11 @@ public class Logger
 		if(sev.level() <= severity.level())
 		{
 			if (sev.level() <= Severity.ERROR.level())
-				DriverStation.reportError(sev.toString().toUpperCase() + ": " + message, false);
+				DriverStation.reportError(message, false);
+			else if(sev.level() <= Severity.WARNING.level())
+				DriverStation.reportWarning(message, false);
 			else
-				DriverStation.reportWarning(sev.toString().toUpperCase() + ": " + message, false);
+				System.out.println(sev.toString().toUpperCase() + ": " + message);
 				
 			if(t != null)
 			{

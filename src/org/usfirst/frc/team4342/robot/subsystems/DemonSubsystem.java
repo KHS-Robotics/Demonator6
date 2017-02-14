@@ -9,6 +9,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DemonSubsystem extends Subsystem 
 {
 	/**
+	 * Creates a new subsystem
+	 * @param name the name of the subsystem
+	 */
+	public DemonSubsystem(String name)
+	{
+		super(name);
+	}
+	
+	/**
 	 * Calls {@link #setDefaultCommand(edu.wpi.first.wpilibj.command.Command)} 
 	 * with null as the command.
 	 */
