@@ -12,7 +12,7 @@ public class Logger
 	private static Severity severity = Severity.DEBUG;
 	
 	/**
-	 * Sets the minimum severity to log (default is Severity.DEBUG)
+	 * Sets the minimum severity to log
 	 * @param sev the minimum severity to log
 	 */
 	public static void setSeverity(Severity sev)
@@ -39,10 +39,13 @@ public class Logger
 				
 			if(t != null)
 			{
+				String stacktrace = "\n";
 				for(StackTraceElement ste : t.getStackTrace())
 				{
-					System.err.println(ste);
+					stacktrace += ste.toString() + "\n";
 				}
+				
+				System.err.println(stacktrace);
 			}
 		}
 	}
@@ -75,7 +78,7 @@ public class Logger
 	}
 	
 	/**
-	 * Debug message to send to the Driver Station
+	 * Error message to send to the Driver Station
 	 * @param message the message to report to the Driver Station
 	 * @param t the exception to print to stderr
 	 */

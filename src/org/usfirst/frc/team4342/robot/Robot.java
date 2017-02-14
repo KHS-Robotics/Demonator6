@@ -50,6 +50,8 @@ public class Robot extends IterativeRobot
 	@Override
 	public void robotInit()
 	{
+		Logger.info("Bootstrapping Demonator6...");
+		
 		IO.initialize();
 		DemonDashboard.start();
 		PDPLogger.start();
