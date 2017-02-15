@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.teleop.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
 import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithXboxController;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot 
 {
-	private DriveWithXboxController drive;
+	private DriveWithJoysticks drive;
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	private AlignHook hookAlign;
@@ -37,7 +38,8 @@ public class Robot extends IterativeRobot
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		
-		drive = new DriveWithXboxController(IO.getDriveController(), IO.getDrive());
+		drive = new DriveWithJoysticks(IO.getLeftStick(), IO.getRightStick(), IO.getDrive());
+		//drive = new DriveWithXboxController(IO.getDriveController(), IO.getDrive());
 		//shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		//gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		

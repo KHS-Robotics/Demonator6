@@ -24,7 +24,7 @@ public class IO
 	private static boolean initialized;
 	
 	// Sensors and motor controllers
-	private static Joystick switchBox;
+	private static Joystick switchBox, leftStick, rightStick;
 	private static XboxController driveController;
 	private static Talon fr, fl, rr, rl;
 	private static Spark intake, agitator, shooter, scaleMotor;
@@ -110,6 +110,16 @@ public class IO
 	public static XboxController getDriveController()
 	{
 		return driveController;
+	}
+	
+	public static Joystick getLeftStick()
+	{
+		return leftStick;
+	}
+	
+	public static Joystick getRightStick()
+	{
+		return rightStick;
 	}
 	
 	public static Joystick getSwitchBox()
