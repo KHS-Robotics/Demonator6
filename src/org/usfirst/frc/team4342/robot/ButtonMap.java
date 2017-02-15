@@ -17,7 +17,7 @@ public class ButtonMap
 		 */
 		public static class Left
 		{
-			
+			public static int FLIP_ORIENTATION = 2;
 		}
 		
 		/**
@@ -25,9 +25,8 @@ public class ButtonMap
 		 */
 		public static class Right
 		{
-			public static int SHIFT = 2;
-			public static int FLIP_ORIENTATION = 3;
-			public static final int SCALE = 7;
+			public static int SHIFT = 1;
+			public static int ACCUMULATE = 2;
 		}
 	}
 	
@@ -53,6 +52,14 @@ public class ButtonMap
 		public static class GearPlacer
 		{
 			public static final int LOWER = 5;
+		}
+		
+		/**
+		 * The switch box buttons for the Scaler
+		 */
+		public static class Scaler
+		{
+			public static final int SCALE = 6;
 		}
 	}
 }

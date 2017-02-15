@@ -58,9 +58,9 @@ public class Robot extends IterativeRobot
 		PDPLogger.start();
 		
 		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
-		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
+		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
-		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.SCALE));
+		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<CommandGroup>();

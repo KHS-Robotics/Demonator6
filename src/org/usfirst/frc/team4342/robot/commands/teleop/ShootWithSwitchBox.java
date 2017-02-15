@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * Teleop command to control the shooter.
@@ -11,21 +12,25 @@ import edu.wpi.first.wpilibj.Joystick;
 public class ShootWithSwitchBox extends TeleopCommand
 {
 	private Joystick switchBox;
+	private JoystickButton extraAccumButton;
 	private Shooter shooter;
 	
 	/**
 	 * Creates a new <code>ShootWithSwitchBox</code> command.
 	 * @param switchBox the switch box to poll the inputs from
+	 * @param extraAccumButton a button that will also accumulate if pressed
+	 * in addition to a switch box switch
 	 * @param shooter the <code>Shooter</code> subsystem
 	 * @see org.usfirst.frc.team4342.robot.subsystems.Shooter
 	 */
-	public ShootWithSwitchBox(Joystick switchBox, Shooter shooter)
+	public ShootWithSwitchBox(Joystick switchBox, JoystickButton extraAccumButton, Shooter shooter)
 	{
 		super(ShootWithSwitchBox.class.getName());
 		
 		this.requires(shooter);
 		
 		this.switchBox = switchBox;
+		this.extraAccumButton = extraAccumButton;
 		this.shooter = shooter;
 	}
 	
@@ -45,7 +50,7 @@ public class ShootWithSwitchBox extends TeleopCommand
 	@Override
 	protected void execute()
 	{
-		final boolean ACCUMULATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.ACCUMULATE);
+		final boolean ACCUMULATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.ACCUMULATE) || extraAccumButton.get();
 		final boolean AGITATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.AGITATE);
 		final boolean SHOOT_FAR = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_FAR);
 		final boolean SHOOT_CLOSE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
