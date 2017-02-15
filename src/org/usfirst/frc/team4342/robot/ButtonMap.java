@@ -17,7 +17,7 @@ public class ButtonMap
 		 */
 		public static class Left
 		{
-			public static int FLIP_ORIENTATION = 2;
+
 		}
 		
 		/**

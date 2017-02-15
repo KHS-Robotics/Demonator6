@@ -15,8 +15,6 @@ public class DriveWithJoysticks extends TeleopCommand
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
 	
-	private boolean flipOrientation, pressedFlipButtonLastIteration;
-	
 	/**
 	 * Creates a new <code>DriveWithJoysticks</code> command.
 	 * @param leftJoystick the left stick to control the left side of the drive train
@@ -26,8 +24,6 @@ public class DriveWithJoysticks extends TeleopCommand
 	 */
 	public DriveWithJoysticks(Joystick leftJoystick, Joystick rightJoystick, TankDrive drive)
 	{
-		super(DriveWithJoysticks.class.getName());
-		
 		this.requires(drive);
 		
 		this.leftJoystick = leftJoystick;
@@ -36,14 +32,7 @@ public class DriveWithJoysticks extends TeleopCommand
 	}
 	
 	/**
-	 * The main logic of this command to actually drive the robot. The method does the following
-	 * in the respective order:
-	 * 
-	 * <ol>
-	 * <li>Grab the left and right stick's current y magnitude, if the driver wants to shift or wants to flip orientation</li>
-	 * <li>Shift if the driver wants to</li>
-	 * <li>Set left and right of drive train to left and right y magnitudes, respectively. May negate magnitudes depending on flip orientation</li>
-	 * </ol>
+	 * The main logic of this command to actually drive the robot.
 	 */
 	@Override
 	protected void execute()
@@ -51,21 +40,11 @@ public class DriveWithJoysticks extends TeleopCommand
 		final double LEFT_Y = leftJoystick.getY();
 		final double RIGHT_Y = -rightJoystick.getY();
 		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT);
-		//final boolean FLIP_ORIENTATION = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.FLIP_ORIENTATION);
-		
-		//flipOrientation = FLIP_ORIENTATION && !pressedFlipButtonLastIteration && Math.abs(LEFT_Y) < 0.1 && Math.abs(RIGHT_Y) < 0.1 ? !flipOrientation : flipOrientation;
-		//pressedFlipButtonLastIteration = FLIP_ORIENTATION;
 		
 		if(SHIFT)
 			drive.shiftHigh();
 		else
 			drive.shiftLow();
-		
-//		if(flipOrientation)
-//		{
-//			drive.set(adjust(-LEFT_Y), adjust(-RIGHT_Y));
-//			return;
-//		}
 		
 		drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
 	}
@@ -78,6 +57,7 @@ public class DriveWithJoysticks extends TeleopCommand
 	{
 		drive.disablePID();
 		drive.set(0, 0);
+		drive.shiftLow();
 	}
 	
 	/**

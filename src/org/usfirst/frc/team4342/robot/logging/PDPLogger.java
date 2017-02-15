@@ -61,7 +61,7 @@ public class PDPLogger
 	private static class PDPLoggingThread extends Thread implements Runnable
 	{	
 		private static final String RETURN_FEED = System.lineSeparator();
-		private static final int SLEEP_SECONDS = 5;
+		private static final int SLEEP_SECONDS = 3;
 		private static boolean errored;
 		
 		/**

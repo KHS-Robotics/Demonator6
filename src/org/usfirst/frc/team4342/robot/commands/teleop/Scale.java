@@ -20,8 +20,6 @@ public class Scale extends TeleopCommand
 	 */
 	public Scale(Scaler scaler, JoystickButton button)
 	{
-		super(Scale.class.getName());
-		
 		this.requires(scaler);
 		
 		this.scaler = scaler;

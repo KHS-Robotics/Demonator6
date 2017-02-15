@@ -14,9 +14,9 @@ public abstract class TeleopCommand extends Command
 	 * Creates a new teleop command
 	 * @param name the name of the command
 	 */
-	public TeleopCommand(String name)
+	public TeleopCommand()
 	{
-		super(name);
+		super();
 	}
 	
 	/**

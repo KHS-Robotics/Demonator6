@@ -57,6 +57,7 @@ public class Robot extends IterativeRobot
 		DemonDashboard.start();
 		PDPLogger.start();
 		
+		Logger.info("Initializing teleop commands...");
 		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
@@ -101,6 +102,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit()
 	{
+		stopAutonomousRoutine();
 		stopTeleopCommands();
 		
 		autonomousRoutine = autonomousChooser.getSelected();
@@ -123,6 +125,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void testInit()
 	{
+		stopAutonomousRoutine();
 		stopTeleopCommands();
 	}
 	

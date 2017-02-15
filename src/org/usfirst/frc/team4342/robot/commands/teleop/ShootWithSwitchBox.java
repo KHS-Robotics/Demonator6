@@ -25,8 +25,6 @@ public class ShootWithSwitchBox extends TeleopCommand
 	 */
 	public ShootWithSwitchBox(Joystick switchBox, JoystickButton extraAccumButton, Shooter shooter)
 	{
-		super(ShootWithSwitchBox.class.getName());
-		
 		this.requires(shooter);
 		
 		this.switchBox = switchBox;
@@ -37,15 +35,7 @@ public class ShootWithSwitchBox extends TeleopCommand
 	
 	
 	/**
-	 * Main logic to run the shooter in teleop. The method does the following in
-	 * the specified order:
-	 * 
-	 * <ol>
-	 * <li>Polls the button inputs</li>
-	 * <li>Starts or stops the accumulator depending on the specified switch position when polled</li>
-	 * <li>Starts or stops the agitator depending on the specified switch position when polled</li>
-	 * <li>Starts or stops the shooter and aims farther or closer depending on the specified switch position when polled</li>
-	 * </ol>
+	 * Main logic to run the shooter in teleop.
 	 */
 	@Override
 	protected void execute()

@@ -42,7 +42,7 @@ public class IO
 	private static GearPlacer gearPlacer;
 	
 	/**
-	 * Initializes subsystems and components.
+	 * Initializes components and subsystems.
 	 */
 	public static void initialize()
 	{
@@ -50,7 +50,7 @@ public class IO
 			return;
 		initialized = true;
 		
-		Logger.info("Initializing IO...");
+		Logger.info("Initializing components and subsystems...");
 		
 		// Joysticks
 		rightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK_PORT);

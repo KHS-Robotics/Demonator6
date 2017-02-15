@@ -41,7 +41,7 @@ public class DemonDashboard
 	private static class DemonDashboardThread extends Thread implements Runnable
 	{
 		/**
-		 * Puts data to the Smart Dashboard every 20ms. The data is retrieved from IO.java
+		 * Puts data to the Smart Dashboard every 50ms. The data is retrieved from IO.java
 		 * @see org.usfirst.frc.team4342.robot.IO
 		 */
 		@Override
