@@ -10,6 +10,9 @@ public class RobotMap
 {
 	private RobotMap() {}
 	
+	// Cameras
+	public static final int FRONT_USB_CAMERA = 0;
+	
 	// Joysticks
 	public static final int RIGHT_DRIVE_STICK_PORT = 0;
 	public static final int LEFT_DRIVE_STICK_PORT = 1;
@@ -25,10 +28,10 @@ public class RobotMap
 
 	
 	// Encoders
-	public static final int LEFT_DRIVE_ENC_CH_A = 0;
-	public static final int LEFT_DRIVE_ENC_CH_B = 1;
-	public static final int RIGHT_DRIVE_ENC_CH_A = 2;
-	public static final int RIGHT_DRIVE_ENC_CH_B = 3;
+	public static final int LEFT_DRIVE_ENC_CH_A = 2;
+	public static final int LEFT_DRIVE_ENC_CH_B = 3;
+	public static final int RIGHT_DRIVE_ENC_CH_A = 0;
+	public static final int RIGHT_DRIVE_ENC_CH_B = 1;
 	public static final int SHOOTER_ENC_CH_A = 4;
 	public static final int SHOOTER_ENC_CH_B = 5;
 	
@@ -47,7 +50,9 @@ public class RobotMap
 	// DIOs
 	public static final int RIGHT_PHOTO_SENSOR = 6;
 	public static final int LEFT_PHOTO_SENSOR = 7;
-	public static final int GEAR_PLACER_SWITCH = 9;
+	public static final int GEAR_PLACER_SWITCH = 23;
+	public static final int ULTRASONIC_DIGITAL_IN = 8;
+	public static final int ULTRASONIC_DIGITAL_OUT = 9;
 	
 	// Pneumatics
 	public static final int PLACER_FORWARD_CHANNEL = 2;

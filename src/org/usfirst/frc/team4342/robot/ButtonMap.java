@@ -25,9 +25,9 @@ public class ButtonMap
 		 */
 		public static class Right
 		{
-			public static final int SCALE = 7;
-			public static int FLIP_ORIENTATION = 3;
 			public static int SHIFT = 2;
+			public static int FLIP_ORIENTATION = 3;
+			public static final int SCALE = 7;
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class ButtonMap
 		 */
 		public static class GearPlacer
 		{
-			public static final int LOWER = 8;
+			public static final int LOWER = 5;
 		}
 	}
 }

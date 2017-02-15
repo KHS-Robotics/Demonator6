@@ -63,11 +63,11 @@ public class DriveWithJoysticks extends TeleopCommand
 		
 		if(flipOrientation)
 		{
-			drive.set(adjust(RIGHT_Y), adjust(LEFT_Y));
+			drive.set(adjust(-LEFT_Y), adjust(-RIGHT_Y));
 			return;
 		}
 		
-		drive.set(adjust(-RIGHT_Y), adjust(-LEFT_Y));
+		drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
 	}
 	
 	/**

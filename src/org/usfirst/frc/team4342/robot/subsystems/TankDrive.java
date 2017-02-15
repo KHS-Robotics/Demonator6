@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * Tank Drive subsystem to control the drive train
@@ -23,6 +24,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	private DoubleSolenoid shifter;
 	private Encoder left, right;
 	private DigitalInput rsensor, lsensor;
+	private Ultrasonic ultrasonic;
 	private PIDController yawPID;
 	
 	private Value currentGear;
@@ -42,9 +44,10 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	 * @param right the right encoder
 	 * @param rsensor the right photosensor
 	 * @param lsensor the left photosensor
+	 * @param ultrasonic the ultrasonic sensor
 	 */
 	public TankDrive(CANTalon fr, CANTalon fl, CANTalon mr, CANTalon ml, CANTalon rr, CANTalon rl, AHRS navx,
-			DoubleSolenoid shifter, Encoder left, Encoder right, DigitalInput rsensor, DigitalInput lsensor)
+			DoubleSolenoid shifter, Encoder left, Encoder right, DigitalInput rsensor, DigitalInput lsensor, Ultrasonic ultrasonic)
 	{
 		super(TankDrive.class.getName());
 		
@@ -60,6 +63,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 		this.right = right;
 		this.rsensor = rsensor;
 		this.lsensor = lsensor;
+		this.ultrasonic = ultrasonic;
 		
 		shiftLow();
 		
@@ -124,6 +128,15 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 		
 		shifter.set(HIGH_GEAR);
 		currentGear = HIGH_GEAR;
+	}
+	
+	/**
+	 * Gets the current range of the ultrasonic in inches
+	 * @return the current range of the ultrasonic in inches
+	 */
+	public double getUltrasonicDistance()
+	{
+		return ultrasonic.getRangeInches();
 	}
 	
 	/**

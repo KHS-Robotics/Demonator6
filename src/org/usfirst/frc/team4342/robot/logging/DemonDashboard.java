@@ -21,6 +21,7 @@ public class DemonDashboard
 		if(running)
 			return;
 		
+		Logger.info("Starting DemonDashboard...");
 		new DemonDashboardThread().start();
 		
 		running = true;
@@ -56,8 +57,12 @@ public class DemonDashboard
 					SmartDashboard.putBoolean("Photo-Right", IO.getDrive().getRightSensor());
 					SmartDashboard.putBoolean("Photo-Left", IO.getDrive().getLeftSensor());
 					SmartDashboard.putNumber("Shooter Speed ", IO.getShooter().getSpeed());
+					SmartDashboard.putBoolean("GearPlacer-isInPeg", IO.getGearPlacer().isInPeg());
+					SmartDashboard.putNumber("Drive-Enc-Right", IO.getDrive().getRightDistance());
+					SmartDashboard.putNumber("Drive-Enc-Left", IO.getDrive().getLeftDistance());
+					SmartDashboard.putNumber("Drive-Ultra-Dist", IO.getDrive().getUltrasonicDistance());
 					
-					Thread.sleep(20);
+					Thread.sleep(50);
 				}
 				catch(Exception ex)
 				{

@@ -19,7 +19,7 @@ public class GearPlacer extends DemonSubsystem
 	/**
 	 * Creates a new <code>GearPlacer</code> subsystem.
 	 * @param placer the double solenoid to raise and lower the gear placer
-	 * @param ls the limit switch to determine if the gear placer is lowered or raised
+	 * @param ls the limit switch to determine if the gear placer is aligned to the peg
 	 */
 	public GearPlacer(DoubleSolenoid placer, DigitalInput ls)
 	{
@@ -54,20 +54,11 @@ public class GearPlacer extends DemonSubsystem
 	}
 	
 	/**
-	 * Gets if the gear placer is lowered. Effectively checks the limit switch's state
-	 * @return true if the gear placer is lowered, false otherwise
+	 * Gets if the gear placer is aligned properly with the peg
+	 * @return true if the gear placer is aligned, false otherwise
 	 */
-	public boolean isLowered()
+	public boolean isInPeg()
 	{
 		return limitSwitch.get();
-	}
-	
-	/**
-	 * Gets if the gear placer is raised. Effectively checks the limit switch's state
-	 * @return true if the gear placer is raised, false otherwise
-	 */
-	public boolean isRaised()
-	{
-		return !isLowered();
 	}
 }

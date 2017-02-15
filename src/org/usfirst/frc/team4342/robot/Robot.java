@@ -9,7 +9,9 @@ import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
+import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -53,18 +55,23 @@ public class Robot extends IterativeRobot
 		
 		IO.initialize();
 		DemonDashboard.start();
+		PDPLogger.start();
 		
 		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.SCALE));
 		
+		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<CommandGroup>();
 		autonomousChooser.addDefault("None", null);
 		autonomousChooser.addObject("Place Middle Gear", new PlaceGearMiddle(IO.getDrive(), IO.getGearPlacer()));
 		autonomousChooser.addObject("Place Left Gear", new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer()));
 		autonomousChooser.addObject("Place Right Gear", new PlaceGearRight(IO.getDrive(), IO.getGearPlacer()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+		
+		Logger.info("Starting cameras...");
+		CameraServer.getInstance().startAutomaticCapture(RobotMap.FRONT_USB_CAMERA);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
@@ -75,9 +82,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopInit()
 	{
-		if(autonomousRoutine != null && autonomousRoutine.isRunning())
-			autonomousRoutine.cancel();
-		
+		stopAutonomousRoutine();
 		startTeleopCommands();
 	}
 	
@@ -99,9 +104,7 @@ public class Robot extends IterativeRobot
 		stopTeleopCommands();
 		
 		autonomousRoutine = autonomousChooser.getSelected();
-		
-		if(autonomousRoutine != null)
-			autonomousRoutine.start();
+		startAutonomousRoutine();
 	}
 	
 	/**
@@ -162,5 +165,23 @@ public class Robot extends IterativeRobot
 			
 			startedTeleopCommands = false;
 		}
+	}
+	
+	/**
+	 * Starts the autonomous routine
+	 */
+	private void startAutonomousRoutine()
+	{
+		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
+			autonomousRoutine.start();
+	}
+	
+	/**
+	 * Stops the autonomous routine
+	 */
+	private void stopAutonomousRoutine()
+	{
+		if(autonomousRoutine != null)
+			autonomousRoutine.cancel();
 	}
 }

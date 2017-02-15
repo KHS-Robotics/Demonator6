@@ -15,7 +15,7 @@ public class PDPLogger
 {
 	private PDPLogger() {}
 	
-	private static final String CSV_PATH = "/home/lvuser/logs/2017/pdp.csv";
+	private static final String CSV_PATH = "/home/lvuser/pdp.csv";
 	private static final int NUM_CHANNELS = 16;
 	private static final int LOGGING_SECONDS = 300;
 	
@@ -31,6 +31,8 @@ public class PDPLogger
 		if(started)
 			return;
 		started = true;
+		
+		Logger.info("Starting PDP Logger... logging to \"" + CSV_PATH + "\"");
 		
 		timer = new Timer();
 		pdp = new PowerDistributionPanel();
@@ -58,7 +60,7 @@ public class PDPLogger
 	 */
 	private static class PDPLoggingThread extends Thread implements Runnable
 	{	
-		private static final String RETURN_FEED = System.getProperty("line.separator");
+		private static final String RETURN_FEED = System.lineSeparator();
 		private static final int SLEEP_SECONDS = 5;
 		private static boolean errored;
 		

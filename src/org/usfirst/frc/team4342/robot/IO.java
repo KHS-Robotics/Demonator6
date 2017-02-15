@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * Class that holds direct access to the <code>Subsystem</code> objects
@@ -24,10 +26,11 @@ public class IO
 	private static boolean initialized;
 	
 	// Sensors and motor controllers
-	private static Joystick switchBox, leftDriveStick, rightDriveStick;
+	private static Joystick switchBox, rightDriveStick, leftDriveStick;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, gearPlacerSwitch;
+	private static Ultrasonic ultrasonic;
 	private static DoubleSolenoid placer, shifter;
 	private static Solenoid shootFar;
 	private static Encoder leftDrive, rightDrive, shooterEnc;
@@ -47,9 +50,11 @@ public class IO
 			return;
 		initialized = true;
 		
+		Logger.info("Initializing IO...");
+		
 		// Joysticks
-		leftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK_PORT);
 		rightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK_PORT);
+		leftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK_PORT);
 		switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
 		
 		// CANTalons
@@ -64,6 +69,17 @@ public class IO
 		shooter = new CANTalon(RobotMap.SHOOTER);
 		scaleMotor = new CANTalon(RobotMap.SCALER);
 		
+		fr.enableBrakeMode(true);
+		fl.enableBrakeMode(true);
+		mr.enableBrakeMode(true);
+		ml.enableBrakeMode(true);
+		rr.enableBrakeMode(true);
+		rl.enableBrakeMode(true);
+		intake.enableBrakeMode(false);
+		agitator.enableBrakeMode(false);
+		shooter.enableBrakeMode(false);
+		scaleMotor.enableBrakeMode(true);
+		
 		// NavX
 		navx = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
@@ -71,7 +87,9 @@ public class IO
 		rsensor = new DigitalInput(RobotMap.RIGHT_PHOTO_SENSOR);
 		lsensor = new DigitalInput(RobotMap.LEFT_PHOTO_SENSOR);
 		gearPlacerSwitch = new DigitalInput(RobotMap.GEAR_PLACER_SWITCH);
+		ultrasonic = new Ultrasonic(RobotMap.ULTRASONIC_DIGITAL_IN, RobotMap.ULTRASONIC_DIGITAL_OUT);
 		
+		ultrasonic.setAutomaticMode(true);
 		
 		// Pneumatics
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
@@ -83,11 +101,15 @@ public class IO
 	    rightDrive = new Encoder(RobotMap.RIGHT_DRIVE_ENC_CH_A, RobotMap.RIGHT_DRIVE_ENC_CH_B);
 	    shooterEnc = new Encoder(RobotMap.SHOOTER_ENC_CH_A, RobotMap.SHOOTER_ENC_CH_B);
 	    
-	    // TODO: Set distance per pulse for each encoder
+	    leftDrive.setDistancePerPulse((5.0*Math.PI*20)/(128*3*64));
+	    
+	    rightDrive.setReverseDirection(true);
+	    rightDrive.setDistancePerPulse((5.0*Math.PI*20)/(128*3*64));
+	    
 	    shooterEnc.setDistancePerPulse(Math.PI / 5.0);
 	    
 	    // Subsystems
-	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor);
+	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor, ultrasonic);
 	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc, shootFar);
 	    scaler = new Scaler(scaleMotor);
 	    gearPlacer = new GearPlacer(placer, gearPlacerSwitch);

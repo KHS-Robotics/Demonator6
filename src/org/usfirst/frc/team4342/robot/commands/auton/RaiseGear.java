@@ -17,6 +17,8 @@ public class RaiseGear extends AutonomousCommand
 	 */
 	public RaiseGear(GearPlacer placer)
 	{
+		super(1);
+		
 		this.requires(placer);
 		
 		this.placer = placer;
@@ -38,7 +40,7 @@ public class RaiseGear extends AutonomousCommand
 	@Override
 	protected boolean isFinished() 
 	{
-		return placer.isRaised();
+		return this.isTimedOut();
 	}
 	
 	/** {@inheritDoc} */
