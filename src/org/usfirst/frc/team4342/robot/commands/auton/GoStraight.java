@@ -65,7 +65,17 @@ public class GoStraight extends AutonomousCommand
 		final double LEFT_VAL = drive.getLeftDistance();
 		final double RIGHT_VAL = drive.getRightDistance();
 		
-		final double TOTAL = Math.abs(LEFT_VAL - leftVal) + Math.abs(RIGHT_VAL - rightVal);
+		final double TOTAL = (Math.abs(LEFT_VAL - leftVal) + Math.abs(RIGHT_VAL - rightVal)) / 2;
+		
+		if (!drive.leftIsActive())
+		{
+			return Math.abs(RIGHT_VAL - rightVal) >= distance;
+		}
+		
+		else if (!drive.rightIsActive())
+		{
+			return Math.abs(LEFT_VAL - leftVal) >= distance;
+		}
 		
 		return (TOTAL >= distance);
 	}

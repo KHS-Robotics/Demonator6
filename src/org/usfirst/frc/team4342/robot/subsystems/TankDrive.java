@@ -274,6 +274,16 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 		this.set(left, right);
 	}
 	
+	public boolean leftIsActive()
+	{
+		return !left.getStopped();
+	}
+	
+	public boolean rightIsActive()
+	{
+		return !right.getStopped();
+	}
+	
 	/**
 	 * Internal function to normalize a motor output
 	 * @param output the unnormalized output
