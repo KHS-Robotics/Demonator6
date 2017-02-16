@@ -46,7 +46,11 @@ public class DriveWithJoysticks extends TeleopCommand
 		else
 			drive.shiftLow();
 		
-		drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
+		if(Math.abs(LEFT_Y) > 0.05 || Math.abs(RIGHT_Y) > 0.05)
+			drive.disablePID();
+		
+		if(!drive.pidEnabled())
+			drive.set(adjust(RIGHT_Y), adjust(LEFT_Y));
 	}
 	
 	/**

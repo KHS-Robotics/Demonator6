@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  */
 public class GearPlacer extends DemonSubsystem
 {
-	private static final Value LOWER = Value.kForward, RAISE = Value.kReverse;
+	private static final Value LOWER = Value.kReverse, RAISE = Value.kForward;
 	
 	private Value current;
 	

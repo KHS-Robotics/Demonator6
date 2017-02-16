@@ -117,7 +117,7 @@ public class Shooter extends DemonSubsystem
 		isShooting = true;
 		
 		setClose();
-		shoot(-868);
+		shoot(-750);
 	}
 	
 	/**
@@ -198,5 +198,10 @@ public class Shooter extends DemonSubsystem
 		{
 			shooterPID.disable();
 		}
+	}
+	
+	public boolean isSetFar()
+	{
+		return isSetFar;
 	}
 }

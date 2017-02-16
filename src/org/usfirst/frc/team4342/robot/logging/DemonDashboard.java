@@ -61,6 +61,7 @@ public class DemonDashboard
 					SmartDashboard.putNumber("Drive-Enc-Right", IO.getDrive().getRightDistance());
 					SmartDashboard.putNumber("Drive-Enc-Left", IO.getDrive().getLeftDistance());
 					SmartDashboard.putNumber("Drive-Ultra-Dist", IO.getDrive().getUltrasonicDistance());
+					SmartDashboard.putBoolean("Shooter Solenoid- ", IO.getShooter().isSetFar());
 					
 					Thread.sleep(50);
 				}

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
  */
 public class TankDrive extends DemonSubsystem implements PIDOutput
 {
-	private static final double P = 0.015, I = 0.0, D = 0.019;
+	private static final double P = 0.006, I = 0.0, D = 0.0; // TODO: Calibrate NavX and get appropriate PID values
 	private static final Value HIGH_GEAR = Value.kForward, LOW_GEAR = Value.kReverse;
 	
 	private CANTalon fr, fl, rr, rl, mr , ml;

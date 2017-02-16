@@ -28,7 +28,7 @@ public class IO
 	// Sensors and motor controllers
 	private static Joystick switchBox, rightDriveStick, leftDriveStick;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
-	private static AHRS navx;
+	protected static AHRS navx;
 	private static DigitalInput rsensor, lsensor, gearPlacerSwitch;
 	private static Ultrasonic ultrasonic;
 	private static DoubleSolenoid placer, shifter;
@@ -53,8 +53,8 @@ public class IO
 		Logger.info("Initializing components and subsystems...");
 		
 		// Joysticks
-		rightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK_PORT);
 		leftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK_PORT);
+		rightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK_PORT);
 		switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
 		
 		// CANTalons

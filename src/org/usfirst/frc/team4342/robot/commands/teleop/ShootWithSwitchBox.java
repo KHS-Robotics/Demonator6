@@ -55,7 +55,9 @@ public class ShootWithSwitchBox extends TeleopCommand
 		else
 			shooter.stopAgitating();
 	
-		if (SHOOT_FAR)
+		if(SHOOT_FAR && SHOOT_CLOSE)
+			shooter.stopShooting();
+		else if (SHOOT_FAR)
 			shooter.shootFar();
 		else if (SHOOT_CLOSE)
 			shooter.shootClose();

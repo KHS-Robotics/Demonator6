@@ -71,8 +71,8 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Place Right Gear", new PlaceGearRight(IO.getDrive(), IO.getGearPlacer()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 		
-		Logger.info("Starting cameras...");
-		CameraServer.getInstance().startAutomaticCapture(RobotMap.FRONT_USB_CAMERA);
+//		Logger.info("Starting cameras...");
+//		CameraServer.getInstance().startAutomaticCapture(RobotMap.FRONT_USB_CAMERA);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
