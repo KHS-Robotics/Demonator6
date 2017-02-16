@@ -30,6 +30,8 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	private Value currentGear;
 	private double direction;
 	
+	private boolean leftDead, rightDead;
+	
 	/**
 	 * Creates a new <code>TankDrive</code> subsystem
 	 * @param fr the front right motor of the drive train
@@ -64,6 +66,8 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 		this.rsensor = rsensor;
 		this.lsensor = lsensor;
 		this.ultrasonic = ultrasonic;
+		this.leftDead = false;
+		this.rightDead = false;
 		
 		shiftLow();
 		
@@ -282,6 +286,26 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	public boolean rightIsActive()
 	{
 		return !right.getStopped();
+	}
+	
+	public boolean leftIsDead()
+	{
+		return leftDead;
+	}
+	
+	public boolean rightIsDead()
+	{
+		return rightDead;
+	}
+	
+	public void setLeftDead(boolean dead)
+	{
+		leftDead = dead;
+	}
+	
+	public void setRightDead(boolean dead)
+	{
+		rightDead = dead;	
 	}
 	
 	/**

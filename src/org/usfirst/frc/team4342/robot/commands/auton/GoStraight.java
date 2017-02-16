@@ -60,21 +60,37 @@ public class GoStraight extends AutonomousCommand
 	 * @return true if the robot has moved the distance, false otherwise
 	 */
 	@Override
+	
 	protected boolean isFinished() 
 	{
 		final double LEFT_VAL = drive.getLeftDistance();
 		final double RIGHT_VAL = drive.getRightDistance();
 		
-		final double TOTAL = (Math.abs(LEFT_VAL - leftVal) + Math.abs(RIGHT_VAL - rightVal)) / 2;
-		
-		if (!drive.leftIsActive())
+		if (drive.leftIsDead())
 		{
 			return Math.abs(RIGHT_VAL - rightVal) >= distance;
 		}
 		
-		else if (!drive.rightIsActive())
+		else if (drive.rightIsDead())
 		{
 			return Math.abs(LEFT_VAL - leftVal) >= distance;
+		}
+		
+		final double TOTAL = (Math.abs(LEFT_VAL - leftVal) + Math.abs(RIGHT_VAL - rightVal)) / 2;
+		
+		if (TOTAL > distance / 4)
+		{
+			if (!drive.leftIsActive())
+			{
+				drive.setLeftDead(true);
+				return Math.abs(RIGHT_VAL - rightVal) >= distance;
+			}
+		
+			else if (!drive.rightIsActive())
+			{
+				drive.setRightDead(true);
+				return Math.abs(LEFT_VAL - leftVal) >= distance;
+			}
 		}
 		
 		return (TOTAL >= distance);
