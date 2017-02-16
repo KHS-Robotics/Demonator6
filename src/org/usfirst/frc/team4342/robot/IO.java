@@ -47,6 +47,9 @@ public class IO
 			return;
 		initialized = true;
 		
+		leftStick = new Joystick(RobotMap.LEFT_DRIVE_STICK_PORT);
+		rightStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK_PORT);
+		
 		// Talons
 		fr = new Talon(RobotMap.FRONT_RIGHT);
 		fl = new Talon(RobotMap.FRONT_LEFT);
@@ -59,7 +62,7 @@ public class IO
 		//scaleMotor = new Spark(RobotMap.SCALER);
 		
 		// NavX
-		navx = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
+		//navx = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// DIOs
 		//scaleSwitch = new DigitalInput(RobotMap.SCALE_SWITCH);

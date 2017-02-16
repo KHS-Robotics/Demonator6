@@ -36,8 +36,6 @@ public class Robot extends IterativeRobot
 		IO.initialize();
 		DemonDashboard.start();
 		
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		
 		drive = new DriveWithJoysticks(IO.getLeftStick(), IO.getRightStick(), IO.getDrive());
 		//drive = new DriveWithXboxController(IO.getDriveController(), IO.getDrive());
 		//shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());

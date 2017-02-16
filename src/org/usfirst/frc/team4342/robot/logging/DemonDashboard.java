@@ -36,7 +36,6 @@ public class DemonDashboard
 			{
 				try
 				{
-					SmartDashboard.putNumber("NavX-Yaw", IO.getDrive().getYaw());
 					SmartDashboard.putBoolean("Photo-Right", IO.getDrive().getRightSensor());
 					SmartDashboard.putBoolean("Photo-Left", IO.getDrive().getLeftSensor());
 					//SmartDashboard.putBoolean("hasScaled", IO.getScaler().hasScaled());

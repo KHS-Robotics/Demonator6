@@ -35,10 +35,10 @@ public class TankDrive extends Subsystem implements PIDOutput
 		this.lsensor = lsensor;
 		this.ultra = ultra;
 		
-		yawPID = new PIDController(-P, -I, -D, navx, this);
-		yawPID.setInputRange(-180.0, 180.0);
-		yawPID.setOutputRange(-1.0, 1.0);
-		yawPID.setContinuous();
+//		yawPID = new PIDController(-P, -I, -D, navx, this);
+//		yawPID.setInputRange(-180.0, 180.0);
+//		yawPID.setOutputRange(-1.0, 1.0);
+//		yawPID.setContinuous();
 		
 	}
 	

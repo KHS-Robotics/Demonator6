@@ -38,7 +38,7 @@ public class DriveWithJoysticks extends Command
 	@Override
 	protected void execute()
 	{
-		final double LEFT_Y = leftJoystick.getY();
+		final double LEFT_Y = -leftJoystick.getY();
 		final double RIGHT_Y = -rightJoystick.getY();
 		
 		drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
