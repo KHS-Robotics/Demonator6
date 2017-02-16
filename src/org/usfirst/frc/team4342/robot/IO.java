@@ -28,7 +28,7 @@ public class IO
 	// Sensors and motor controllers
 	private static Joystick switchBox, rightDriveStick, leftDriveStick;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
-	protected static AHRS navx;
+	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, gearPlacerSwitch;
 	private static Ultrasonic ultrasonic;
 	private static DoubleSolenoid placer, shifter;
