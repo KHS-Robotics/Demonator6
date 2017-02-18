@@ -3,6 +3,7 @@ package org.usfirst.frc.team4342.robot.commands.teleop;
 import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Teleop command to drive the <code>TankDrive</code> subsystem
@@ -82,5 +83,9 @@ public class DriveWithJoysticks extends TeleopCommand
 	
 	/** {@inheritDoc} */
 	@Override
-	protected void initialize() {}
+	protected void initialize() {
+		SmartDashboard.putNumber("Drive-Yaw-P", 0.0);
+		SmartDashboard.putNumber("Drive-Yaw-I", 0.0);
+		SmartDashboard.putNumber("Drive-Yaw-D", 0.0);
+	}
 }

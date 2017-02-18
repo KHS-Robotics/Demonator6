@@ -101,10 +101,10 @@ public class IO
 	    rightDrive = new Encoder(RobotMap.RIGHT_DRIVE_ENC_CH_A, RobotMap.RIGHT_DRIVE_ENC_CH_B);
 	    shooterEnc = new Encoder(RobotMap.SHOOTER_ENC_CH_A, RobotMap.SHOOTER_ENC_CH_B);
 	    
-	    leftDrive.setDistancePerPulse((5.0*Math.PI*20)/(128*3*64));
+	    leftDrive.setDistancePerPulse((10.0*Math.PI*20)/(128*3*64));
 	    
 	    rightDrive.setReverseDirection(true);
-	    rightDrive.setDistancePerPulse((5.0*Math.PI*20)/(128*3*64));
+	    rightDrive.setDistancePerPulse((10.0*Math.PI*20)/(128*3*64));
 	    
 	    shooterEnc.setDistancePerPulse(Math.PI / 5.0);
 	    

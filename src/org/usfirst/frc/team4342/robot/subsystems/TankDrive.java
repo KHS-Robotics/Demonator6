@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
  */
 public class TankDrive extends DemonSubsystem implements PIDOutput
 {
-	private static final double P = 0.006, I = 0.0, D = 0.0; // TODO: Calibrate NavX and get appropriate PID values
+	private static final double P = 0.04, I = 0.0001, D = 0.012;
 	private static final Value HIGH_GEAR = Value.kForward, LOW_GEAR = Value.kReverse;
 	
 	private CANTalon fr, fl, rr, rl, mr , ml;
@@ -275,37 +275,104 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 		double left = direction + output;
 		double right = direction - output;
 		
-		this.set(left, right);
+		this.set(-left, right);
 	}
 	
+	/**
+	 * Gets if the left side of the drive train is moving
+	 * @return true if the left side of the drive train is moving, false otherwise
+	 */
 	public boolean leftIsActive()
 	{
 		return !left.getStopped();
 	}
 	
+	/**
+	 * Gets if the right side of the drive train is moving
+	 * @return true if the right side of the drive train is moving, false otherwise
+	 */
 	public boolean rightIsActive()
 	{
 		return !right.getStopped();
 	}
 	
+	/**
+	 * Gets if the left encoder for the left side 
+	 * of the drive train is dead
+	 * @return true if the left encoder for the drive is dead, false otherwise
+	 */
 	public boolean leftIsDead()
 	{
 		return leftDead;
 	}
 	
+	/**
+	 * Gets if the right encoder for the left side 
+	 * of the drive train is dead
+	 * @return true if the right encoder for the drive is dead, false otherwise
+	 */
 	public boolean rightIsDead()
 	{
 		return rightDead;
 	}
 	
+	/**
+	 * Sets the left encoder to dead or alive
+	 * @param dead true if dead, false otherwise
+	 */
 	public void setLeftDead(boolean dead)
 	{
 		leftDead = dead;
 	}
 	
+	/**
+	 * Sets the right encoder to dead or alive
+	 * @param dead true if dead, false otherwise
+	 */
 	public void setRightDead(boolean dead)
 	{
 		rightDead = dead;	
+	}
+	
+	/**
+	 * Calculates the remaining distance the robot needs to drive before
+	 * reaching the desired distance
+	 * @param distance the desired distance (in inches)
+	 * @param initialLeft the initial left encoder distance (in inches, basically a snapshot of {@link #getLeftDistance()})
+	 * @param initialRight the initial right encoder distance (in inches, basically a snapshot of {@link #getRightDistance()})
+	 * @return the remaining distance the robot needs to drive
+	 */
+	public double remainingDistance(double distance, double initialLeft, double initialRight)
+	{
+		final double RIGHT_VAL = getRightDistance();
+		final double LEFT_VAL = getLeftDistance();
+		
+		if (leftIsDead())
+		{
+			return Math.abs(RIGHT_VAL - initialRight);
+		}
+		else if (rightIsDead())
+		{
+			return Math.abs(LEFT_VAL - initialLeft);
+		}
+		
+		final double TOTAL = (Math.abs(LEFT_VAL - initialLeft) + Math.abs(RIGHT_VAL - initialRight)) / 2;
+		
+		if (TOTAL > distance / 4)
+		{
+			if (!leftIsActive())
+			{
+				setLeftDead(true);
+				return Math.abs(RIGHT_VAL - initialRight);
+			}
+			else if (!rightIsActive())
+			{
+				setRightDead(true);
+				return Math.abs(LEFT_VAL - initialLeft);
+			}
+		}
+		
+		return TOTAL;
 	}
 	
 	/**

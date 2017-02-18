@@ -40,7 +40,6 @@ public class GoStraight extends AutonomousCommand
 	{
 		leftVal = drive.getLeftDistance();
 		rightVal = drive.getRightDistance();
-		drive.enablePID();
 		drive.goStraight(direction, yaw);
 	}
 	
@@ -60,7 +59,6 @@ public class GoStraight extends AutonomousCommand
 	 * @return true if the robot has moved the distance, false otherwise
 	 */
 	@Override
-	
 	protected boolean isFinished() 
 	{
 		final double LEFT_VAL = drive.getLeftDistance();

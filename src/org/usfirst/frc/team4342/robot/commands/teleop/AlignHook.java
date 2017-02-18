@@ -11,7 +11,7 @@ public class AlignHook extends TeleopCommand
 {
 	private enum HookState 
     {
-    	START, FIX, FINISHING
+    	START, FIX, FINISHING, FINISHED
     }
 	
 	private TankDrive drive;
@@ -29,8 +29,6 @@ public class AlignHook extends TeleopCommand
     	this.requires(drive);
     	
     	this.drive = drive;
-    	
-    	this.setInterruptible(false);
     }
     
     @Override
@@ -67,8 +65,11 @@ public class AlignHook extends TeleopCommand
 				yudist = Math.abs(udist * Math.cos(sensorAngle * (Math.PI/180)));
 				xudist = Math.abs(udist * Math.sin(sensorAngle * (Math.PI/180)));
 				
+				if(r)
+					xdist = Math.abs(xudist - (TAPE_DIST + (CENTER_DIST/(Math.sin((90 - Math.abs(sensorAngle)) * (Math.PI/180))))));
+				else
+					xdist = Math.abs(xudist - (TAPE_DIST + (CENTER_DIST/(Math.sin((90 - Math.abs(sensorAngle)) * (Math.PI/180))))));
 				
-				xdist = Math.abs(xudist - (TAPE_DIST + (CENTER_DIST/(Math.sin((90 - Math.abs(sensorAngle)) * (Math.PI/180))))));
 				ydist = Math.abs(yudist - FINAL_DIST);
 				otherAngle = Math.abs(Math.toDegrees(Math.atan(ydist/xdist)));
 				
@@ -108,11 +109,18 @@ public class AlignHook extends TeleopCommand
 		}	
     }
 
+    @Override
     protected void end() 
     {
     	drive.setDirection(0);
     	drive.disablePID();
     	drive.set(0, 0);
+    }
+    
+    @Override
+    protected boolean isFinished()
+    {
+    	return hookState.equals(HookState.FINISHED);
     }
     
     public String getState()

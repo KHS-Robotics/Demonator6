@@ -11,7 +11,6 @@ import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -70,9 +69,6 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Place Left Gear", new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer()));
 		autonomousChooser.addObject("Place Right Gear", new PlaceGearRight(IO.getDrive(), IO.getGearPlacer()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
-		
-//		Logger.info("Starting cameras...");
-//		CameraServer.getInstance().startAutomaticCapture(RobotMap.FRONT_USB_CAMERA);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}

@@ -50,9 +50,10 @@ public class RobotMap
 	// DIOs
 	public static final int RIGHT_PHOTO_SENSOR = 6;
 	public static final int LEFT_PHOTO_SENSOR = 7;
+	public static final int LINE_FOLLOWER = 8;
 	public static final int GEAR_PLACER_SWITCH = 9;
-	public static final int ULTRASONIC_DIGITAL_IN = 22;
-	public static final int ULTRASONIC_DIGITAL_OUT = 23;
+	public static final int ULTRASONIC_DIGITAL_IN = 23;
+	public static final int ULTRASONIC_DIGITAL_OUT = 22;
 	
 	// Pneumatics
 	public static final int PLACER_FORWARD_CHANNEL = 2;
