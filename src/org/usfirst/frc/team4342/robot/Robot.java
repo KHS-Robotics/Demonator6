@@ -3,6 +3,7 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearLeft;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
+import org.usfirst.frc.team4342.robot.commands.teleop.AlignHook;
 import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
@@ -37,6 +38,7 @@ public class Robot extends IterativeRobot
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	private Scale scaler;
+	private AlignHook alignHook;
 	
 	// Autonomous chooser and routine
 	private SendableChooser<CommandGroup> autonomousChooser;
@@ -61,6 +63,7 @@ public class Robot extends IterativeRobot
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
+		alignHook = new AlignHook(IO.getDrive());
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<CommandGroup>();
@@ -89,6 +92,12 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
+		if(IO.getRightDriveStick().getRawButton(7))
+			IO.navx.reset();
+		
+		if(IO.getRightDriveStick().getRawButton(6))
+			alignHook.start();
+		
 		Scheduler.getInstance().run();
 	}
 	

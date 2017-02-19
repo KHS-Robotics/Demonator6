@@ -344,33 +344,39 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	 */
 	public double remainingDistance(double distance, double initialLeft, double initialRight)
 	{
-		final double RIGHT_VAL = getRightDistance();
-		final double LEFT_VAL = getLeftDistance();
+		final double CURRENT_RIGHT_VAL = getRightDistance();
+		final double CURRENT_LEFT_VAL = getLeftDistance();
+		
+		final double RIGHT_VAL = Math.abs(CURRENT_RIGHT_VAL - initialRight);
+		final double LEFT_VAL = Math.abs(CURRENT_LEFT_VAL - initialLeft);
+		
+		double AVERAGE = (RIGHT_VAL + LEFT_VAL) / 2;
 		
 		if (leftIsDead())
 		{
-			return Math.abs(RIGHT_VAL - initialRight);
+			AVERAGE = Math.abs(RIGHT_VAL - initialRight);
 		}
 		else if (rightIsDead())
 		{
-			return Math.abs(LEFT_VAL - initialLeft);
+			AVERAGE = Math.abs(LEFT_VAL - initialLeft);
 		}
 		
-		final double TOTAL = (Math.abs(LEFT_VAL - initialLeft) + Math.abs(RIGHT_VAL - initialRight)) / 2;
 		
-		if (TOTAL > distance / 4)
-		{
-			if (!leftIsActive())
-			{
-				setLeftDead(true);
-				return Math.abs(RIGHT_VAL - initialRight);
-			}
-			else if (!rightIsActive())
-			{
-				setRightDead(true);
-				return Math.abs(LEFT_VAL - initialLeft);
-			}
-		}
+//		if (TOTAL > distance / 4)
+//		{
+//			if (!leftIsActive())
+//			{
+//				setLeftDead(true);
+//				return Math.abs(RIGHT_VAL - initialRight);
+//			}
+//			else if (!rightIsActive())
+//			{
+//				setRightDead(true);
+//				return Math.abs(LEFT_VAL - initialLeft);
+//			}
+//		}
+		
+		final double TOTAL = distance - AVERAGE;
 		
 		return TOTAL;
 	}
