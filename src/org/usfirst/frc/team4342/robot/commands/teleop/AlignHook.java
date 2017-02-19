@@ -20,7 +20,7 @@ public class AlignHook extends TeleopCommand
 	
 	private double yudist, xudist, udist, ydist, xdist, dist;
 	private double sensorAngle, changeAngle, otherAngle;
-	private final double FINAL_DIST = 36, CENTER_DIST = 6.5, TAPE_DIST = 4.1;
+	private final double FINAL_DIST = 36, CENTER_DIST = 15, TAPE_DIST = 4.1;
 
     public AlignHook(TankDrive drive)
     {
@@ -66,7 +66,7 @@ public class AlignHook extends TeleopCommand
 				xudist = Math.abs(udist * Math.sin(sensorAngle * (Math.PI/180)));
 				
 				if(r)
-					xdist = Math.abs(xudist - (TAPE_DIST + (CENTER_DIST/(Math.sin((90 - Math.abs(sensorAngle)) * (Math.PI/180))))));
+					xdist = Math.abs(xudist - (TAPE_DIST));
 				else
 					xdist = Math.abs(xudist - (TAPE_DIST + (CENTER_DIST/(Math.sin((90 - Math.abs(sensorAngle)) * (Math.PI/180))))));
 				
