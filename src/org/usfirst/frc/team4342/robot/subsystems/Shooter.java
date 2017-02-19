@@ -143,6 +143,15 @@ public class Shooter extends DemonSubsystem
 	}
 	
 	/**
+	 * Gets if the solenoid is set to far
+	 * @return true if set to far, false otherwise
+	 */
+	public boolean isSetFar()
+	{
+		return isSetFar;
+	}
+	
+	/**
 	 * Sets the solenoid on the shooter to a longer ranged shot
 	 */
 	private void setFar()
@@ -198,10 +207,5 @@ public class Shooter extends DemonSubsystem
 		{
 			shooterPID.disable();
 		}
-	}
-	
-	public boolean isSetFar()
-	{
-		return isSetFar;
 	}
 }

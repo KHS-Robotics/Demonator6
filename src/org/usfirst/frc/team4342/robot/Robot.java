@@ -92,10 +92,9 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
-		if(IO.getRightDriveStick().getRawButton(7))
-			IO.navx.reset();
-		
 		if(IO.getRightDriveStick().getRawButton(6))
+			IO.navx.reset();
+		if(IO.getRightDriveStick().getRawButton(7))
 			alignHook.start();
 		
 		Scheduler.getInstance().run();

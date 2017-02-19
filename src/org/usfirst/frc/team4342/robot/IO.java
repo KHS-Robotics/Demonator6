@@ -25,7 +25,7 @@ public class IO
 	
 	private static boolean initialized;
 	
-	// Sensors and motor controllers
+	// Sensors, motor controllers and cameras
 	private static Joystick switchBox, rightDriveStick, leftDriveStick;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	protected static AHRS navx;
@@ -50,7 +50,7 @@ public class IO
 			return;
 		initialized = true;
 		
-		Logger.info("Initializing components and subsystems...");
+		Logger.info("Initializing components...");
 		
 		// Joysticks
 		leftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK_PORT);
@@ -107,6 +107,8 @@ public class IO
 	    rightDrive.setDistancePerPulse((10.0*Math.PI*20)/(128*3*64));
 	    
 	    shooterEnc.setDistancePerPulse(Math.PI / 5.0);
+	    
+	    Logger.info("Initializing subsystems...");
 	    
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor, ultrasonic);

@@ -346,22 +346,23 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	{
 		final double CURRENT_RIGHT_VAL = getRightDistance();
 		final double CURRENT_LEFT_VAL = getLeftDistance();
-		
 		final double RIGHT_VAL = Math.abs(CURRENT_RIGHT_VAL - initialRight);
 		final double LEFT_VAL = Math.abs(CURRENT_LEFT_VAL - initialLeft);
 		
-		double AVERAGE = (RIGHT_VAL + LEFT_VAL) / 2;
+		final double AVERAGE = (RIGHT_VAL + LEFT_VAL) / 2;
 		
 		if (leftIsDead())
 		{
-			AVERAGE = Math.abs(RIGHT_VAL - initialRight);
+			return Math.abs(RIGHT_VAL - initialRight);
 		}
 		else if (rightIsDead())
 		{
-			AVERAGE = Math.abs(LEFT_VAL - initialLeft);
+			return Math.abs(LEFT_VAL - initialLeft);
 		}
 		
-		
+		final double TOTAL = AVERAGE - distance;
+//		final double TOTAL = (Math.abs(LEFT_VAL - initialLeft) + Math.abs(RIGHT_VAL - initialRight)) / 2;
+//		
 //		if (TOTAL > distance / 4)
 //		{
 //			if (!leftIsActive())
@@ -375,8 +376,6 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 //				return Math.abs(LEFT_VAL - initialLeft);
 //			}
 //		}
-		
-		final double TOTAL = distance - AVERAGE;
 		
 		return TOTAL;
 	}

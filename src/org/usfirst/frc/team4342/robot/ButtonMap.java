@@ -27,6 +27,8 @@ public class ButtonMap
 		{
 			public static int SHIFT = 1;
 			public static int ACCUMULATE = 2;
+			public static int NAVX_RESET = 7;
+			public static int ALIGN_HOOK = 6;
 		}
 	}
 	
