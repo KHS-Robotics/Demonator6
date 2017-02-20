@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4342.robot.commands.teleop;
 
 import org.usfirst.frc.team4342.robot.ButtonMap;
+import org.usfirst.frc.team4342.robot.IO;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Teleop command to drive the <code>TankDrive</code> subsystem
@@ -47,7 +47,7 @@ public class DriveWithJoysticks extends TeleopCommand
 		else
 			drive.shiftLow();
 		
-		if(Math.abs(LEFT_Y) > 0.05 || Math.abs(RIGHT_Y) > 0.05)
+		if(Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE)
 			drive.disablePID();
 		
 		if(!drive.pidEnabled())
@@ -78,14 +78,16 @@ public class DriveWithJoysticks extends TeleopCommand
 			input = -1;
 		
 		final double SENSITIVITY = 0.60;
-		return (SENSITIVITY * Math.pow(input, 3)+ (1 - SENSITIVITY) * input);
+
+		double output = 0;
+		output = input >= 0 ? 
+				IO.JOYSTICK_DEADZONE + (1 - IO.JOYSTICK_DEADZONE) * (SENSITIVITY*Math.pow(input, 3)) + (1 - SENSITIVITY)*input : 
+			   -IO.JOYSTICK_DEADZONE + (1 - IO.JOYSTICK_DEADZONE) * (SENSITIVITY*Math.pow(input, 3)) + (1 - SENSITIVITY)*input;
+		
+		return output;
 	}
 	
 	/** {@inheritDoc} */
 	@Override
-	protected void initialize() {
-//		SmartDashboard.putNumber("Drive-Yaw-P", 0.0);
-//		SmartDashboard.putNumber("Drive-Yaw-I", 0.0);
-//		SmartDashboard.putNumber("Drive-Yaw-D", 0.0);
-	}
+	protected void initialize() {}
 }

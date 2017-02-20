@@ -25,6 +25,8 @@ public class IO
 	
 	private static boolean initialized;
 	
+	public static final double JOYSTICK_DEADZONE = 0.04;
+	
 	// Sensors, motor controllers and cameras
 	private static Joystick switchBox, rightDriveStick, leftDriveStick;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
@@ -181,5 +183,17 @@ public class IO
 	public static Joystick getSwitchBox()
 	{
 		return switchBox;
+	}
+	
+	/**
+	 * Gets if either of the drive sticks are outside of the specified dead zone
+	 * @return true if the right or left drive sticks are outside the dead zone, false otherwise
+	 */
+	public static boolean cancelAutoCommand()
+	{
+		boolean left = Math.abs(getLeftDriveStick().getY()) > (2*JOYSTICK_DEADZONE);
+		boolean right = Math.abs(getRightDriveStick().getY()) > (2*JOYSTICK_DEADZONE);
+		
+		return left || right;
 	}
 }
