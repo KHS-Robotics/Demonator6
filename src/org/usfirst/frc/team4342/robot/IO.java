@@ -30,7 +30,7 @@ public class IO
 	// Sensors, motor controllers and cameras
 	private static Joystick switchBox, rightDriveStick, leftDriveStick;
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
-	protected static AHRS navx;
+	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, gearPlacerSwitch;
 	private static Ultrasonic ultrasonic;
 	private static DoubleSolenoid placer, shifter;
@@ -189,7 +189,7 @@ public class IO
 	 * Gets if either of the drive sticks are outside of the specified dead zone
 	 * @return true if the right or left drive sticks are outside the dead zone, false otherwise
 	 */
-	public static boolean cancelAutoCommand()
+	public static boolean shouldCancelAutoCommand()
 	{
 		boolean left = Math.abs(getLeftDriveStick().getY()) > (2*JOYSTICK_DEADZONE);
 		boolean right = Math.abs(getRightDriveStick().getY()) > (2*JOYSTICK_DEADZONE);

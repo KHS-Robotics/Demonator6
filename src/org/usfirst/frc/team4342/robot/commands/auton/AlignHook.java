@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4342.robot.commands.teleop;
+package org.usfirst.frc.team4342.robot.commands.auton;
 
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -7,29 +7,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class AlignHook extends TeleopCommand 
+public class AlignHook extends AutonomousCommand 
 {
+	public enum Location
+	{
+		LEFT, MIDDLE, RIGHT
+	}
+	
 	private enum HookState 
     {
     	START, FIX, FINISHING, FINISHED
     }
 	
 	private TankDrive drive;
+	private Location location;
 	
 	private HookState hookState;
 	
+	private double hookAngle;
 	private double yudist, xudist, udist, ydist, xdist, dist, rmain;
 	private double sensorAngle, changeAngle, otherAngle;
 	private double initL, initR;
 	private final double FINAL_DIST = 36, ULTRA_DIST = 14.5, TAPE_DIST = 4.1;
 
-    public AlignHook(TankDrive drive)
+    public AlignHook(TankDrive drive, Location location)
     {
     	super();
     	
     	this.requires(drive);
     	
     	this.drive = drive;
+    	this.location = location;
     }
     
     @Override
@@ -45,6 +53,13 @@ public class AlignHook extends TeleopCommand
 		SmartDashboard.putNumber("Y Dist -", 0.0);
 		SmartDashboard.putNumber("Dist -", 0.0);
 		
+		if(Location.LEFT.equals(location))
+			hookAngle = -60;
+		else if(Location.RIGHT.equals(location))
+			hookAngle = 60;
+		else
+			hookAngle = 0;
+		
     	drive.enablePID();
     	hookState = HookState.START;
     }
@@ -52,7 +67,6 @@ public class AlignHook extends TeleopCommand
     @Override
     protected void execute() 
     {
-		double hookAngle = 0;
 		double hookError = 1;
 		double robotAngle = drive.getHeading();
 		
@@ -102,8 +116,6 @@ public class AlignHook extends TeleopCommand
 				SmartDashboard.putNumber("X Dist -", xdist);
 				SmartDashboard.putNumber("Y Dist -", ydist);
 				SmartDashboard.putNumber("Dist -", dist);
-				
-				getState();
 				
 				drive.disablePID();
 				initL = drive.getLeftDistance();
@@ -159,11 +171,4 @@ public class AlignHook extends TeleopCommand
     {
     	return hookState.equals(HookState.FINISHED);
     }
-    
-    public String getState()
-    {
-    	return hookState.toString();
-    }
-    
-    
 }

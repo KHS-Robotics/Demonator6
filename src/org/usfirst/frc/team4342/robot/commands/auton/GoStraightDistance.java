@@ -9,7 +9,7 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  * 
  * @see org.usfirst.frc.team4342.robot.commands.auton.AutonomousCommand
  */
-public class GoStraight extends AutonomousCommand
+public class GoStraightDistance extends AutonomousCommand
 {
 	private double direction, yaw, leftVal, rightVal, distance;
 	private TankDrive drive;
@@ -21,7 +21,7 @@ public class GoStraight extends AutonomousCommand
 	 * @param distance the fixed distance to straight (in feet)
 	 * @param drive the <code>TankDrive</code> subsystem to output to
 	 */
-	public GoStraight(double direction, double yaw, double distance, TankDrive drive)
+	public GoStraightDistance(double direction, double yaw, double distance, TankDrive drive)
 	{
 		this.requires(drive);
 		

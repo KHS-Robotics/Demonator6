@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot.commands.auton.routines;
 
-import org.usfirst.frc.team4342.robot.commands.auton.GoStraight;
+import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.auton.PlaceGear;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
@@ -12,8 +13,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * a collection of auton commands called a Command Group. This
  * command group calls the following commands, respectively:
  * <ol>
- * <li>{@link org.usfirst.frc.team4342.robot.commands.auton.GoStraight}</li>
- * <li>Align Hook Right</li>
+ * <li>{@link org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance}</li>
+ * <li>{@link org.usfirst.frc.team4342.robot.commands.auton.AlignHook}</li>
  * <li>{@link org.usfirst.frc.team4342.robot.commands.auton.PlaceGear}</li>
  * </ol>
  * 
@@ -21,9 +22,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class PlaceGearRight extends CommandGroup
 {
+	// Step 1
 	private static final double START_YAW = 0;
 	private static final double DISTANCE = 10;
 	private static final double DIRECTION = 0.33;
+	
+	// Step 2
+	private static final AlignHook.Location location = AlignHook.Location.RIGHT;
 	
 	/**
 	 * Creates a new autonomous routine to place a gear on the right peg
@@ -34,8 +39,8 @@ public class PlaceGearRight extends CommandGroup
 	{
 		super(PlaceGearRight.class.getName());;
 		
-		this.addSequential(new GoStraight(DIRECTION, START_YAW, DISTANCE, drive));
-		//this.addSequential(new AlignHookRight(drive));
+		this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, DISTANCE, drive));
+		this.addSequential(new AlignHook(drive, location));
 		this.addSequential(new PlaceGear(placer));
 	}
 }
