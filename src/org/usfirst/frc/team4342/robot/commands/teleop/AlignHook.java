@@ -20,7 +20,7 @@ public class AlignHook extends TeleopCommand
 	
 	private double yudist, xudist, udist, ydist, xdist, dist;
 	private double sensorAngle, changeAngle, otherAngle;
-	private final double FINAL_DIST = 36, ULTRA_DIST = 14.5 / 2, TAPE_DIST = 4.1;
+	private final double FINAL_DIST = 36, ULTRA_DIST = 14.5, TAPE_DIST = 4.1;
 
     public AlignHook(TankDrive drive)
     {
