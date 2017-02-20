@@ -17,7 +17,10 @@ public class ButtonMap
 		 */
 		public static class Left
 		{
-
+			public static final int ALIGN_STRAIGHT = 2;
+			public static final int ALIGN_HOOK_LEFT = 4;
+			public static final int ALIGN_HOOK_MIDDLE = 3;
+			public static final int ALIGN_HOOK_RIGHT = 5;
 		}
 		
 		/**
@@ -25,10 +28,10 @@ public class ButtonMap
 		 */
 		public static class Right
 		{
-			public static int SHIFT = 1;
-			public static int ACCUMULATE = 2;
-			public static int ALIGN_HOOK = 3;
-			public static int NAVX_RESET = 7; // temporary
+			public static final int ACCUMULATE = 2;
+			public static final int HOLD_CURRENT_YAW = 3;
+			public static final int SHIFT = 5;
+			public static final int NAVX_RESET = 7; // temporary
 		}
 	}
 	

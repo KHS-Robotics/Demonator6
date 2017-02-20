@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class DriveWithJoysticks extends TeleopCommand
 {	
+	private boolean holdCurrentYaw;
+	private double currentYaw;
+	
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
 	
@@ -46,6 +49,24 @@ public class DriveWithJoysticks extends TeleopCommand
 			drive.shiftHigh();
 		else
 			drive.shiftLow();
+		
+		if(!holdCurrentYaw && rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW))
+		{
+			holdCurrentYaw = true;
+			currentYaw = drive.getHeading();
+		}
+		else if(rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW))
+		{
+			drive.goStraight(adjust(RIGHT_Y), currentYaw);
+			return;
+		}
+		else
+		{
+			holdCurrentYaw = false;
+		}
+		
+		if(leftJoystick.getRawButton(ButtonMap.DriveStick.Left.ALIGN_STRAIGHT))
+			drive.setHeading(0);
 		
 		if(Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE)
 			drive.disablePID();
