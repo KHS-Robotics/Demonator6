@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.auton.routines.CrossBaseline;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearLeft;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
@@ -73,6 +74,7 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Place Middle Gear", new PlaceGearMiddle(IO.getDrive(), IO.getGearPlacer()));
 		autonomousChooser.addObject("Place Left Gear", new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer()));
 		autonomousChooser.addObject("Place Right Gear", new PlaceGearRight(IO.getDrive(), IO.getGearPlacer()));
+		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
