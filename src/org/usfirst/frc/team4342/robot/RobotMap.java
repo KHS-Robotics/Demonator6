@@ -14,8 +14,8 @@ public class RobotMap
 	public static final int FRONT_USB_CAMERA = 0;
 	
 	// Joysticks
-	public static final int LEFT_DRIVE_STICK_PORT = 0;
-	public static final int RIGHT_DRIVE_STICK_PORT = 1;
+	public static final int LEFT_DRIVE_STICK_PORT = 1;
+	public static final int RIGHT_DRIVE_STICK_PORT = 0;
 	public static final int SWITCH_BOX_PORT = 2;
 	
 	// Drive

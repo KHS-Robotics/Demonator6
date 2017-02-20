@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot
 		
 		Logger.info("Initializing teleop commands...");
 		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
-		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
+		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Left.ACCUMULATE), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
 		alignHookLeft = new AlignHook(IO.getDrive(), AlignHook.Location.LEFT);
@@ -89,29 +89,28 @@ public class Robot extends IterativeRobot
 		stopAutonomousRoutine();
 		startTeleopCommands();
 	}
-	
+
 	/**
 	 * Periodic code for teleop (operator control) mode
 	 */
 	@Override
 	public void teleopPeriodic()
 	{
-		if(IO.shouldCancelAutoCommand())
-			stopAlignHookCommands();
-		
 		if(!alignHookIsRunning())
 		{
-			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT))
-				alignHookLeft.start();
-			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_MIDDLE))
-				alignHookMiddle.start();
-			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_RIGHT))
-				alignHookRight.start();
+			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Right.ALIGN_HOOK_LEFT))
+				startAlignHookCommand(alignHookLeft);
+			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Right.ALIGN_HOOK_MIDDLE))
+				startAlignHookCommand(alignHookMiddle);
+			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Right.ALIGN_HOOK_RIGHT))
+				startAlignHookCommand(alignHookRight);
+			else if(!drive.isRunning())
+				drive.start();
 		}
 		else
 		{
-			if(!drive.isRunning())
-				drive.start();
+			if(IO.shouldCancelAutoCommand())
+				stopAlignHookCommands();
 		}
 		
 		Scheduler.getInstance().run();
@@ -218,6 +217,16 @@ public class Robot extends IterativeRobot
 	{
 		if(autonomousRoutine != null)
 			autonomousRoutine.cancel();
+	}
+	
+	/**
+	 * Stops <code>DriveWithJoyticks</code> and starts <code>AlignHook</code>
+	 * @param alignHook the align hook command to start
+	 */
+	private void startAlignHookCommand(AlignHook alignHook)
+	{
+		drive.cancel();
+		alignHook.start();
 	}
 	
 	/**

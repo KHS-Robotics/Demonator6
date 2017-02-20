@@ -67,7 +67,7 @@ public class AlignHook extends AutonomousCommand
     @Override
     protected void execute() 
     {
-		double hookError = 1;
+		double hookError = 0.1;
 		double robotAngle = drive.getHeading();
 		
 		final boolean r = drive.getRightSensor();

@@ -43,19 +43,19 @@ public class DriveWithJoysticks extends TeleopCommand
 	{
 		final double LEFT_Y = leftJoystick.getY();
 		final double RIGHT_Y = -rightJoystick.getY();
-		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT);
+		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Left.SHIFT);
 		
 		if(SHIFT)
 			drive.shiftHigh();
 		else
 			drive.shiftLow();
 		
-		if(!holdCurrentYaw && rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW))
+		if(!holdCurrentYaw && rightJoystick.getRawButton(ButtonMap.DriveStick.Left.HOLD_CURRENT_YAW))
 		{
 			holdCurrentYaw = true;
 			currentYaw = drive.getHeading();
 		}
-		else if(rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW))
+		else if(rightJoystick.getRawButton(ButtonMap.DriveStick.Left.HOLD_CURRENT_YAW))
 		{
 			drive.goStraight(adjust(RIGHT_Y), currentYaw);
 			return;
@@ -65,14 +65,14 @@ public class DriveWithJoysticks extends TeleopCommand
 			holdCurrentYaw = false;
 		}
 		
-		if(leftJoystick.getRawButton(ButtonMap.DriveStick.Left.ALIGN_STRAIGHT))
+		if(leftJoystick.getRawButton(ButtonMap.DriveStick.Right.ALIGN_STRAIGHT))
 			drive.setHeading(0);
 		
 		if(Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE)
 			drive.disablePID();
 		
 		if(!drive.pidEnabled())
-			drive.set(adjust(RIGHT_Y), adjust(LEFT_Y));
+			drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
 	}
 	
 	/**
