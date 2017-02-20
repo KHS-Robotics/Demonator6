@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.auton.GoToAngle;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearLeft;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
@@ -39,6 +40,7 @@ public class Robot extends IterativeRobot
 	private PlaceGearWithSwitchBox gearPlacer;
 	private Scale scaler;
 	private AlignHook alignHook;
+	private GoToAngle goToAngle;
 	
 	// Autonomous chooser and routine
 	private SendableChooser<CommandGroup> autonomousChooser;
@@ -64,6 +66,7 @@ public class Robot extends IterativeRobot
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
 		alignHook = new AlignHook(IO.getDrive());
+		goToAngle = new GoToAngle(0, IO.getDrive());
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<CommandGroup>();
@@ -96,6 +99,8 @@ public class Robot extends IterativeRobot
 			IO.navx.reset();
 		if(IO.getRightDriveStick().getRawButton(7))
 			alignHook.start();
+		if(IO.getRightDriveStick().getRawButton(2))
+			goToAngle.start();
 		
 		Scheduler.getInstance().run();
 	}

@@ -351,14 +351,14 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 		
 		final double AVERAGE = (RIGHT_VAL + LEFT_VAL) / 2;
 		
-		if (leftIsDead())
-		{
-			return Math.abs(RIGHT_VAL - initialRight);
-		}
-		else if (rightIsDead())
-		{
-			return Math.abs(LEFT_VAL - initialLeft);
-		}
+//		if (leftIsDead())
+//		{
+//			return Math.abs(RIGHT_VAL - initialRight);
+//		}
+//		else if (rightIsDead())
+//		{
+//			return Math.abs(LEFT_VAL - initialLeft);
+//		}
 		
 		final double TOTAL = AVERAGE - distance;
 //		final double TOTAL = (Math.abs(LEFT_VAL - initialLeft) + Math.abs(RIGHT_VAL - initialRight)) / 2;

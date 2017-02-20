@@ -32,7 +32,7 @@ public class IO
 	private static DigitalInput rsensor, lsensor, gearPlacerSwitch;
 	private static Ultrasonic ultrasonic;
 	private static DoubleSolenoid placer, shifter;
-	private static Solenoid shootFar;
+	private static Solenoid shootFar, camLight;
 	private static Encoder leftDrive, rightDrive, shooterEnc;
 	
 	// Subsystems
@@ -96,6 +96,9 @@ public class IO
 	    shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD_CHANNEL, RobotMap.SHIFT_REVERSE_CHANNEL);
 	    shootFar = new Solenoid(RobotMap.SHOOT_FAR_SOLENOID);
 	    
+	    // Lights
+	    camLight = new Solenoid(RobotMap.CAM_LIGHT_CHANNEL);
+
 	    // Encoders
 	    leftDrive = new Encoder(RobotMap.LEFT_DRIVE_ENC_CH_A, RobotMap.LEFT_DRIVE_ENC_CH_B);
 	    rightDrive = new Encoder(RobotMap.RIGHT_DRIVE_ENC_CH_A, RobotMap.RIGHT_DRIVE_ENC_CH_B);
@@ -112,7 +115,7 @@ public class IO
 	    
 	    // Subsystems
 	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor, ultrasonic);
-	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc, shootFar);
+	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc, shootFar, camLight);
 	    scaler = new Scaler(scaleMotor);
 	    gearPlacer = new GearPlacer(placer, gearPlacerSwitch);
 	}

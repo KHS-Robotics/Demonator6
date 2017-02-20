@@ -18,7 +18,7 @@ public class Shooter extends DemonSubsystem
 	
 	private CANTalon intake, agitator, shooter;
 	private Encoder shooterEnc;
-	private Solenoid shootFar;
+	private Solenoid shootFar, camLight;
 	private PIDController shooterPID;
 	
 	/**
@@ -29,7 +29,7 @@ public class Shooter extends DemonSubsystem
 	 * @param shooterEnc the shoot motor encoder to utilize a rate PID controller
 	 * @param shootFar the solenoid to change the trajectory of the fuel to shoot far or close
 	 */
-	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc, Solenoid shootFar)
+	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc, Solenoid shootFar, Solenoid camLight)
 	{
 		super(Shooter.class.getName());
 		
@@ -38,6 +38,7 @@ public class Shooter extends DemonSubsystem
 		this.shooter = shooter;
 		this.shooterEnc = shooterEnc;
 		this.shootFar = shootFar;
+		this.camLight = camLight;
 		
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
@@ -152,6 +153,15 @@ public class Shooter extends DemonSubsystem
 	}
 	
 	/**
+	 * Sets the Cam Light On/Off
+	 * @param value 
+	 */
+	public void setCamLight(boolean on)
+	{
+		camLight.set(on);
+	}
+	
+	/**
 	 * Sets the solenoid on the shooter to a longer ranged shot
 	 */
 	private void setFar()
@@ -208,4 +218,6 @@ public class Shooter extends DemonSubsystem
 			shooterPID.disable();
 		}
 	}
+	
+	
 }

@@ -61,4 +61,8 @@ public class RobotMap
 	public static final int SHIFT_FORWARD_CHANNEL = 0;
 	public static final int SHIFT_REVERSE_CHANNEL = 1;
 	public static final int SHOOT_FAR_SOLENOID = 4;
+	
+	// Lights
+	public static final int CAM_LIGHT_CHANNEL = 6;
+
 }

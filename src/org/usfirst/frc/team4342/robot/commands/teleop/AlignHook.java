@@ -16,12 +16,11 @@ public class AlignHook extends TeleopCommand
 	
 	private TankDrive drive;
 	
-	private HookState hookState = HookState.START;
+	private HookState hookState;
 	
 	private double yudist, xudist, udist, ydist, xdist, dist;
 	private double sensorAngle, changeAngle, otherAngle;
-	private final double CENTER_DIST = 15, TAPE_DIST = 4.1, ROBOT_MIDDLE = 17;
-	private final double FINAL_DIST = 36 + ROBOT_MIDDLE;
+	private final double FINAL_DIST = 36, ULTRA_DIST = 14.5 / 2, TAPE_DIST = 4.1;
 
     public AlignHook(TankDrive drive)
     {
@@ -35,14 +34,25 @@ public class AlignHook extends TeleopCommand
     @Override
     protected void initialize() 
     {
+    	SmartDashboard.putNumber("First Angle -", 0.0);
+		SmartDashboard.putNumber("Change in Angle -", 0.0);
+		SmartDashboard.putNumber("other Angle -", 0.0);
+		SmartDashboard.putNumber("Ultra Dist -", 0.0);
+		SmartDashboard.putNumber("Ultra Y Dist -", 0.0);
+		SmartDashboard.putNumber("Ultra X Dist -", 0.0);
+		SmartDashboard.putNumber("X Dist -", 0.0);
+		SmartDashboard.putNumber("Y Dist -", 0.0);
+		SmartDashboard.putNumber("Dist -", 0.0);
+		
     	drive.enablePID();
+    	hookState = HookState.START;
     }
 
     @Override
     protected void execute() 
     {
 		double hookAngle = 0;
-		double hookError = 3;
+		double hookError = 1;
 		double robotAngle = drive.getHeading();
 		
 		final boolean r = drive.getRightSensor();
@@ -52,13 +62,13 @@ public class AlignHook extends TeleopCommand
     		
 		if(hookState == HookState.START)
 		{
-			if(l && r && (robotAngle-hookAngle) <= hookError)
-			{
-				sensorAngle = robotAngle;
-				hookState = HookState.FINISHING;
-			}
+//			if(l && r && (robotAngle-hookAngle) <= hookError)
+//			{
+//				sensorAngle = robotAngle;
+//				hookState = HookState.FINISHING;
+//			}
 			
-			else if(l || r)
+			if(l || r)
 			{
 				sensorAngle = robotAngle;
 				
@@ -66,10 +76,10 @@ public class AlignHook extends TeleopCommand
 				yudist = Math.abs(udist * Math.cos(sensorAngle * (Math.PI/180)));
 				xudist = Math.abs(udist * Math.sin(sensorAngle * (Math.PI/180)));
 				
-				if(r)
-					xdist = Math.abs(xudist - (TAPE_DIST));
-				else
-					xdist = Math.abs(xudist - (TAPE_DIST + (CENTER_DIST/(Math.sin((90 - Math.abs(sensorAngle)) * (Math.PI/180))))));
+//				if(r)
+//					xdist = Math.abs(xudist - (TAPE_DIST) + );
+//				else
+					xdist = Math.abs(xudist - (TAPE_DIST + (ULTRA_DIST/(Math.sin(((90 - Math.abs(sensorAngle)) * (Math.PI/180)))))));
 				
 				ydist = Math.abs(yudist - FINAL_DIST);
 				otherAngle = Math.abs(Math.toDegrees(Math.atan(ydist/xdist)));
@@ -81,7 +91,6 @@ public class AlignHook extends TeleopCommand
 					changeAngle = -changeAngle;
 				
 				hookState = HookState.FIX;
-				
 				
 				SmartDashboard.putNumber("First Angle -", sensorAngle);
 				SmartDashboard.putNumber("Change in Angle -", changeAngle);
@@ -95,6 +104,7 @@ public class AlignHook extends TeleopCommand
 				
 				getState();
 				
+				
 			}
 			
 			drive.setHeading(hookAngle);
@@ -102,19 +112,27 @@ public class AlignHook extends TeleopCommand
 		
 		else if(hookState == HookState.FIX)
 		{
-			drive.goStraight(.35 , (sensorAngle + changeAngle));
 			
-			if (drive.remainingDistance(dist, 0, 0) > 0)
+//			if(drive.remainingDistance(dist, 0, 0) > 0)
+			if((dist - (drive.getLeftDistance() + drive.getRightDistance() / 2)) > 0 )
 				drive.goStraight(.35 , (sensorAngle + changeAngle));
 			else
 			{
 				drive.setHeading(hookAngle);
-				if((robotAngle - hookAngle) < hookError)
+				if(Math.abs(robotAngle - hookAngle) < hookError)
 					hookState = HookState.FINISHING;
 			}
+//			}
+//			else
+//			{
+//				drive.setHeading(robotAngle);
+//				
+//				if (Math.abs(robotAngle - hookAngle) <= hookError)
+//					hookState = HookState.FINISHING;
+//			}
 		}
 		else if(hookState == HookState.FINISHING)
-		{			
+		{		
 			drive.disablePID();
 			hookState = HookState.FINISHED;
 		}	

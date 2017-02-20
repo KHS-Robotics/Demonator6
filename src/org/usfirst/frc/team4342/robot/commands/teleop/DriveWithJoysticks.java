@@ -84,8 +84,8 @@ public class DriveWithJoysticks extends TeleopCommand
 	/** {@inheritDoc} */
 	@Override
 	protected void initialize() {
-		SmartDashboard.putNumber("Drive-Yaw-P", 0.0);
-		SmartDashboard.putNumber("Drive-Yaw-I", 0.0);
-		SmartDashboard.putNumber("Drive-Yaw-D", 0.0);
+//		SmartDashboard.putNumber("Drive-Yaw-P", 0.0);
+//		SmartDashboard.putNumber("Drive-Yaw-I", 0.0);
+//		SmartDashboard.putNumber("Drive-Yaw-D", 0.0);
 	}
 }
