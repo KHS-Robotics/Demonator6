@@ -18,8 +18,9 @@ public class AlignHook extends TeleopCommand
 	
 	private HookState hookState;
 	
-	private double yudist, xudist, udist, ydist, xdist, dist;
+	private double yudist, xudist, udist, ydist, xdist, dist, rmain;
 	private double sensorAngle, changeAngle, otherAngle;
+	private double initL, initR;
 	private final double FINAL_DIST = 36, ULTRA_DIST = 14.5, TAPE_DIST = 4.1;
 
     public AlignHook(TankDrive drive)
@@ -71,15 +72,15 @@ public class AlignHook extends TeleopCommand
 			if(l || r)
 			{
 				sensorAngle = robotAngle;
+				if(r)
+					udist = d - (7.25/Math.tan(Math.toRadians(90 - sensorAngle)));
+				else
+					udist = d + (7.25/Math.tan(Math.toRadians(90 - sensorAngle)));
 				
-				udist = d;
-				yudist = Math.abs(udist * Math.cos(sensorAngle * (Math.PI/180)));
-				xudist = Math.abs(udist * Math.sin(sensorAngle * (Math.PI/180)));
+				yudist = Math.abs(udist * Math.cos(Math.toRadians(sensorAngle)));
+				xudist = Math.abs(udist * Math.sin(Math.toRadians(sensorAngle)));
 				
-//				if(r)
-//					xdist = Math.abs(xudist - (TAPE_DIST) + );
-//				else
-					xdist = Math.abs(xudist - (TAPE_DIST + (ULTRA_DIST/(Math.sin(((90 - Math.abs(sensorAngle)) * (Math.PI/180)))))));
+				xdist = Math.abs(xudist - (TAPE_DIST + (ULTRA_DIST/((Math.sin(((90 - Math.abs(sensorAngle)) * (Math.PI/180))))))));
 				
 				ydist = Math.abs(yudist - FINAL_DIST);
 				otherAngle = Math.abs(Math.toDegrees(Math.atan(ydist/xdist)));
@@ -104,7 +105,9 @@ public class AlignHook extends TeleopCommand
 				
 				getState();
 				
-				
+				drive.disablePID();
+				initL = drive.getLeftDistance();
+				initR = drive.getRightDistance();
 			}
 			
 			drive.setHeading(hookAngle);
@@ -112,10 +115,15 @@ public class AlignHook extends TeleopCommand
 		
 		else if(hookState == HookState.FIX)
 		{
+			rmain = drive.remainingDistance(dist, initL, initR);
+			SmartDashboard.putNumber("Remain -", rmain);
 			
-//			if(drive.remainingDistance(dist, 0, 0) > 0)
-			if((dist - (drive.getLeftDistance() + drive.getRightDistance() / 2)) > 0 )
+			if(drive.remainingDistance(dist, initL, initR) > 0)
+			{
+				
 				drive.goStraight(.35 , (sensorAngle + changeAngle));
+			}
+				
 			else
 			{
 				drive.setHeading(hookAngle);
@@ -156,5 +164,6 @@ public class AlignHook extends TeleopCommand
     {
     	return hookState.toString();
     }
+    
     
 }
