@@ -99,7 +99,7 @@ public class IO
 	    shootFar = new Solenoid(RobotMap.SHOOT_FAR_SOLENOID);
 	    
 	    // Lights
-	    camLight = new Solenoid(RobotMap.CAM_LIGHT_CHANNEL);
+	    camLight = new Solenoid(RobotMap.CAMERA_LIGHT_CHANNEL);
 
 	    // Encoders
 	    leftDrive = new Encoder(RobotMap.LEFT_DRIVE_ENC_CH_A, RobotMap.LEFT_DRIVE_ENC_CH_B);

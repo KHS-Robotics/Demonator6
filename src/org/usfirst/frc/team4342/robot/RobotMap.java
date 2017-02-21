@@ -10,12 +10,9 @@ public class RobotMap
 {
 	private RobotMap() {}
 	
-	// Cameras
-	public static final int FRONT_USB_CAMERA = 0;
-	
 	// Joysticks
-	public static final int LEFT_DRIVE_STICK_PORT = 1;
 	public static final int RIGHT_DRIVE_STICK_PORT = 0;
+	public static final int LEFT_DRIVE_STICK_PORT = 1;
 	public static final int SWITCH_BOX_PORT = 2;
 	
 	// Drive
@@ -28,17 +25,17 @@ public class RobotMap
 
 	
 	// Encoders
-	public static final int LEFT_DRIVE_ENC_CH_A = 2;
-	public static final int LEFT_DRIVE_ENC_CH_B = 3;
 	public static final int RIGHT_DRIVE_ENC_CH_A = 0;
 	public static final int RIGHT_DRIVE_ENC_CH_B = 1;
+	public static final int LEFT_DRIVE_ENC_CH_A = 2;
+	public static final int LEFT_DRIVE_ENC_CH_B = 3;
 	public static final int SHOOTER_ENC_CH_A = 4;
 	public static final int SHOOTER_ENC_CH_B = 5;
 	
 	// Shooter
-	public static final int INTAKE = 12;
-	public static final int AGITATOR = 4;
 	public static final int SHOOTER = 3;
+	public static final int AGITATOR = 4;
+	public static final int INTAKE = 12;
 	
 	// Scaler
 	public static final int SCALER = 11;
@@ -56,13 +53,12 @@ public class RobotMap
 	public static final int ULTRASONIC_DIGITAL_OUT = 22;
 	
 	// Pneumatics
-	public static final int PLACER_FORWARD_CHANNEL = 2;
-	public static final int PLACER_REVERSE_CHANNEL = 3;
 	public static final int SHIFT_FORWARD_CHANNEL = 0;
 	public static final int SHIFT_REVERSE_CHANNEL = 1;
+	public static final int PLACER_FORWARD_CHANNEL = 2;
+	public static final int PLACER_REVERSE_CHANNEL = 3;
 	public static final int SHOOT_FAR_SOLENOID = 4;
 	
 	// Lights
-	public static final int CAM_LIGHT_CHANNEL = 6;
-
+	public static final int CAMERA_LIGHT_CHANNEL = 6;
 }

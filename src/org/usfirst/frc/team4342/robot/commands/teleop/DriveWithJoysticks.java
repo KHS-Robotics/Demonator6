@@ -4,6 +4,8 @@ import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.IO;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Teleop command to drive the <code>TankDrive</code> subsystem
@@ -17,6 +19,7 @@ public class DriveWithJoysticks extends TeleopCommand
 	private double currentYaw;
 	
 	private Joystick leftJoystick, rightJoystick;
+	private JoystickButton aimBoilerButton;
 	private TankDrive drive;
 	
 	/**
@@ -26,12 +29,13 @@ public class DriveWithJoysticks extends TeleopCommand
 	 * @param drive the <code>TankDrive</code> subsystem to output to
 	 * @see org.usfirst.frc.team4342.robot.subsystems.TankDrive
 	 */
-	public DriveWithJoysticks(Joystick leftJoystick, Joystick rightJoystick, TankDrive drive)
+	public DriveWithJoysticks(Joystick leftJoystick, Joystick rightJoystick, JoystickButton aimBoilerButton, TankDrive drive)
 	{
 		this.requires(drive);
 		
 		this.leftJoystick = leftJoystick;
 		this.rightJoystick = rightJoystick;
+		this.aimBoilerButton = aimBoilerButton;
 		this.drive = drive;
 	}
 	
@@ -43,19 +47,27 @@ public class DriveWithJoysticks extends TeleopCommand
 	{
 		final double LEFT_Y = leftJoystick.getY();
 		final double RIGHT_Y = -rightJoystick.getY();
-		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Left.SHIFT);
+		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT);
+		final boolean AIM_BOILER = aimBoilerButton.get();
+		
+		if(AIM_BOILER)
+		{
+			double boilerYaw = SmartDashboard.getNumber("NavX-Target-Yaw", drive.getHeading());
+			drive.setHeading(boilerYaw);
+			currentYaw = boilerYaw;
+		}
 		
 		if(SHIFT)
 			drive.shiftHigh();
 		else
 			drive.shiftLow();
 		
-		if(!holdCurrentYaw && rightJoystick.getRawButton(ButtonMap.DriveStick.Left.HOLD_CURRENT_YAW))
+		if(!AIM_BOILER && !holdCurrentYaw && rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW))
 		{
 			holdCurrentYaw = true;
 			currentYaw = drive.getHeading();
 		}
-		else if(rightJoystick.getRawButton(ButtonMap.DriveStick.Left.HOLD_CURRENT_YAW))
+		else if(rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW))
 		{
 			drive.goStraight(adjust(RIGHT_Y), currentYaw);
 			return;
@@ -65,10 +77,10 @@ public class DriveWithJoysticks extends TeleopCommand
 			holdCurrentYaw = false;
 		}
 		
-		if(leftJoystick.getRawButton(ButtonMap.DriveStick.Right.ALIGN_STRAIGHT))
+		if(!AIM_BOILER && leftJoystick.getRawButton(ButtonMap.DriveStick.Left.ALIGN_STRAIGHT))
 			drive.setHeading(0);
 		
-		if(Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE)
+		if(!AIM_BOILER && (Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE))
 			drive.disablePID();
 		
 		if(!drive.pidEnabled())

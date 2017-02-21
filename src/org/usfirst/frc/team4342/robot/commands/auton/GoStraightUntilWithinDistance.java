@@ -44,7 +44,7 @@ public class GoStraightUntilWithinDistance extends AutonomousCommand
 
 	/**
 	 * Gets if the robot is within the desired distance
-	 * @return true if the robot is within the desired distance ,false otherewise
+	 * @return true if the robot is within the desired distance, false otherwise
 	 */
 	@Override
 	protected boolean isFinished() 

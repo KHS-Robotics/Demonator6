@@ -60,8 +60,8 @@ public class Robot extends IterativeRobot
 		PDPLogger.start();
 		
 		Logger.info("Initializing teleop commands...");
-		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
-		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Left.ACCUMULATE), IO.getShooter());
+		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Shooter.BOILER_YAW), IO.getDrive());
+		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
 		alignHookLeft = new AlignHook(IO.getDrive(), AlignHook.Location.LEFT);
@@ -98,11 +98,11 @@ public class Robot extends IterativeRobot
 	{
 		if(!alignHookIsRunning())
 		{
-			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Right.ALIGN_HOOK_LEFT))
+			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT))
 				startAlignHookCommand(alignHookLeft);
-			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Right.ALIGN_HOOK_MIDDLE))
+			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_MIDDLE))
 				startAlignHookCommand(alignHookMiddle);
-			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Right.ALIGN_HOOK_RIGHT))
+			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_RIGHT))
 				startAlignHookCommand(alignHookRight);
 			else if(!drive.isRunning())
 				drive.start();

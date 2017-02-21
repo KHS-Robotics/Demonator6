@@ -17,7 +17,7 @@ public class RaiseGear extends AutonomousCommand
 	 */
 	public RaiseGear(GearPlacer placer)
 	{
-		super(1);
+		super(2);
 		
 		this.requires(placer);
 		

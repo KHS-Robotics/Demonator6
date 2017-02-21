@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * command group calls the following commands, respectively:
  * 
  * <ol>
- * <li>{@link org.usfirst.frc.team4342.robot.commands.auton.GoStraightUntilWithinDistance}</li>
- * <li>{@link org.usfirst.frc.team4342.robot.commands.auton.PlaceGear}</li>
+ * <li>{@link GoStraightUntilWithinDistance}</li>
+ * <li>{@link PlaceGear}</li>
  * </ol>
  * 
  * @see edu.wpi.first.wpilibj.command.CommandGroup

@@ -17,12 +17,12 @@ public abstract class AutonomousCommand extends Command
 	private Alliance alliance;
 	
 	/**
-	 * Creates the new <code>AutonomousCommand</code> that is a subclass of
+	 * Creates a new <code>AutonomousCommand</code> that is a subclass of
 	 * <code>Command</code>.
 	 */
 	public AutonomousCommand()
 	{
-		checkAlliance();
+		super();
 	}
 	
 	/**
@@ -32,7 +32,6 @@ public abstract class AutonomousCommand extends Command
 	public AutonomousCommand(double timeout)
 	{
 		super(timeout);
-		checkAlliance();
 	}
 	
 	/**
@@ -42,9 +41,9 @@ public abstract class AutonomousCommand extends Command
 	public boolean isRedAlliance()
 	{
 		if(alliance == null || Alliance.Invalid.equals(alliance))
-			checkAlliance();
+			getAlliance();
 		
-		return alliance.equals(Alliance.Red);
+		return Alliance.Red.equals(alliance);
 	}
 	
 	/**
@@ -54,16 +53,19 @@ public abstract class AutonomousCommand extends Command
 	public boolean isBlueAlliance()
 	{
 		if(alliance == null || Alliance.Invalid.equals(alliance))
-			checkAlliance();
+			getAlliance();
 		
-		return alliance.equals(Alliance.Blue);
+		return Alliance.Blue.equals(alliance);
 	}
 	
-	private void checkAlliance()
+	/**
+	 * Gets the current alliance from the Driver Station
+	 */
+	private void getAlliance()
 	{
 		alliance = DriverStation.getInstance().getAlliance();
 		
-		if (alliance == null || alliance.equals(Alliance.Invalid))
+		if (alliance.equals(Alliance.Invalid))
 		{
 			Logger.warning("Alliance is invalid for " + this.getName() + " auton command.");
 		}

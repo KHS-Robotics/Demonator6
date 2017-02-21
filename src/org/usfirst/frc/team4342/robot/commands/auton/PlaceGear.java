@@ -17,7 +17,7 @@ public class PlaceGear extends AutonomousCommand
 	 */
 	public PlaceGear(GearPlacer placer)
 	{
-		super(1);
+		super(2);
 		
 		this.requires(placer);
 		

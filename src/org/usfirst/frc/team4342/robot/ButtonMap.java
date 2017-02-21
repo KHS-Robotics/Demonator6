@@ -15,7 +15,7 @@ public class ButtonMap
 		/**
 		 * The left drive joystick button maps
 		 */
-		public static class Right
+		public static class Left
 		{
 			public static final int ALIGN_STRAIGHT = 2;
 			public static final int ALIGN_HOOK_LEFT = 4;
@@ -26,7 +26,7 @@ public class ButtonMap
 		/**
 		 * The right drive joystick button maps
 		 */
-		public static class Left
+		public static class Right
 		{
 			public static final int ACCUMULATE = 2;
 			public static final int HOLD_CURRENT_YAW = 3;
@@ -50,6 +50,7 @@ public class ButtonMap
 			public static final int SHOOT_FAR = 3;
 			public static final int SHOOT_CLOSE = 4;
 			public static final int CAM_LIGHT = 7; //Might need to move to a driver stick after testing
+			public static final int BOILER_YAW = 8;
 		}
 		
 		/**

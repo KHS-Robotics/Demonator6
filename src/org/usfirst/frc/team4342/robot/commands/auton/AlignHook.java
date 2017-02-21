@@ -5,15 +5,21 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Aligns the gear placer to place the gear on the hook
  */
 public class AlignHook extends AutonomousCommand 
 {
+	/**
+	 * Location of the hook to place the gear onto
+	 */
 	public enum Location
 	{
 		LEFT, MIDDLE, RIGHT
 	}
 	
+	/**
+	 * Used to keep track of the align hook state machine
+	 */
 	private enum HookState 
     {
     	START, FIX, FINISHING, FINISHED
@@ -30,6 +36,12 @@ public class AlignHook extends AutonomousCommand
 	private double initL, initR;
 	private final double FINAL_DIST = 36, ULTRA_DIST = 14.5, TAPE_DIST = 4.1;
 
+	/**
+	 * Creates a new <code>AlignHook</code> command
+	 * @param drive the <code>TankDrive</code> subsystem
+	 * @param location the location of the hook
+	 * @see Location
+	 */
     public AlignHook(TankDrive drive, Location location)
     {
     	super();
@@ -40,6 +52,10 @@ public class AlignHook extends AutonomousCommand
     	this.location = location;
     }
     
+    /**
+     * Determines the hook angle based on location, enables drive PID,
+     * and sets the hook state to start
+     */
     @Override
     protected void initialize() 
     {
@@ -64,6 +80,9 @@ public class AlignHook extends AutonomousCommand
     	hookState = HookState.START;
     }
 
+    /**
+     * Aligns the gear placer to the hook
+     */
     @Override
     protected void execute() 
     {
@@ -158,6 +177,9 @@ public class AlignHook extends AutonomousCommand
 		}	
     }
 
+    /**
+     * Disabled drive PID and zeros drive outputs
+     */
     @Override
     protected void end() 
     {
@@ -166,6 +188,10 @@ public class AlignHook extends AutonomousCommand
     	drive.set(0, 0);
     }
     
+    /**
+     * Checks the state of the command based on the hook state
+     * @return true if the hook state is equal to finished, false otherwise
+     */
     @Override
     protected boolean isFinished()
     {
