@@ -105,7 +105,7 @@ public class Shooter extends DemonSubsystem
 		isShooting = true;
 		
 		setFar();
-		shoot(-1176);
+		setShooter(-1176);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class Shooter extends DemonSubsystem
 		isShooting = true;
 		
 		setClose();
-		shoot(-750);
+		setShooter(-750);
 	}
 	
 	/**
@@ -162,6 +162,22 @@ public class Shooter extends DemonSubsystem
 	}
 	
 	/**
+	 * Sets the shooter PID to a specified setpoint
+	 * @param setpoint the setpoint for the shooter, ranging from
+	 * zero percent to 100 percent
+	 */
+	public void setShooter(int setpoint)
+	{
+		if(setpoint > 0)
+			setpoint = 0;
+		else if(setpoint < -1400)
+			setpoint = -1400;
+		
+		shooterPID.setSetpoint(setpoint);
+		enableShooterPID();
+	}
+	
+	/**
 	 * Sets the solenoid on the shooter to a longer ranged shot
 	 */
 	private void setFar()
@@ -179,22 +195,6 @@ public class Shooter extends DemonSubsystem
 		if (!isSetFar)
 			shootFar.set(true);
 		isSetFar = true;
-	}
-	
-	/**
-	 * Sets the shooter PID to a specified setpoint
-	 * @param setpoint the setpoint for the shooter, ranging from
-	 * zero percent to 100 percent
-	 */
-	private void shoot(int setpoint)
-	{
-		if(setpoint > 0)
-			setpoint = 0;
-		else if(setpoint < -1400)
-			setpoint = -1400;
-		
-		shooterPID.setSetpoint(setpoint);
-		enableShooterPID();
 	}
 	
 	/**
