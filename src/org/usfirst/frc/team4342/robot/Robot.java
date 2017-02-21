@@ -1,10 +1,9 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.auton.routines.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.CrossBaseline;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearLeft;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearMiddle;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearRight;
+import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGear;
 import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
@@ -15,7 +14,6 @@ import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -42,8 +40,9 @@ public class Robot extends IterativeRobot
 	private AlignHook alignHookLeft, alignHookMiddle, alignHookRight;
 	
 	// Autonomous chooser and routine
-	private SendableChooser<CommandGroup> autonomousChooser;
-	private CommandGroup autonomousRoutine;
+	private SendableChooser<AutonomousRoutine> autonomousChooser;
+	private SendableChooser<Boolean> useDeadReckoningChooser;
+	private AutonomousRoutine autonomousRoutine;
 	
 	private boolean startedTeleopCommands;
 	
@@ -60,7 +59,7 @@ public class Robot extends IterativeRobot
 		PDPLogger.start();
 		
 		Logger.info("Initializing teleop commands...");
-		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Shooter.BOILER_YAW), IO.getDrive());
+		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.BOILER_YAW), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
@@ -69,13 +68,18 @@ public class Robot extends IterativeRobot
 		alignHookRight = new AlignHook(IO.getDrive(), AlignHook.Location.RIGHT);
 		
 		Logger.info("Initializing autonomous routines...");
-		autonomousChooser = new SendableChooser<CommandGroup>();
+		autonomousChooser = new SendableChooser<AutonomousRoutine>();
 		autonomousChooser.addDefault("None", null);
-		autonomousChooser.addObject("Place Middle Gear", new PlaceGearMiddle(IO.getDrive(), IO.getGearPlacer()));
-		autonomousChooser.addObject("Place Left Gear", new PlaceGearLeft(IO.getDrive(), IO.getGearPlacer()));
-		autonomousChooser.addObject("Place Right Gear", new PlaceGearRight(IO.getDrive(), IO.getGearPlacer()));
+		autonomousChooser.addObject("Place Middle Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE));
+		autonomousChooser.addObject("Place Left Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT));
+		autonomousChooser.addObject("Place Right Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.RIGHT));
 		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+		
+		useDeadReckoningChooser = new SendableChooser<Boolean>();
+		useDeadReckoningChooser.addDefault("Use Dead Reckoning", true);
+		useDeadReckoningChooser.addObject("Use Align Hook", false);
+		SmartDashboard.putData("Use Dead Reckoning", useDeadReckoningChooser);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
@@ -125,7 +129,10 @@ public class Robot extends IterativeRobot
 		stopAutonomousRoutine();
 		stopTeleopCommands();
 		
+		boolean useDeadReckoning = useDeadReckoningChooser.getSelected();
 		autonomousRoutine = autonomousChooser.getSelected();
+		autonomousRoutine.setUseDeadReckoning(useDeadReckoning);
+		
 		startAutonomousRoutine();
 	}
 	

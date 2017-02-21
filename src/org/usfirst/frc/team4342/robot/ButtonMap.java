@@ -30,6 +30,7 @@ public class ButtonMap
 		{
 			public static final int ACCUMULATE = 2;
 			public static final int HOLD_CURRENT_YAW = 3;
+			public static final int BOILER_YAW = 4;
 			public static final int SHIFT = 5;
 			public static final int NAVX_RESET = 7; // temporary
 		}
@@ -50,7 +51,6 @@ public class ButtonMap
 			public static final int SHOOT_FAR = 3;
 			public static final int SHOOT_CLOSE = 4;
 			public static final int CAM_LIGHT = 7; //Might need to move to a driver stick after testing
-			public static final int BOILER_YAW = 8;
 		}
 		
 		/**

@@ -3,19 +3,12 @@ package org.usfirst.frc.team4342.robot.commands.auton.routines;
 import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-
 /**
- * Autonomous routine to simply cross the baseline. This command group
- * calls the following commands, respectively:
- * 
- * <ol>
- * <li>{@link GoStraightDistance}</li>
- * </ol>
+ * Autonomous routine to simply cross the baseline.
  * 
  * @see edu.wpi.first.wpilibj.command.CommandGroup
  */
-public class CrossBaseline extends CommandGroup 
+public class CrossBaseline extends AutonomousRoutine 
 {
 	private static final int DISTANCE = 122; // Calculated distance is 112", add 12" to be safe
 	

@@ -7,7 +7,7 @@ import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
  * 
  * @see org.usfirst.frc.team4342.robot.commands.auton.AutonomousCommand
  */
-public class PlaceGear extends AutonomousCommand
+public class LowerGear extends AutonomousCommand
 {
 	private GearPlacer placer;
 
@@ -15,7 +15,7 @@ public class PlaceGear extends AutonomousCommand
 	 * Creates a new <code>PlaceGear</code> command.
 	 * @param placer the <code>GearPlacer</code> subsystem
 	 */
-	public PlaceGear(GearPlacer placer)
+	public LowerGear(GearPlacer placer)
 	{
 		super(2);
 		
