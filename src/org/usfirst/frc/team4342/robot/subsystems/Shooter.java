@@ -105,7 +105,7 @@ public class Shooter extends DemonSubsystem
 		isShooting = true;
 		
 		setFar();
-		setShooter(-1176);
+		setShooter(-850);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class Shooter extends DemonSubsystem
 		isShooting = true;
 		
 		setClose();
-		setShooter(-750);
+		setShooter(-800);
 	}
 	
 	/**
