@@ -15,7 +15,7 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  */
 public class PlaceGear extends AutonomousRoutine
 {
-	private static final int PLACE_PEG_DISTANCE_INCHES = 6;
+	private static final int PLACE_PEG_DISTANCE_INCHES = 24;
 	
 	// Step 1
 	private static final double START_YAW = 0;
@@ -35,9 +35,14 @@ public class PlaceGear extends AutonomousRoutine
 	public PlaceGear(TankDrive drive, GearPlacer placer, AlignHook.Location location)
 	{
 		if(AlignHook.Location.MIDDLE.equals(location))
+		{
+			this.addSequential(new GoStraightDistance(0.5, START_YAW, DISTANCE, drive));
 			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
+		}
 		else
+		{
 			this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, DISTANCE, drive));
+		}
 		
 		if(this.isUsingDeadReckoning() && AlignHook.Location.LEFT.equals(location))
 			this.addSequential(new GoToAngle(PEG_YAW, drive));
@@ -47,7 +52,10 @@ public class PlaceGear extends AutonomousRoutine
 			this.addSequential(new AlignHook(drive, location));
 		
 		if(this.isUsingDeadReckoning() && !AlignHook.Location.MIDDLE.equals(location))
+		{
+			this.addSequential(new GoStraightDistance(0.5, START_YAW, DISTANCE, drive));
 			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
+		}
 		
 		this.addSequential(new LowerGear(placer));
 	}

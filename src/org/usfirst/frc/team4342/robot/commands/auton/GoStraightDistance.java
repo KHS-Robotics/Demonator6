@@ -11,7 +11,7 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  */
 public class GoStraightDistance extends AutonomousCommand
 {
-	private double direction, yaw, leftVal, rightVal, distance;
+	private double direction, yaw, leftVal, rightVal, distance, rdistance;
 	private TankDrive drive;
 	
 	/**
@@ -61,40 +61,14 @@ public class GoStraightDistance extends AutonomousCommand
 	@Override
 	protected boolean isFinished() 
 	{
-		final double LEFT_VAL = drive.getLeftDistance();
-		final double RIGHT_VAL = drive.getRightDistance();
-		
-		if (drive.leftIsDead())
-		{
-			return Math.abs(RIGHT_VAL - rightVal) >= distance;
-		}
-		
-		else if (drive.rightIsDead())
-		{
-			return Math.abs(LEFT_VAL - leftVal) >= distance;
-		}
-		
-		final double TOTAL = (Math.abs(LEFT_VAL - leftVal) + Math.abs(RIGHT_VAL - rightVal)) / 2;
-		
-		if (TOTAL > distance / 4)
-		{
-			if (!drive.leftIsActive())
-			{
-				drive.setLeftDead(true);
-				return Math.abs(RIGHT_VAL - rightVal) >= distance;
-			}
-		
-			else if (!drive.rightIsActive())
-			{
-				drive.setRightDead(true);
-				return Math.abs(LEFT_VAL - leftVal) >= distance;
-			}
-		}
-		
-		return (TOTAL >= distance);
+		return rdistance <= 0;
 	}
 	
 	/** {@inheritDoc} */
 	@Override
-	protected void execute() {}
+	protected void execute() 
+	{
+		rdistance = drive.remainingDistance(distance, leftVal, rightVal);
+		
+	}
 }

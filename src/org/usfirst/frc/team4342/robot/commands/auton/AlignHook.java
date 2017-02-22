@@ -22,7 +22,7 @@ public class AlignHook extends AutonomousCommand
 	 */
 	private enum HookState 
     {
-    	START, FIX, FINISHING, FINISHED
+    	START, FIX, GOSTRAIGHT, FINISHING, FINISHED
     }
 	
 	private TankDrive drive;
@@ -30,11 +30,12 @@ public class AlignHook extends AutonomousCommand
 	
 	private HookState hookState;
 	
+	private boolean robotPos;
 	private double hookAngle;
 	private double yudist, xudist, udist, ydist, xdist, dist, rmain;
 	private double sensorAngle, changeAngle, otherAngle;
 	private double initL, initR;
-	private final double FINAL_DIST = 36, ULTRA_DIST = 14.5, TAPE_DIST = 4.1;
+	private final double FINAL_DIST = 36 + 17, ULTRA_DIST = 7.25, TAPE_DIST = 4.1;
 
 	/**
 	 * Creates a new <code>AlignHook</code> command
@@ -76,6 +77,11 @@ public class AlignHook extends AutonomousCommand
 		else
 			hookAngle = 0;
 		
+		if(drive.getHeading() > 0)
+			robotPos = true;
+		else
+			robotPos = false;
+		
     	drive.enablePID();
     	hookState = HookState.START;
     }
@@ -102,18 +108,18 @@ public class AlignHook extends AutonomousCommand
 //				hookState = HookState.FINISHING;
 //			}
 			
-			if(l || r)
+			if((l && robotPos)|| (r && !robotPos))
 			{
 				sensorAngle = robotAngle;
-				if(r)
-					udist = d - (7.25/Math.tan(Math.toRadians(90 - sensorAngle)));
-				else
-					udist = d + (7.25/Math.tan(Math.toRadians(90 - sensorAngle)));
+//				if(r)
+//					udist = d - (7.25/Math.tan(Math.toRadians(90 - sensorAngle)));
+//				else
+					udist = d/*+ (7.25/Math.tan(Math.toRadians(90 - sensorAngle)))*/;
 				
 				yudist = Math.abs(udist * Math.cos(Math.toRadians(sensorAngle)));
 				xudist = Math.abs(udist * Math.sin(Math.toRadians(sensorAngle)));
 				
-				xdist = Math.abs(xudist - (TAPE_DIST + (ULTRA_DIST/((Math.sin(((90 - Math.abs(sensorAngle)) * (Math.PI/180))))))));
+				xdist = Math.abs(xudist - (TAPE_DIST + (ULTRA_DIST/(Math.sin(((Math.toRadians(90 - Math.abs(sensorAngle)))))))));
 				
 				ydist = Math.abs(yudist - FINAL_DIST);
 				otherAngle = Math.abs(Math.toDegrees(Math.atan(ydist/xdist)));
@@ -158,20 +164,22 @@ public class AlignHook extends AutonomousCommand
 			else
 			{
 				drive.setHeading(hookAngle);
-				if(Math.abs(robotAngle - hookAngle) < hookError)
+				
+				if(r && l)
+				{
+					sensorAngle = robotAngle;
+					hookState = HookState.GOSTRAIGHT;
+				}
+				else if(Math.abs(robotAngle - hookAngle) < hookError)
 					hookState = HookState.FINISHING;
 			}
-//			}
-//			else
-//			{
-//				drive.setHeading(robotAngle);
-//				
-//				if (Math.abs(robotAngle - hookAngle) <= hookError)
-//					hookState = HookState.FINISHING;
-//			}
+		}
+		else if(hookState == HookState.GOSTRAIGHT)
+		{
+			drive.goStraight(.35, sensorAngle);
 		}
 		else if(hookState == HookState.FINISHING)
-		{		
+		{
 			drive.disablePID();
 			hookState = HookState.FINISHED;
 		}	

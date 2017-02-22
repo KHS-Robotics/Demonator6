@@ -100,6 +100,9 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
+		if(IO.getLeftDriveStick().getRawButton(9))
+			IO.navx.reset();
+		
 		if(!alignHookIsRunning())
 		{
 			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT))
@@ -128,10 +131,8 @@ public class Robot extends IterativeRobot
 	{
 		stopAutonomousRoutine();
 		stopTeleopCommands();
-		
-		boolean useDeadReckoning = useDeadReckoningChooser.getSelected();
+
 		autonomousRoutine = autonomousChooser.getSelected();
-		autonomousRoutine.setUseDeadReckoning(useDeadReckoning);
 		
 		startAutonomousRoutine();
 	}
@@ -214,7 +215,10 @@ public class Robot extends IterativeRobot
 	private void startAutonomousRoutine()
 	{
 		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
+		{
+			autonomousRoutine.setUseDeadReckoning(useDeadReckoningChooser.getSelected());
 			autonomousRoutine.start();
+		}
 	}
 	
 	/**

@@ -49,7 +49,7 @@ public class GoStraightUntilWithinDistance extends AutonomousCommand
 	@Override
 	protected boolean isFinished() 
 	{
-		return drive.getUltrasonicDistance() - desiredDistance <= 0;
+		return drive.getUltrasonicDistance() <= desiredDistance;
 	}
 	
 	/** {@inheritDoc} */
