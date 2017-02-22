@@ -40,6 +40,7 @@ public class GoStraightUntilWithinDistance extends AutonomousCommand
 	protected void end() 
 	{
 		drive.disablePID();
+		drive.set(0, 0);
 	}
 
 	/**

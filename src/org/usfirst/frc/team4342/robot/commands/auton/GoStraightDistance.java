@@ -11,7 +11,7 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  */
 public class GoStraightDistance extends AutonomousCommand
 {
-	private double direction, yaw, leftVal, rightVal, distance, rdistance;
+	private double direction, yaw, leftVal, rightVal, distance;
 	private TankDrive drive;
 	
 	/**
@@ -25,6 +25,7 @@ public class GoStraightDistance extends AutonomousCommand
 	{
 		this.requires(drive);
 		
+		this.direction = direction;
 		this.drive = drive;
 		this.yaw = yaw;
 		this.distance = distance;
@@ -61,14 +62,10 @@ public class GoStraightDistance extends AutonomousCommand
 	@Override
 	protected boolean isFinished() 
 	{
-		return rdistance <= 0;
+		return drive.remainingDistance(distance, leftVal, rightVal) <= 0;
 	}
 	
 	/** {@inheritDoc} */
 	@Override
-	protected void execute() 
-	{
-		rdistance = drive.remainingDistance(distance, leftVal, rightVal);
-		
-	}
+	protected void execute() {}
 }

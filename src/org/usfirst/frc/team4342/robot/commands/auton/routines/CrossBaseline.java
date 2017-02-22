@@ -18,6 +18,6 @@ public class CrossBaseline extends AutonomousRoutine
 	 */
 	public CrossBaseline(TankDrive drive)
 	{
-		this.addSequential(new GoStraightDistance(0.75, drive.getHeading(), DISTANCE, drive));
+		this.addParallel(new GoStraightDistance(0.5, 0, DISTANCE, drive));
 	}
 }
