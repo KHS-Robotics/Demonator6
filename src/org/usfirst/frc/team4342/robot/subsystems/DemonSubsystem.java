@@ -10,11 +10,10 @@ public class DemonSubsystem extends Subsystem
 {
 	/**
 	 * Creates a new subsystem
-	 * @param name the name of the subsystem
 	 */
-	public DemonSubsystem(String name)
+	public DemonSubsystem()
 	{
-		super(name);
+		super();
 	}
 	
 	/**

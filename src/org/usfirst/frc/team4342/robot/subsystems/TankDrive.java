@@ -18,6 +18,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 {
 	private static final double P = 0.04, I = 0.0001, D = 0.012;
 	private static final Value HIGH_GEAR = Value.kForward, LOW_GEAR = Value.kReverse;
+	private static final double MAX_SHIFT_LOW_MOTOR_OUTPUT = 0.25;
 	
 	private CANTalon fr, fl, rr, rl, mr , ml;
 	private AHRS navx;
@@ -51,8 +52,6 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	public TankDrive(CANTalon fr, CANTalon fl, CANTalon mr, CANTalon ml, CANTalon rr, CANTalon rl, AHRS navx,
 			DoubleSolenoid shifter, Encoder left, Encoder right, DigitalInput rsensor, DigitalInput lsensor, Ultrasonic ultrasonic)
 	{
-		super(TankDrive.class.getName());
-		
 		this.fr = fr;
 		this.fl = fl;
 		this.mr = mr;
@@ -115,7 +114,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	 */
 	public void shiftLow()
 	{
-		if(LOW_GEAR.equals(currentGear))
+		if(LOW_GEAR.equals(currentGear) || isMoving(MAX_SHIFT_LOW_MOTOR_OUTPUT))
 			return;
 		
 		shifter.set(LOW_GEAR);
@@ -378,6 +377,25 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 //		}
 		
 		return TOTAL;
+	}
+	
+	/**
+	 * Gets if the drive train's outputs are above the given threshold
+	 * @param thresholdOutput the threshold to determine if a wheel is moving
+	 * @return true if any of the Talon's outputs are above the given threshold, false otherwise
+	 */
+	public boolean isMoving(double thresholdOutput)
+	{
+		thresholdOutput = normalizeOutput(thresholdOutput);
+		
+		final boolean FRONT_RIGHT = Math.abs(fr.get()) > thresholdOutput;
+		final boolean FRONT_LEFT = Math.abs(fl.get()) > thresholdOutput;
+		final boolean MIDDLE_RIGHT = Math.abs(mr.get()) > thresholdOutput;
+		final boolean MIDDLE_LEFT = Math.abs(ml.get()) > thresholdOutput;
+		final boolean REAR_RIGHT = Math.abs(rr.get()) > thresholdOutput;
+		final boolean REAR_LEFT = Math.abs(rl.get()) > thresholdOutput;
+		
+		return FRONT_RIGHT || FRONT_LEFT || MIDDLE_RIGHT || MIDDLE_LEFT || REAR_RIGHT || REAR_LEFT;
 	}
 	
 	/**

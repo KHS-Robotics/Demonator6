@@ -17,8 +17,6 @@ public class Scaler extends DemonSubsystem
 	 */
 	public Scaler(CANTalon motor)
 	{
-		super(Scaler.class.getName());
-		
 		this.motor = motor;
 	}
 	

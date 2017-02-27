@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutonomousRoutine extends CommandGroup
 {
+	protected AutonomousRoutine() {}
+	
 	private boolean useDeadReckoning;
 
 	/**

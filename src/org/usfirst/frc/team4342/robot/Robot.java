@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot
 		useDeadReckoningChooser = new SendableChooser<Boolean>();
 		useDeadReckoningChooser.addDefault("Use Dead Reckoning", true);
 		useDeadReckoningChooser.addObject("Use Align Hook", false);
-		SmartDashboard.putData("Use Dead Reckoning", useDeadReckoningChooser);
+		SmartDashboard.putData("Use Dead Reckoning Chooser", useDeadReckoningChooser);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
-		if(IO.getLeftDriveStick().getRawButton(9))
+		if(IO.getLeftDriveStick().getRawButton(9)) // temporary/for testing
 			IO.navx.reset();
 		
 		if(!alignHookIsRunning())
@@ -129,7 +129,6 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit()
 	{
-		
 		stopAutonomousRoutine();
 		stopTeleopCommands();
 

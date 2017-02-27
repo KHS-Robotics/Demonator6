@@ -31,8 +31,6 @@ public class Shooter extends DemonSubsystem
 	 */
 	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc, Solenoid shootFar, Solenoid camLight)
 	{
-		super(Shooter.class.getName());
-		
 		this.intake = intake;
 		this.agitator = agitator;
 		this.shooter = shooter;

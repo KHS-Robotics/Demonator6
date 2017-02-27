@@ -26,7 +26,7 @@ public abstract class TeleopCommand extends Command
 	 * @return true because a teleop command is never complete
 	 */
 	@Override
-	protected boolean isFinished() 
+	protected final boolean isFinished() 
 	{
 		return false;
 	}
