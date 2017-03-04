@@ -161,6 +161,23 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	}
 	
 	/**
+	 * Resets the encoders, should only be used when testing
+	 */
+	public void resetEncoders()
+	{
+		left.reset();
+		right.reset();
+	}
+	
+	/**
+	 * Resets the NavX, should only be used when testing
+	 */
+	public void resetNavX()
+	{
+		navx.reset();
+	}
+	
+	/**
 	 * Gets the current heading of the robot
 	 * @return the current heading of the robot ranging from -180.0 to 180.0 degrees
 	 */

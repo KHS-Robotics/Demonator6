@@ -32,7 +32,6 @@ public class ButtonMap
 			public static final int HOLD_CURRENT_YAW = 3;
 			public static final int BOILER_YAW = 4;
 			public static final int SHIFT = 5;
-			public static final int NAVX_RESET = 7; // temporary
 		}
 	}
 	
@@ -42,16 +41,19 @@ public class ButtonMap
 	public static class SwitchBox
 	{
 		/**
+		 * Reset Button to reset some sensors
+		 */
+		public static final int RESET = 9;
+		
+		/**
 		 * The switch box buttons for the shooter
 		 */
 		public static class Shooter
 		{
 			public static final int ACCUMULATE = 1;
-			public static final int AGITATE = 2;
-			public static final int SHOOT_FAR = 3;
-			public static final int SHOOT_CLOSE = 4;
-			public static final int CAM_LIGHT = 7; //Might need to move to a driver stick after testing
-			public static final int MANUAL_SETPOINT = 8; // probably temporary
+			public static final int AGITATE = 4;
+			public static final int SHOOT_FAR = 11;
+			public static final int SHOOT_CLOSE = 12;
 		}
 		
 		/**
@@ -59,7 +61,7 @@ public class ButtonMap
 		 */
 		public static class GearPlacer
 		{
-			public static final int LOWER = 5;
+			public static final int LOWER = 2;
 		}
 		
 		/**
@@ -67,7 +69,7 @@ public class ButtonMap
 		 */
 		public static class Scaler
 		{
-			public static final int SCALE = 6;
+			public static final int SCALE = 5;
 		}
 	}
 }

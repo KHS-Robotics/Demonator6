@@ -38,6 +38,8 @@ public class Shooter extends DemonSubsystem
 		this.shootFar = shootFar;
 		this.camLight = camLight;
 		
+		setCamLight(true);
+		
 		shooter.setPIDSourceType(PIDSourceType.kRate);
 		shooterEnc.setPIDSourceType(PIDSourceType.kRate);
 		shooterPID = new PIDController(P, I, D, F, this.shooterEnc, this.shooter);

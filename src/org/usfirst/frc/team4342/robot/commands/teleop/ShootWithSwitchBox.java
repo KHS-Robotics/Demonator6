@@ -5,7 +5,6 @@ import org.usfirst.frc.team4342.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Teleop command to control the shooter.
@@ -33,16 +32,6 @@ public class ShootWithSwitchBox extends TeleopCommand
 		this.shooter = shooter;
 	}
 	
-	/** 
-	 * {@inheritDoc} 
-	 * 
-	 */
-	@Override
-	protected void initialize() 
-	{
-		SmartDashboard.putNumber("Shooter-Setpoint", 0.0);
-	}
-	
 	/**
 	 * Main logic to run the shooter in teleop.
 	 */
@@ -53,9 +42,6 @@ public class ShootWithSwitchBox extends TeleopCommand
 		final boolean AGITATE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.AGITATE);
 		final boolean SHOOT_FAR = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_FAR);
 		final boolean SHOOT_CLOSE = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
-		final boolean CAM_LIGHT = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.CAM_LIGHT);
-		final boolean MANUAL_SETPOINT = switchBox.getRawButton(ButtonMap.SwitchBox.Shooter.MANUAL_SETPOINT);
-
 	
 		if (ACCUMULATE) 
 			shooter.accumulate();
@@ -67,18 +53,12 @@ public class ShootWithSwitchBox extends TeleopCommand
 		else
 			shooter.stopAgitating();
 	
-		if(MANUAL_SETPOINT)
-			shooter.setShooter((int) SmartDashboard.getNumber("Shooter-Setpoint", 0.0));
-		else if(SHOOT_FAR && SHOOT_CLOSE)
-			shooter.stopShooting();
-		else if (SHOOT_FAR)
+		if (SHOOT_FAR)
 			shooter.shootFar();
 		else if (SHOOT_CLOSE)
 			shooter.shootClose();
 		else
 			shooter.stopShooting();
-		
-		shooter.setCamLight(CAM_LIGHT);
 	}
 	
 	/**
@@ -91,4 +71,8 @@ public class ShootWithSwitchBox extends TeleopCommand
 		shooter.stopAgitating();
 		shooter.stopShooting();
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	protected void initialize() {}
 }
