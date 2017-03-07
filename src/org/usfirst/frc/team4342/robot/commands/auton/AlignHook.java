@@ -102,11 +102,11 @@ public class AlignHook extends AutonomousCommand
     		
 		if(hookState == HookState.START)
 		{
-//			if(l && r && (robotAngle-hookAngle) <= hookError)
-//			{
-//				sensorAngle = robotAngle;
-//				hookState = HookState.FINISHING;
-//			}
+			if(l && r && (robotAngle-hookAngle) <= hookError)
+			{
+				sensorAngle = robotAngle;
+				hookState = HookState.FINISHING;
+			}
 			
 			if((l && robotPos)|| (r && !robotPos))
 			{
@@ -158,7 +158,7 @@ public class AlignHook extends AutonomousCommand
 			if(drive.remainingDistance(dist, initL, initR) > 0)
 			{
 				
-				drive.goStraight(.35 , (sensorAngle + changeAngle));
+				drive.goStraight(.7 , (sensorAngle + changeAngle));
 			}
 				
 			else
@@ -176,7 +176,12 @@ public class AlignHook extends AutonomousCommand
 		}
 		else if(hookState == HookState.GOSTRAIGHT)
 		{
-			drive.goStraight(.35, sensorAngle);
+			drive.goStraight(.7, sensorAngle);
+			
+			if(udist < 15)
+			{
+				hookState = HookState.FINISHING;
+			}
 		}
 		else if(hookState == HookState.FINISHING)
 		{

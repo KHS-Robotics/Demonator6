@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
  * Tank Drive subsystem to control the drive train
@@ -25,7 +25,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	private DoubleSolenoid shifter;
 	private Encoder left, right;
 	private DigitalInput rsensor, lsensor;
-	private Ultrasonic ultrasonic;
+	private AnalogInput ultrasonic;
 	private PIDController yawPID;
 	
 	private Value currentGear;
@@ -50,7 +50,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	 * @param ultrasonic the ultrasonic sensor
 	 */
 	public TankDrive(CANTalon fr, CANTalon fl, CANTalon mr, CANTalon ml, CANTalon rr, CANTalon rl, AHRS navx,
-			DoubleSolenoid shifter, Encoder left, Encoder right, DigitalInput rsensor, DigitalInput lsensor, Ultrasonic ultrasonic)
+			DoubleSolenoid shifter, Encoder left, Encoder right, DigitalInput rsensor, DigitalInput lsensor, AnalogInput ultrasonic)
 	{
 		this.fr = fr;
 		this.fl = fl;
@@ -139,7 +139,9 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	 */
 	public double getUltrasonicDistance()
 	{
-		return ultrasonic.getRangeInches();
+		double mm = ((ultrasonic.getVoltage() - .293)/(.000977)) + 300;
+		double  inch = mm / 25.4;
+		return inch;
 	}
 	
 	/**
