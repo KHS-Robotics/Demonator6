@@ -45,9 +45,11 @@ public class DriveWithJoysticks extends TeleopCommand
 	@Override
 	protected void execute()
 	{
+		final boolean SHIFT_AND_GO_STRAIGHT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT_AND_GO_STRAIGHT);
 		final double LEFT_Y = leftJoystick.getY();
 		final double RIGHT_Y = -rightJoystick.getY();
 		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT);
+		final boolean HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW);
 		final boolean AIM_BOILER = aimBoilerButton.get();
 		
 		if(AIM_BOILER)
@@ -57,17 +59,17 @@ public class DriveWithJoysticks extends TeleopCommand
 			currentYaw = boilerYaw;
 		}
 		
-		if(SHIFT)
+		if(SHIFT || SHIFT_AND_GO_STRAIGHT)
 			drive.shiftHigh();
 		else
 			drive.shiftLow();
 		
-		if(!AIM_BOILER && !holdCurrentYaw && rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW))
+		if(!AIM_BOILER && !holdCurrentYaw &&  (HOLD_CURRENT_YAW || SHIFT_AND_GO_STRAIGHT))
 		{
 			holdCurrentYaw = true;
 			currentYaw = drive.getHeading();
 		}
-		else if(rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW))
+		else if(HOLD_CURRENT_YAW || SHIFT_AND_GO_STRAIGHT)
 		{
 			drive.goStraight(adjust(RIGHT_Y), currentYaw);
 			return;
@@ -80,7 +82,7 @@ public class DriveWithJoysticks extends TeleopCommand
 		if(!AIM_BOILER && leftJoystick.getRawButton(ButtonMap.DriveStick.Left.ALIGN_STRAIGHT))
 			drive.setHeading(0);
 		
-		if(!AIM_BOILER && (Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE))
+		if(!AIM_BOILER && (Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE) && !SHIFT_AND_GO_STRAIGHT)
 			drive.disablePID();
 		
 		if(!drive.pidEnabled())

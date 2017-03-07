@@ -28,6 +28,7 @@ public class ButtonMap
 		 */
 		public static class Right
 		{
+			public static final int SHIFT_AND_GO_STRAIGHT = 1;
 			public static final int ACCUMULATE = 2;
 			public static final int HOLD_CURRENT_YAW = 3;
 			public static final int BOILER_YAW = 4;

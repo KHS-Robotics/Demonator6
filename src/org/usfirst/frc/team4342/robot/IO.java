@@ -91,8 +91,6 @@ public class IO
 		gearPlacerSwitch = new DigitalInput(RobotMap.GEAR_PLACER_SWITCH);
 		ultrasonic = new AnalogInput(RobotMap.ULTRASONIC_ANALOG_IN);
 		
-		ultrasonic.setAutomaticMode(true);
-		
 		// Pneumatics
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
 	    shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD_CHANNEL, RobotMap.SHIFT_REVERSE_CHANNEL);

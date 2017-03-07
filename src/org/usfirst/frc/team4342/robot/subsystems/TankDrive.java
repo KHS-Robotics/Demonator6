@@ -139,7 +139,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	 */
 	public double getUltrasonicDistance()
 	{
-		double mm = ((ultrasonic.getVoltage() - .293)/(.000977)) + 300;
+		double mm = (((ultrasonic.getVoltage()) * 1000) / 4.883) * 5;
 		double  inch = mm / 25.4;
 		return inch;
 	}
