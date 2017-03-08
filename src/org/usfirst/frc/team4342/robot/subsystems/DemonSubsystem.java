@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Superclass for subsystems used on the robot for methods
  * that they may share
  */
-public class DemonSubsystem extends Subsystem 
+public abstract class DemonSubsystem extends Subsystem 
 {
 	/**
 	 * Creates a new subsystem

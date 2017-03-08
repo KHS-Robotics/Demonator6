@@ -21,8 +21,8 @@ public abstract class TeleopCommand extends Command
 	
 	/**
 	 * Returns true because a teleop command is never complete;
-	 * you have to explicitly call {@link #cancel()}, unless a subclass
-	 * of this class overrides it
+	 * you have to explicitly call {@link #cancel()}.
+	 * 
 	 * @return true because a teleop command is never complete
 	 */
 	@Override
