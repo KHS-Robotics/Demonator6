@@ -4,6 +4,8 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import edu.wpi.first.wpilibj.Timer;
+
 /**
  * Aligns the gear placer to place the gear on the hook
  */
@@ -22,7 +24,7 @@ public class AlignHook extends AutonomousCommand
 	 */
 	private enum HookState 
     {
-    	START, FIX, GOSTRAIGHT, FINISHING, FINISHED
+    	START, WAITFIX, FIX, GOSTRAIGHT, FINISHING, FINISHED
     }
 	
 	private TankDrive drive;
@@ -35,6 +37,8 @@ public class AlignHook extends AutonomousCommand
 	private double yudist, xudist, udist, ydist, xdist, dist, rmain;
 	private double sensorAngle, changeAngle, otherAngle;
 	private double initL, initR;
+	
+	Timer timer;
 	private final double FINAL_DIST = 36 + 17, ULTRA_DIST = 7.25, TAPE_DIST = 4.1;
 
 	/**
@@ -69,6 +73,7 @@ public class AlignHook extends AutonomousCommand
 		SmartDashboard.putNumber("X Dist -", 0.0);
 		SmartDashboard.putNumber("Y Dist -", 0.0);
 		SmartDashboard.putNumber("Dist -", 0.0);
+		SmartDashboard.putString("State", "");
 		
 		if(Location.LEFT.equals(location))
 			hookAngle = -60;
@@ -84,6 +89,10 @@ public class AlignHook extends AutonomousCommand
 		
     	drive.enablePID();
     	hookState = HookState.START;
+    	
+    	timer = new Timer();
+    	
+    	timer.reset();
     }
 
     /**
@@ -102,6 +111,8 @@ public class AlignHook extends AutonomousCommand
     		
 		if(hookState == HookState.START)
 		{
+			SmartDashboard.putString("State", "Start");
+			
 			if(l && r && (robotAngle-hookAngle) <= hookError)
 			{
 				sensorAngle = robotAngle;
@@ -110,11 +121,21 @@ public class AlignHook extends AutonomousCommand
 			
 			if((l && robotPos)|| (r && !robotPos))
 			{
+				timer.start();
 				sensorAngle = robotAngle;
-//				if(r)
-//					udist = d - (7.25/Math.tan(Math.toRadians(90 - sensorAngle)));
-//				else
-					udist = d/*+ (7.25/Math.tan(Math.toRadians(90 - sensorAngle)))*/;
+
+				hookState = HookState.WAITFIX;
+			}
+			
+			drive.setHeading(hookAngle);
+    	}
+		else if(hookState == HookState.WAITFIX)
+		{
+			SmartDashboard.putString("State", "WaitFix");
+			
+			if(timer.hasPeriodPassed(.2))
+			{
+				udist = d;
 				
 				yudist = Math.abs(udist * Math.cos(Math.toRadians(sensorAngle)));
 				xudist = Math.abs(udist * Math.sin(Math.toRadians(sensorAngle)));
@@ -146,12 +167,13 @@ public class AlignHook extends AutonomousCommand
 				initL = drive.getLeftDistance();
 				initR = drive.getRightDistance();
 			}
-			
-			drive.setHeading(hookAngle);
-    	}
-		
+			else
+				drive.setHeading(sensorAngle);
+		}
 		else if(hookState == HookState.FIX)
 		{
+			SmartDashboard.putString("State", "Fix");
+			
 			rmain = drive.remainingDistance(dist, initL, initR);
 			SmartDashboard.putNumber("Remain -", rmain);
 			
@@ -176,6 +198,8 @@ public class AlignHook extends AutonomousCommand
 		}
 		else if(hookState == HookState.GOSTRAIGHT)
 		{
+			SmartDashboard.putString("State", "GoStraight");
+			
 			drive.goStraight(.7, sensorAngle);
 			
 			if(udist < 15)
@@ -185,6 +209,8 @@ public class AlignHook extends AutonomousCommand
 		}
 		else if(hookState == HookState.FINISHING)
 		{
+			SmartDashboard.putString("State", "Finishing");
+			
 			drive.disablePID();
 			hookState = HookState.FINISHED;
 		}	
@@ -196,6 +222,8 @@ public class AlignHook extends AutonomousCommand
     @Override
     protected void end() 
     {
+    	SmartDashboard.putString("State", "Finished");
+    	
     	drive.setDirection(0);
     	drive.disablePID();
     	drive.set(0, 0);
