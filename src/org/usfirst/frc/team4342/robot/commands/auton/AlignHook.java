@@ -42,10 +42,11 @@ public class AlignHook extends AutonomousCommand
 	/**
 	 * Creates a new <code>AlignHook</code> command
 	 * @param drive the <code>TankDrive</code> subsystem
+	 * @param gearPlacer the <code>GearPlacer</code> subsystem
 	 * @param location the location of the hook
 	 * @see Location
 	 */
-    public AlignHook(TankDrive drive, GearPlacer gearplacer, Location location)
+    public AlignHook(TankDrive drive, GearPlacer gearPlacer, Location location)
     {
     	super();
     	
@@ -53,7 +54,7 @@ public class AlignHook extends AutonomousCommand
     	
     	this.drive = drive;
     	this.location = location;
-    	this.gearplacer = gearplacer;
+    	this.gearplacer = gearPlacer;
     }
     
     /**

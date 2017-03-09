@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class DriveWithJoysticks extends TeleopCommand
 {	
-	private static final double BOILER_YAW = 145;
+	private static final double BOILER_YAW = 135.0;
+	private static final double LOAD_IN_YAW = 28.0;
 	
 	private boolean holdDesiredYaw;
 	private double desiredYaw;
@@ -50,6 +51,7 @@ public class DriveWithJoysticks extends TeleopCommand
 		final boolean ALIGN_STRAIGHT = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.ALIGN_STRAIGHT);
 		final boolean HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW);
 		final boolean AIM_BOILER = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.BOILER_YAW);
+		final boolean GO_TO_LOAD_IN_YAW = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.GO_TO_LOAD_IN_YAW);
 		
 		if(SHIFT || SHIFT_AND_HOLD_CURRENT_YAW)
 			drive.shiftHigh();
@@ -75,7 +77,19 @@ public class DriveWithJoysticks extends TeleopCommand
 			else  if(this.isRedAlliance())
 				desiredYaw = BOILER_YAW;
 			else
-				desiredYaw = 180;
+				desiredYaw = BOILER_YAW + 45;
+			
+			drive.setHeading(desiredYaw);
+			holdDesiredYaw = true;
+		}
+		else if(!holdDesiredYaw && GO_TO_LOAD_IN_YAW)
+		{
+			if(this.isBlueAlliance())
+				desiredYaw = LOAD_IN_YAW;
+			else if(this.isRedAlliance())
+				desiredYaw = -LOAD_IN_YAW;
+			else
+				desiredYaw = 0;
 			
 			drive.setHeading(desiredYaw);
 			holdDesiredYaw = true;

@@ -137,7 +137,7 @@ public class Shooter extends DemonSubsystem
 	/**
 	 * Gets the current speed of the shooter
 	 * @return the speed of the shooter, as read by the encoder
-	 * @see {@link edu.wpi.first.wpilibj.Encoder#getRate()}
+	 * @see Encoder#getRate()
 	 */
 	public double getSpeed()
 	{

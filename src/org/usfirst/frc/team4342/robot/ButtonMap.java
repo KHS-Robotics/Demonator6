@@ -17,6 +17,7 @@ public class ButtonMap
 		 */
 		public static class Left
 		{
+			public static final int GO_TO_LOAD_IN_YAW = 1;
 			public static final int ALIGN_STRAIGHT = 2;
 			public static final int ALIGN_HOOK_LEFT = 4;
 			public static final int ALIGN_HOOK_MIDDLE = 3;
