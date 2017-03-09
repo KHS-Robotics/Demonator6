@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot
 	private ShootWithSwitchBox shooter;
 	private PlaceGearWithSwitchBox gearPlacer;
 	private Scale scaler;
-	private AlignHook alignHookLeft, alignHookMiddle, alignHookRight;
+	private AlignHook alignHook;
 	
 	// Autonomous chooser and routine
 	private SendableChooser<AutonomousRoutine> autonomousChooser;
@@ -59,13 +59,11 @@ public class Robot extends IterativeRobot
 		PDPLogger.start();
 		
 		Logger.info("Initializing teleop commands...");
-		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.BOILER_YAW), IO.getDrive());
+		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
-		alignHookLeft = new AlignHook(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT);
-		alignHookMiddle = new AlignHook(IO.getDrive(), IO.getGearPlacer() , AlignHook.Location.MIDDLE);
-		alignHookRight = new AlignHook(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.RIGHT);
+		alignHook = new AlignHook(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE);
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<AutonomousRoutine>();
@@ -109,18 +107,18 @@ public class Robot extends IterativeRobot
 		if(!alignHookIsRunning())
 		{
 			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT))
-				startAlignHookCommand(alignHookRight);
+				startAlignHookCommand(AlignHook.Location.RIGHT);
 			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_MIDDLE))
-				startAlignHookCommand(alignHookMiddle);
+				startAlignHookCommand(AlignHook.Location.MIDDLE);
 			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_RIGHT))
-				startAlignHookCommand(alignHookLeft);
+				startAlignHookCommand(AlignHook.Location.LEFT);
 			else if(!drive.isRunning())
 				drive.start();
 		}
 		else
 		{
 			if(IO.shouldCancelAutoCommand())
-				stopAlignHookCommands();
+				alignHook.cancel();
 		}
 		
 		Scheduler.getInstance().run();
@@ -206,7 +204,7 @@ public class Robot extends IterativeRobot
 			shooter.cancel();
 			gearPlacer.cancel();
 			scaler.cancel();
-			stopAlignHookCommands();
+			alignHook.cancel();
 			
 			startedTeleopCommands = false;
 		}
@@ -236,22 +234,14 @@ public class Robot extends IterativeRobot
 	
 	/**
 	 * Stops <code>DriveWithJoyticks</code> and starts <code>AlignHook</code>
-	 * @param alignHook the align hook command to start
+	 * @param location the location of the hook to align
 	 */
-	private void startAlignHookCommand(AlignHook alignHook)
+	private void startAlignHookCommand(AlignHook.Location location)
 	{
 		drive.cancel();
+		
+		alignHook.setLocation(location);
 		alignHook.start();
-	}
-	
-	/**
-	 * Stops the align hook commands
-	 */
-	private void stopAlignHookCommands()
-	{
-		alignHookLeft.cancel();
-		alignHookMiddle.cancel();
-		alignHookRight.cancel();
 	}
 	
 	/**
@@ -260,6 +250,6 @@ public class Robot extends IterativeRobot
 	 */
 	private boolean alignHookIsRunning()
 	{
-		return alignHookLeft.isRunning() || alignHookMiddle.isRunning() || alignHookRight.isRunning();
+		return alignHook.isRunning();
 	}
 }

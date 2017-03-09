@@ -57,6 +57,16 @@ public class AlignHook extends AutonomousCommand
     }
     
     /**
+     * Sets the location
+     * @param location the location
+     * @see Location
+     */
+    public void setLocation(Location location)
+    {
+    	this.location = location;
+    }
+    
+    /**
      * Determines the hook angle based on location, enables drive PID,
      * and sets the hook state to start
      */

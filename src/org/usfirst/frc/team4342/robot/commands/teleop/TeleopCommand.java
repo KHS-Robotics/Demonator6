@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team4342.robot.commands.DemonCommand;
 
 /**
  * Superclass for teleop commands so they can share common methods
@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj.command.Command;
  * 
  * @see edu.wpi.first.wpilibj.command.Command
  */
-public abstract class TeleopCommand extends Command 
+public abstract class TeleopCommand extends DemonCommand 
 {
 	/**
 	 * Creates a new teleop command
-	 * @param name the name of the command
 	 */
 	public TeleopCommand()
 	{
@@ -22,7 +21,6 @@ public abstract class TeleopCommand extends Command
 	/**
 	 * Returns true because a teleop command is never complete;
 	 * you have to explicitly call {@link #cancel()}.
-	 * 
 	 * @return true because a teleop command is never complete
 	 */
 	@Override
@@ -30,25 +28,4 @@ public abstract class TeleopCommand extends Command
 	{
 		return false;
 	}
-	
-	/**
-	 * Calls {@link #end()} if {@link #cancel()} is called
-	 */
-	@Override
-	protected void interrupted()
-	{
-		this.end();
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	protected abstract void initialize();
-	
-	/** {@inheritDoc} */
-	@Override
-	protected abstract void execute();
-	
-	/** {@inheritDoc} */
-	@Override
-	protected abstract void end();
 }
