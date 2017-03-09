@@ -63,16 +63,16 @@ public class Robot extends IterativeRobot
 		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
-		alignHookLeft = new AlignHook(IO.getDrive(), AlignHook.Location.LEFT);
-		alignHookMiddle = new AlignHook(IO.getDrive(), AlignHook.Location.MIDDLE);
-		alignHookRight = new AlignHook(IO.getDrive(), AlignHook.Location.RIGHT);
+		alignHookLeft = new AlignHook(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT);
+		alignHookMiddle = new AlignHook(IO.getDrive(), IO.getGearPlacer() , AlignHook.Location.MIDDLE);
+		alignHookRight = new AlignHook(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.RIGHT);
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<AutonomousRoutine>();
 		autonomousChooser.addDefault("None", null);
 		autonomousChooser.addObject("Place Middle Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE));
-		autonomousChooser.addObject("Place Left Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT));
-		autonomousChooser.addObject("Place Right Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.RIGHT));
+		autonomousChooser.addObject("Place Left Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.RIGHT));
+		autonomousChooser.addObject("Place Right Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT));
 		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 		
@@ -109,11 +109,11 @@ public class Robot extends IterativeRobot
 		if(!alignHookIsRunning())
 		{
 			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT))
-				startAlignHookCommand(alignHookLeft);
+				startAlignHookCommand(alignHookRight);
 			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_MIDDLE))
 				startAlignHookCommand(alignHookMiddle);
 			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_RIGHT))
-				startAlignHookCommand(alignHookRight);
+				startAlignHookCommand(alignHookLeft);
 			else if(!drive.isRunning())
 				drive.start();
 		}
@@ -219,6 +219,7 @@ public class Robot extends IterativeRobot
 	{
 		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
 		{
+			IO.getDrive().resetNavX();
 			autonomousRoutine.setUseDeadReckoning(useDeadReckoningChooser.getSelected());
 			autonomousRoutine.start();
 		}

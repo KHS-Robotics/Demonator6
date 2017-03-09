@@ -15,12 +15,12 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  */
 public class PlaceGear extends AutonomousRoutine
 {
-	private static final int PLACE_PEG_DISTANCE_INCHES = 3;
+	private static final int PLACE_PEG_DISTANCE_INCHES = 12;
 	
 	// Step 1
 	private static final double START_YAW = 0;
 	private static final double DISTANCE = 56;
-	private static final double DIRECTION = 0.33;
+	private static final double DIRECTION = 0.75;
 	
 	// Step 2
 	private static final double PEG_YAW = 60;
@@ -36,7 +36,7 @@ public class PlaceGear extends AutonomousRoutine
 	{
 		if(AlignHook.Location.MIDDLE.equals(location))
 		{
-			this.addSequential(new GoStraightDistance(0.5, START_YAW, DISTANCE, drive));
+			this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, DISTANCE, drive));
 			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
 		}
 		else
@@ -44,19 +44,19 @@ public class PlaceGear extends AutonomousRoutine
 			this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, DISTANCE, drive));
 		}
 		
-		if(this.isUsingDeadReckoning() && AlignHook.Location.LEFT.equals(location))
-			this.addSequential(new GoToAngle(PEG_YAW, drive));
-		else if(this.isUsingDeadReckoning() && AlignHook.Location.RIGHT.equals(location))
+		if(this.isUsingDeadReckoning() && AlignHook.Location.RIGHT.equals(location))
 			this.addSequential(new GoToAngle(-PEG_YAW, drive));
+		else if(this.isUsingDeadReckoning() && AlignHook.Location.LEFT.equals(location))
+			this.addSequential(new GoToAngle(PEG_YAW, drive));
 		else if(!this.isUsingDeadReckoning() && !AlignHook.Location.MIDDLE.equals(location))
-			this.addSequential(new AlignHook(drive, location));
+			this.addSequential(new AlignHook(drive, placer,location));
 		
 		if(this.isUsingDeadReckoning() && !AlignHook.Location.MIDDLE.equals(location))
 		{
-			this.addSequential(new GoStraightDistance(0.5, START_YAW, DISTANCE, drive));
+			this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, DISTANCE, drive));
 			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
 		}
 		
-		this.addSequential(new LowerGear(placer));
+		this.addSequential(new LowerGear(placer)); // may not want to run this command at all, power to the pilot
 	}
 }

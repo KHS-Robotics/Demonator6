@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * Class that holds direct access to the <code>Subsystem</code> objects
@@ -32,7 +32,7 @@ public class IO
 	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
 	private static AHRS navx;
 	private static DigitalInput rsensor, lsensor, gearPlacerSwitch;
-	private static AnalogInput ultrasonic;
+	private static Ultrasonic ultrasonic;
 	private static DoubleSolenoid placer, shifter;
 	private static Solenoid shootFar, camLight;
 	private static Encoder leftDrive, rightDrive, shooterEnc;
@@ -89,7 +89,9 @@ public class IO
 		rsensor = new DigitalInput(RobotMap.RIGHT_PHOTO_SENSOR);
 		lsensor = new DigitalInput(RobotMap.LEFT_PHOTO_SENSOR);
 		gearPlacerSwitch = new DigitalInput(RobotMap.GEAR_PLACER_SWITCH);
-		ultrasonic = new AnalogInput(RobotMap.ULTRASONIC_ANALOG_IN);
+		ultrasonic = new Ultrasonic(RobotMap.ULTRASONIC_DIGITAL_OUT, RobotMap.ULTRASONIC_DIGITAL_IN);
+		
+		ultrasonic.setAutomaticMode(true);
 		
 		// Pneumatics
 	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);

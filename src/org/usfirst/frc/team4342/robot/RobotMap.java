@@ -49,7 +49,8 @@ public class RobotMap
 	public static final int LEFT_PHOTO_SENSOR = 7;
 	public static final int LINE_FOLLOWER = 8;
 	public static final int GEAR_PLACER_SWITCH = 9;
-	public static final int ULTRASONIC_ANALOG_IN = 0;
+	public static final int ULTRASONIC_DIGITAL_IN = 23;
+	public static final int ULTRASONIC_DIGITAL_OUT = 22;
 	
 	// Pneumatics
 	public static final int SHIFT_FORWARD_CHANNEL = 0;
