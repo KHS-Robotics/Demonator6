@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * Superclass for Autonomous Routines
+ * 
+ * @see CommandGroup
  */
-public class AutonomousRoutine extends CommandGroup
+public abstract class AutonomousRoutine extends CommandGroup
 {
 	protected AutonomousRoutine() {}
 	

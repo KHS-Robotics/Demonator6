@@ -11,7 +11,7 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 /**
  * Autonomous routine to place a gear on a peg.
  * 
- * @see edu.wpi.first.wpilibj.command.CommandGroup
+ * @see AutonomousRoutine
  */
 public class PlaceGear extends AutonomousRoutine
 {
@@ -26,7 +26,7 @@ public class PlaceGear extends AutonomousRoutine
 	private static final double PEG_YAW = 60;
 	
 	/**
-	 * Creates a new autonomous routine to place a gear on the left peg
+	 * Creates a new autonomous routine to place a gear on a peg
 	 * @param drive the <code>TankDrive</code> subsystem
 	 * @param placer the <code>GearPlacer</code> subsystem
 	 * @param location the location of the peg

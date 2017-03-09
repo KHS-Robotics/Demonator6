@@ -34,7 +34,7 @@ public abstract class DemonCommand extends Command
 	 * Checks if robot is on red alliance
 	 * @return true if on red alliance, false otherwise
 	 */
-	public boolean isRedAlliance()
+	protected boolean isRedAlliance()
 	{
 		if(alliance == null || Alliance.Invalid.equals(alliance))
 			getAlliance();
@@ -46,7 +46,7 @@ public abstract class DemonCommand extends Command
 	 * Checks if robot is on blue alliance
 	 * @return true if on blue alliance, false otherwise
 	 */
-	public boolean isBlueAlliance()
+	protected boolean isBlueAlliance()
 	{
 		if(alliance == null || Alliance.Invalid.equals(alliance))
 			getAlliance();

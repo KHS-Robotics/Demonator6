@@ -98,13 +98,13 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
-		if(IO.getSwitchBox().getRawButton(ButtonMap.SwitchBox.RESET)) // temporary/for testing
+		if(IO.getSwitchBox().getRawButton(ButtonMap.SwitchBox.RESET)) // for testing purposes
 		{
 			IO.getDrive().resetNavX();
 			IO.getDrive().resetEncoders();
 		}
 		
-		if(!alignHookIsRunning())
+		if(!alignHook.isRunning())
 		{
 			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT))
 				startAlignHookCommand(AlignHook.Location.RIGHT);
@@ -175,6 +175,7 @@ public class Robot extends IterativeRobot
 	{
 		stopAutonomousRoutine();
 		stopTeleopCommands();
+		Scheduler.getInstance().run();
 	}
 	
 	/**
@@ -233,7 +234,7 @@ public class Robot extends IterativeRobot
 	}
 	
 	/**
-	 * Stops <code>DriveWithJoyticks</code> and starts <code>AlignHook</code>
+	 * Cancels <code>DriveWithJoyticks</code> and starts <code>AlignHook</code>
 	 * @param location the location of the hook to align
 	 */
 	private void startAlignHookCommand(AlignHook.Location location)
@@ -242,14 +243,5 @@ public class Robot extends IterativeRobot
 		
 		alignHook.setLocation(location);
 		alignHook.start();
-	}
-	
-	/**
-	 * Gets if any of the align hook commands are running
-	 * @return true if an align hook command is running, false otherwise
-	 */
-	private boolean alignHookIsRunning()
-	{
-		return alignHook.isRunning();
 	}
 }
