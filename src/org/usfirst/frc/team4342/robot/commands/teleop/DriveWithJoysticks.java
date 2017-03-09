@@ -71,9 +71,9 @@ public class DriveWithJoysticks extends TeleopCommand
 		else if(!holdDesiredYaw && AIM_BOILER)
 		{
 			if(this.isBlueAlliance())
-				desiredYaw = BOILER_YAW;
-			else  if(this.isRedAlliance())
 				desiredYaw = -BOILER_YAW;
+			else  if(this.isRedAlliance())
+				desiredYaw = BOILER_YAW;
 			else
 				desiredYaw = 180;
 			
