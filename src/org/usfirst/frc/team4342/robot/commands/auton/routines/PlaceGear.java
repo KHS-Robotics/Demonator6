@@ -4,7 +4,6 @@ import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
 import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.auton.GoStraightUntilWithinDistance;
 import org.usfirst.frc.team4342.robot.commands.auton.GoToAngle;
-import org.usfirst.frc.team4342.robot.commands.auton.LowerGear;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 

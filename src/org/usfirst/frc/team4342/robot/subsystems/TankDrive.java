@@ -9,12 +9,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * Tank Drive subsystem to control the drive train
  */
-public class TankDrive extends DemonSubsystem implements PIDOutput
+public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 {
 	private static final double P = 0.04, I = 0.0001, D = 0.012;
 	private static final Value HIGH_GEAR = Value.kForward, LOW_GEAR = Value.kReverse;
@@ -30,6 +32,8 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	
 	private Value currentGear;
 	private double direction;
+	private double offset;
+	private PIDSourceType pidSourceType;
 	
 	private boolean leftDead, rightDead;
 	
@@ -70,7 +74,9 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 		
 		shiftLow();
 		
-		yawPID = new PIDController(P, I, D, navx, this);
+		setPIDSourceType(PIDSourceType.kDisplacement);
+		
+		yawPID = new PIDController(P, I, D, this, this);
 		yawPID.setInputRange(-180.0, 180.0);
 		yawPID.setOutputRange(-1.0, 1.0);
 		yawPID.setContinuous();
@@ -183,7 +189,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	 */
 	public double getHeading()
 	{
-		return navx.getYaw();
+		return normalizeYaw(navx.getYaw() + offset);
 	}
 	
 	/**
@@ -250,7 +256,7 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	 */
 	public void setYawOffset(double offset)
 	{
-		navx.setAngleAdjustment(normalizeYaw(offset));
+		this.offset = offset;
 	}
 	
 	/**
@@ -279,6 +285,31 @@ public class TankDrive extends DemonSubsystem implements PIDOutput
 	public boolean onTarget()
 	{
 		return yawPID.onTarget();
+	}
+	
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource)
+	{
+		pidSourceType = pidSource;
+	}
+	
+	@Override
+	public PIDSourceType getPIDSourceType()
+	{
+		return pidSourceType;
+	}
+	
+	/**
+	 * Gets the heading of the robot
+	 * @return the current yaw of the robot
+	 */
+	@Override
+	public double pidGet()
+	{
+		if(pidSourceType == PIDSourceType.kRate)
+			return navx.getRate();
+		else
+			return this.getHeading();
 	}
 	
 	/**
