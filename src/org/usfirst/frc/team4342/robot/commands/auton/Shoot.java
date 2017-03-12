@@ -2,16 +2,11 @@ package org.usfirst.frc.team4342.robot.commands.auton;
 
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
 
-import edu.wpi.first.wpilibj.Timer;
-
 /**
  * Command to shoot fuel into the boiler
  */
 public class Shoot extends AutonomousCommand 
 {
-	private static final double WAIT_TO_AGITATE_SECONDS = 0.5;
-	private Timer timer;
-	
 	private Shooter shooter;
 	private boolean shootFar;
 	
@@ -27,8 +22,6 @@ public class Shoot extends AutonomousCommand
 		
 		this.shooter = shooter;
 		this.shootFar = shootFar;
-		
-		timer = new Timer();
 	}
 
 	/**
@@ -41,17 +34,12 @@ public class Shoot extends AutonomousCommand
 			shooter.shootFar();
 		else
 			shooter.shootClose();
+		
+		shooter.agitate();
 	}
 
 	@Override
-	protected void execute() 
-	{
-		if(timer.get() > WAIT_TO_AGITATE_SECONDS)
-		{
-			shooter.agitate();
-			timer.stop();
-		}
-	}
+	protected void execute() {}
 
 	/**
 	 * Stops the agitator and shooter

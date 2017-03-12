@@ -20,7 +20,6 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 {
 	private static final double P = 0.04, I = 0.0001, D = 0.012;
 	private static final Value HIGH_GEAR = Value.kForward, LOW_GEAR = Value.kReverse;
-	private static final double MAX_SHIFT_LOW_MOTOR_OUTPUT = 0.25;
 	
 	private CANTalon fr, fl, rr, rl, mr , ml;
 	private AHRS navx;
@@ -120,7 +119,7 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 	 */
 	public void shiftLow()
 	{
-		if(LOW_GEAR.equals(currentGear) || isMoving(MAX_SHIFT_LOW_MOTOR_OUTPUT))
+		if(LOW_GEAR.equals(currentGear))
 			return;
 		
 		shifter.set(LOW_GEAR);
@@ -407,10 +406,9 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 //			return Math.abs(LEFT_VAL - initialLeft);
 //		}
 		
-		final double TOTAL = distance -AVERAGE;
-//		final double TOTAL = (Math.abs(LEFT_VAL - initialLeft) + Math.abs(RIGHT_VAL - initialRight)) / 2;
-//		
-//		if (TOTAL > distance / 4)
+		final double REMAINING = distance - AVERAGE;
+		
+//		if ( > distance / 4)
 //		{
 //			if (!leftIsActive())
 //			{
@@ -424,7 +422,7 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 //			}
 //		}
 		
-		return TOTAL;
+		return REMAINING;
 	}
 	
 	/**

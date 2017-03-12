@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4342.robot.commands.auton.routines;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -11,9 +10,20 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public abstract class AutonomousRoutine extends CommandGroup
 {
+	private Alliance alliance;
+	
 	protected AutonomousRoutine() {}
 	
+	protected AutonomousRoutine(Alliance alliance)
+	{
+		super();
+		
+		this.alliance = alliance;
+	}
+	
 	private boolean useDeadReckoning;
+	
+	public void initialize() {}
 	
 	/**
 	 * Gets if the robot is on the blue alliance
@@ -21,7 +31,7 @@ public abstract class AutonomousRoutine extends CommandGroup
 	 */
 	protected boolean isBlueAlliance()
 	{
-		return DriverStation.getInstance().getAlliance().equals(Alliance.Blue);
+		return Alliance.Blue.equals(alliance);
 	}
 	
 	/**
@@ -30,7 +40,7 @@ public abstract class AutonomousRoutine extends CommandGroup
 	 */
 	protected boolean isRedAlliance()
 	{
-		return !isBlueAlliance();
+		return Alliance.Red.equals(alliance);
 	}
 
 	/**

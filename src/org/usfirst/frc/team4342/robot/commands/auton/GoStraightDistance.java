@@ -39,6 +39,7 @@ public class GoStraightDistance extends AutonomousCommand
 	@Override
 	public void initialize()
 	{
+		drive.shiftLow();
 		leftVal = drive.getLeftDistance();
 		rightVal = drive.getRightDistance();
 		drive.goStraight(direction, yaw);

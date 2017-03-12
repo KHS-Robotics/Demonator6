@@ -14,6 +14,7 @@ import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -72,7 +73,8 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Place Middle Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE));
 		autonomousChooser.addObject("Place Left Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.RIGHT));
 		autonomousChooser.addObject("Place Right Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT));
-		autonomousChooser.addObject("Shoot Fuel into Boiler", new ShootFuelIntoBoiler(IO.getDrive(), IO.getShooter()));
+		autonomousChooser.addObject("Shoot Fuel into Boiler (Blue)", new ShootFuelIntoBoiler(IO.getDrive(), IO.getShooter(), Alliance.Blue));
+		autonomousChooser.addObject("Shoot Fuel into Boiler (Red)", new ShootFuelIntoBoiler(IO.getDrive(), IO.getShooter(), Alliance.Red));
 		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 		
@@ -222,6 +224,7 @@ public class Robot extends IterativeRobot
 		{
 			IO.getDrive().resetNavX();
 			autonomousRoutine.setUseDeadReckoning(useDeadReckoningChooser.getSelected());
+			autonomousRoutine.initialize();
 			autonomousRoutine.start();
 		}
 	}

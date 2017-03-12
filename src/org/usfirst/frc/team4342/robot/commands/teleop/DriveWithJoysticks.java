@@ -19,6 +19,9 @@ public class DriveWithJoysticks extends TeleopCommand
 	private boolean holdDesiredYaw;
 	private double desiredYaw;
 	
+	private long lastTimeShiftedMs;
+	private boolean usedShiftHighAndGoStraight;
+	
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
 	
@@ -53,10 +56,16 @@ public class DriveWithJoysticks extends TeleopCommand
 		final boolean AIM_BOILER = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.BOILER_YAW);
 		final boolean GO_TO_LOAD_IN_YAW = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.GO_TO_LOAD_IN_YAW);
 		
-		if(SHIFT || SHIFT_AND_HOLD_CURRENT_YAW)
-			drive.shiftHigh();
-		else
-			drive.shiftLow();
+		if(SHIFT)
+		{
+			final long CURRENT_TIME = System.currentTimeMillis();
+			
+			if(CURRENT_TIME - lastTimeShiftedMs >= 500)
+			{
+				lastTimeShiftedMs = System.currentTimeMillis();
+				drive.shift();
+			}
+		}
 		
 		if(!holdDesiredYaw && ALIGN_STRAIGHT)
 		{
@@ -64,8 +73,17 @@ public class DriveWithJoysticks extends TeleopCommand
 			drive.setHeading(desiredYaw);
 			holdDesiredYaw = true;
 		}
-		else if(!holdDesiredYaw &&  (HOLD_CURRENT_YAW || SHIFT_AND_HOLD_CURRENT_YAW))
+		else if(!holdDesiredYaw && HOLD_CURRENT_YAW)
 		{
+			desiredYaw = drive.getHeading();
+			drive.setHeading(desiredYaw);
+			holdDesiredYaw = true;
+		}
+		else if(!holdDesiredYaw &&  SHIFT_AND_HOLD_CURRENT_YAW)
+		{
+			usedShiftHighAndGoStraight = true;
+			
+			drive.shiftHigh();
 			desiredYaw = drive.getHeading();
 			drive.setHeading(desiredYaw);
 			holdDesiredYaw = true;
@@ -101,12 +119,18 @@ public class DriveWithJoysticks extends TeleopCommand
 		else
 		{
 			if(holdDesiredYaw && (Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE))
-			{
+			{	
 				drive.disablePID();
 				holdDesiredYaw = false;
 			}
 			else if(!holdDesiredYaw)
 			{
+				if(usedShiftHighAndGoStraight)
+				{
+					usedShiftHighAndGoStraight = false;
+					drive.shiftLow();
+				}
+				
 				drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
 			}
 		}

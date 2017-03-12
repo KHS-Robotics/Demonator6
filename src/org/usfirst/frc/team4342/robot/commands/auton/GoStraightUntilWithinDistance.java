@@ -30,6 +30,7 @@ public class GoStraightUntilWithinDistance extends AutonomousCommand
 	@Override
 	protected void initialize() 
 	{
+		drive.shiftLow();
 		drive.goStraight(0.5, drive.getHeading());
 	}
 

@@ -32,6 +32,7 @@ public class GoToAngle extends AutonomousCommand
 	@Override
 	protected void initialize()
 	{
+		drive.shiftLow();
 		drive.enablePID();
 		drive.setHeading(yaw);
 	}

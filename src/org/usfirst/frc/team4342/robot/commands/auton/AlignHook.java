@@ -97,6 +97,9 @@ public class AlignHook extends AutonomousCommand
 			robotPos = false;
 		
     	drive.enablePID();
+    	
+    	drive.shiftLow();
+    	
     	hookState = HookState.START;
     }
 
@@ -133,7 +136,7 @@ public class AlignHook extends AutonomousCommand
 				yudist = Math.abs(udist * Math.cos(Math.toRadians(sensorAngle)));
 				xudist = Math.abs(udist * Math.sin(Math.toRadians(sensorAngle)));
 				
-				xdist = Math.abs(xudist - (TAPE_DIST + (ULTRA_DIST/(Math.sin(((Math.toRadians(90 - Math.abs(sensorAngle)))))))));
+				xdist = Math.abs(xudist - (TAPE_DIST + (ULTRA_DIST/(Math.sin(((Math.toRadians(90 - Math.abs(sensorAngle))))))))) - 12; //subtract 12 cause too far left on left
 				
 				ydist = Math.abs(yudist - FINAL_DIST);
 				otherAngle = Math.abs(Math.toDegrees(Math.atan(ydist/xdist)));
@@ -190,7 +193,7 @@ public class AlignHook extends AutonomousCommand
 		}
 		else if(hookState == HookState.GOSTRAIGHT)
 		{
-			drive.goStraight(.7, sensorAngle);
+			drive.goStraight(0.35, sensorAngle);
 		}
 		else if(hookState == HookState.FINISHING)
 		{
