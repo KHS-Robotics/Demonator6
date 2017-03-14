@@ -286,12 +286,19 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 		return yawPID.onTarget();
 	}
 	
+	/**
+	 * Sets the internal PID controller's PIDSourceType
+	 */
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource)
 	{
 		pidSourceType = pidSource;
 	}
 	
+	/**
+	 * Gets the internal PID Controller's current PIDSourceType
+	 * @return the internal PID Controller's current PIDSourceType
+	 */
 	@Override
 	public PIDSourceType getPIDSourceType()
 	{
@@ -390,58 +397,29 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 	 */
 	public double remainingDistance(double distance, double initialLeft, double initialRight)
 	{
-		final double CURRENT_RIGHT_VAL = getRightDistance();
-		final double CURRENT_LEFT_VAL = getLeftDistance();
-		final double RIGHT_VAL = Math.abs(CURRENT_RIGHT_VAL - initialRight);
-		final double LEFT_VAL = Math.abs(CURRENT_LEFT_VAL - initialLeft);
+		final double CURRENT_RIGHT_VAL = Math.abs(getRightDistance());
+		final double CURRENT_LEFT_VAL = Math.abs(getLeftDistance());
+		final double DELTA_RIGHT = Math.abs(CURRENT_RIGHT_VAL - initialRight);
+		final double DELTA_LEFT = Math.abs(CURRENT_LEFT_VAL - initialLeft);
 		
-		final double AVERAGE = (RIGHT_VAL + LEFT_VAL) / 2;
-		
-//		if (leftIsDead())
-//		{
-//			return Math.abs(RIGHT_VAL - initialRight);
-//		}
-//		else if (rightIsDead())
-//		{
-//			return Math.abs(LEFT_VAL - initialLeft);
-//		}
+		final double AVERAGE = (DELTA_RIGHT + DELTA_LEFT) / 2;
 		
 		final double REMAINING = distance - AVERAGE;
 		
-//		if ( > distance / 4)
-//		{
-//			if (!leftIsActive())
-//			{
-//				setLeftDead(true);
-//				return Math.abs(RIGHT_VAL - initialRight);
-//			}
-//			else if (!rightIsActive())
-//			{
-//				setRightDead(true);
-//				return Math.abs(LEFT_VAL - initialLeft);
-//			}
-//		}
+		if (REMAINING > (distance / 4))
+		{
+			if (!leftIsActive())
+				setLeftDead(true);
+			if (!rightIsActive())
+				setRightDead(true);
+		}
+		
+		if (leftIsDead())
+			return Math.abs(DELTA_RIGHT - initialRight);
+		else if (rightIsDead())
+			return Math.abs(DELTA_LEFT - initialLeft);
 		
 		return REMAINING;
-	}
-	
-	/**
-	 * Gets if the drive train's outputs are above the given threshold
-	 * @param thresholdOutput the threshold to determine if a wheel is moving
-	 * @return true if any of the Talon's outputs are above the given threshold, false otherwise
-	 */
-	public boolean isMoving(double thresholdOutput)
-	{
-		thresholdOutput = normalizeOutput(thresholdOutput);
-		
-		final boolean FRONT_RIGHT = Math.abs(fr.get()) > thresholdOutput;
-		final boolean FRONT_LEFT = Math.abs(fl.get()) > thresholdOutput;
-		final boolean MIDDLE_RIGHT = Math.abs(mr.get()) > thresholdOutput;
-		final boolean MIDDLE_LEFT = Math.abs(ml.get()) > thresholdOutput;
-		final boolean REAR_RIGHT = Math.abs(rr.get()) > thresholdOutput;
-		final boolean REAR_LEFT = Math.abs(rl.get()) > thresholdOutput;
-		
-		return FRONT_RIGHT || FRONT_LEFT || MIDDLE_RIGHT || MIDDLE_LEFT || REAR_RIGHT || REAR_LEFT;
 	}
 	
 	/**
