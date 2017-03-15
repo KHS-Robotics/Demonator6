@@ -43,6 +43,11 @@ public class ButtonMap
 	public static class SwitchBox
 	{
 		/**
+		 * Switches between two version of align hook
+		 */
+		public static final int USE_NEW_ALIGN_HOOK = 8;
+		
+		/**
 		 * Reset Button to reset some sensors
 		 */
 		public static final int RESET = 9;

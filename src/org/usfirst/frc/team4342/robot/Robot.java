@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.auton.AlignHook_v2;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.CrossBaseline;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.HookAlign;
@@ -42,6 +43,7 @@ public class Robot extends IterativeRobot
 	private PlaceGearWithSwitchBox gearPlacer;
 	private Scale scaler;
 	private AlignHook alignHook;
+	private AlignHook_v2 alignHookV2;
 	
 	// Autonomous chooser and routine
 	private SendableChooser<AutonomousRoutine> autonomousChooser;
@@ -68,6 +70,7 @@ public class Robot extends IterativeRobot
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
 		alignHook = new AlignHook(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE);
+		alignHookV2 = new AlignHook_v2(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE);
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<AutonomousRoutine>();
@@ -251,7 +254,15 @@ public class Robot extends IterativeRobot
 	{
 		drive.cancel();
 		
-		alignHook.setLocation(location);
-		alignHook.start();
+		if(IO.getSwitchBox().getRawButton(ButtonMap.SwitchBox.USE_NEW_ALIGN_HOOK))
+		{
+			alignHookV2.setLocation(location);
+			alignHookV2.start();
+		}
+		else
+		{
+			alignHook.setLocation(location);
+			alignHook.start();
+		}
 	}
 }

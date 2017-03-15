@@ -103,7 +103,7 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 	}
 	
 	/**
-	 * Shifts the drive trian. If the drive train is in low gear, it sets
+	 * Shifts the drive train. If the drive train is in low gear, it sets
 	 * to high gear, otherwise it sets to low gear
 	 */
 	public void shift()

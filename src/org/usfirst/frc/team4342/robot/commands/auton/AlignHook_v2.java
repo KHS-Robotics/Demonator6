@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands.auton;
 
+import org.usfirst.frc.team4342.robot.commands.auton.AlignHook.Location;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -8,15 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class AlignHookWithoutUltra extends AutonomousCommand 
+public class AlignHook_v2 extends AutonomousCommand 
 {
-	/**
-	 * Location of the hook to place the gear onto
-	 */
-	public enum Location
-	{
-		LEFT, MIDDLE, RIGHT
-	}
 	
 	/**
 	 * Used to keep track of the align hook state machine
@@ -46,7 +40,7 @@ public class AlignHookWithoutUltra extends AutonomousCommand
 	 * @param location the location of the hook
 	 * @see Location
 	 */
-    public AlignHookWithoutUltra(TankDrive drive, GearPlacer gearPlacer, Location location) 
+    public AlignHook_v2(TankDrive drive, GearPlacer gearPlacer, Location location) 
     {
     	super();
     	
