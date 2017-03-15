@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4342.robot.commands.auton;
 
-import org.usfirst.frc.team4342.robot.commands.auton.AlignHook.HookState;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
