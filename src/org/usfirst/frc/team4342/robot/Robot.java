@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.CrossBaseline;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGear;
+import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearAndShootFuel;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.ShootFuelIntoBoiler;
 import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
@@ -75,6 +76,8 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Place Right Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT));
 		autonomousChooser.addObject("Shoot Fuel into Boiler (Blue)", new ShootFuelIntoBoiler(IO.getDrive(), IO.getShooter(), Alliance.Blue));
 		autonomousChooser.addObject("Shoot Fuel into Boiler (Red)", new ShootFuelIntoBoiler(IO.getDrive(), IO.getShooter(), Alliance.Red));
+		autonomousChooser.addObject("Place Gear and Shoot Fuel (Blue)", new PlaceGearAndShootFuel(IO.getDrive(), IO.getGearPlacer(), IO.getShooter(), Alliance.Blue));
+		autonomousChooser.addObject("Place Gear and Shoot Fuel (Red)", new PlaceGearAndShootFuel(IO.getDrive(), IO.getGearPlacer(), IO.getShooter(), Alliance.Red));
 		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 		
