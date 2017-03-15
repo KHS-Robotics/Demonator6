@@ -3,6 +3,7 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.CrossBaseline;
+import org.usfirst.frc.team4342.robot.commands.auton.routines.HookAlign;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGear;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearAndShootFuel;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.ShootFuelIntoBoiler;
@@ -44,7 +45,7 @@ public class Robot extends IterativeRobot
 	
 	// Autonomous chooser and routine
 	private SendableChooser<AutonomousRoutine> autonomousChooser;
-	private SendableChooser<Boolean> useDeadReckoningChooser;
+	private SendableChooser<HookAlign> hookAlignChooser;
 	private AutonomousRoutine autonomousRoutine;
 	
 	private boolean startedTeleopCommands;
@@ -81,10 +82,11 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 		
-		useDeadReckoningChooser = new SendableChooser<Boolean>();
-		useDeadReckoningChooser.addDefault("Use Dead Reckoning", true);
-		useDeadReckoningChooser.addObject("Use Align Hook", false);
-		SmartDashboard.putData("Use Dead Reckoning Chooser", useDeadReckoningChooser);
+		hookAlignChooser = new SendableChooser<HookAlign>();
+		hookAlignChooser.addDefault("Use Dead Reckoning", HookAlign.DEAD_RECKONING);
+		hookAlignChooser.addObject("Use Align Hook", HookAlign.ALIGN_HOOK);
+		hookAlignChooser.addObject("Use Turn Until See Peg", HookAlign.TURN_UNTIL_SEE_PEG);
+		SmartDashboard.putData("Use Dead Reckoning Chooser", hookAlignChooser);
 			
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
@@ -226,7 +228,7 @@ public class Robot extends IterativeRobot
 		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
 		{
 			IO.getDrive().resetNavX();
-			autonomousRoutine.setUseDeadReckoning(useDeadReckoningChooser.getSelected());
+			autonomousRoutine.setHookAlign(hookAlignChooser.getSelected());
 			autonomousRoutine.initialize();
 			autonomousRoutine.start();
 		}

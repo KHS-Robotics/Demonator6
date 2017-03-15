@@ -30,6 +30,8 @@ private static final double PLACE_PEG_DISTANCE_INCHES = 5.0;
 	
 	public PlaceGearAndShootFuel(TankDrive drive, GearPlacer placer, Shooter shooter, Alliance alliance)
 	{
+		super(alliance);
+
 		if(Alliance.Invalid.equals(alliance))
 			throw new IllegalArgumentException("Alliance cannot be invalid.");
 		
@@ -40,7 +42,7 @@ private static final double PLACE_PEG_DISTANCE_INCHES = 5.0;
 		else if(this.isUsingDeadReckoning() && Alliance.Blue.equals(alliance))
 			this.addSequential(new GoToAngle(PEG_YAW, drive));
 		else if(!this.isUsingDeadReckoning())
-			this.addSequential(new AlignHook(drive, placer, Alliance.Red.equals(alliance) ? AlignHook.Location.LEFT : AlignHook.Location.RIGHT));
+			this.addSequential(new AlignHook(drive, placer, this.isRedAlliance() ? AlignHook.Location.LEFT : AlignHook.Location.RIGHT));
 		
 		if(this.isUsingDeadReckoning())
 		{
@@ -50,7 +52,7 @@ private static final double PLACE_PEG_DISTANCE_INCHES = 5.0;
 		
 		this.addSequential(new GoStraightDistance(BOILER_DIRECTION, PEG_YAW, BOILER_DISTANCE, drive));
 		
-		if(Alliance.Red.equals(alliance))
+		if(this.isRedAlliance())
 			this.addSequential(new GoToAngle(BOILER_YAW, drive));
 		else
 			this.addSequential(new GoToAngle(-BOILER_YAW, drive));

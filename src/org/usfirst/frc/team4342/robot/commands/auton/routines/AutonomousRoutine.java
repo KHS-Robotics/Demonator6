@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public abstract class AutonomousRoutine extends CommandGroup
 {
+	private HookAlign align;
 	private Alliance alliance;
 	
 	protected AutonomousRoutine() {}
@@ -20,8 +21,6 @@ public abstract class AutonomousRoutine extends CommandGroup
 		
 		this.alliance = alliance;
 	}
-	
-	private boolean useDeadReckoning;
 	
 	public void initialize() {}
 	
@@ -49,15 +48,35 @@ public abstract class AutonomousRoutine extends CommandGroup
 	 */
 	protected boolean isUsingDeadReckoning() 
 	{
-		return useDeadReckoning;
+		return align == HookAlign.DEAD_RECKONING;
+	}
+	
+	/**
+	 * Gets if the routine is using <code>AlignHook</code>
+	 * @return true if using <code>AlignHook</code>, false otherwise
+	 * @see org.usfirst.frc.team4342.robot.commands.auton.AlignHook
+	 */
+	protected boolean isUsingAlignHook()
+	{
+		return align == HookAlign.ALIGN_HOOK;
+	}
+	
+	/**
+	 * Gets if the routine is using <code>TurnUntilSeePeg</code>
+	 * @return true if using <code>TurnUntilSeePeg</code>, false otherwise
+	 * @see org.usfirst.frc.team4342.robot.commands.auton.TurnUntilSeePeg
+	 */
+	protected boolean isUsingTurnUntilSeePeg()
+	{
+		return align == HookAlign.TURN_UNTIL_SEE_PEG;
 	}
 
 	/**
 	 * Sets dead reckoning
 	 * @param useDeadReckoning true to use dead reckoning, false otherwise
 	 */
-	public void setUseDeadReckoning(boolean useDeadReckoning) 
+	public void setHookAlign(HookAlign align) 
 	{
-		this.useDeadReckoning = useDeadReckoning;
+		this.align = align;
 	}
 }

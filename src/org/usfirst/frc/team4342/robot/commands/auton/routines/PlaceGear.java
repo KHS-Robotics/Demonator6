@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
 import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.auton.GoStraightUntilWithinDistance;
 import org.usfirst.frc.team4342.robot.commands.auton.GoToAngle;
+import org.usfirst.frc.team4342.robot.commands.auton.TurnUntilSeePeg;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -43,12 +44,14 @@ public class PlaceGear extends AutonomousRoutine
 			this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, DISTANCE, drive));
 		}
 		
-		if(this.isUsingDeadReckoning() && AlignHook.Location.RIGHT.equals(location))
+		if (this.isUsingDeadReckoning() && AlignHook.Location.RIGHT.equals(location))
 			this.addSequential(new GoToAngle(-PEG_YAW, drive));
-		else if(this.isUsingDeadReckoning() && AlignHook.Location.LEFT.equals(location))
+		else if (this.isUsingDeadReckoning() && AlignHook.Location.LEFT.equals(location))
 			this.addSequential(new GoToAngle(PEG_YAW, drive));
-		else if(!this.isUsingDeadReckoning() && !AlignHook.Location.MIDDLE.equals(location))
-			this.addSequential(new AlignHook(drive, placer,location));
+		else if(this.isUsingTurnUntilSeePeg() && !AlignHook.Location.MIDDLE.equals(location))
+			this.addSequential(new TurnUntilSeePeg(10, location, drive));
+		else if(this.isUsingAlignHook() && !AlignHook.Location.MIDDLE.equals(location))
+			this.addSequential(new AlignHook(drive, placer, location));
 		
 		if(this.isUsingDeadReckoning() && !AlignHook.Location.MIDDLE.equals(location))
 		{
