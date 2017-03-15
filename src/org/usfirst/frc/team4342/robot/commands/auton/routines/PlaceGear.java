@@ -18,7 +18,7 @@ public class PlaceGear extends AutonomousRoutine
 	
 	// Step 1
 	private static final double START_YAW = 0;
-	private static final double DISTANCE = 56; 
+	private static final double DISTANCE = 43.8; 
 	private static final double DIRECTION = 0.67;
 	
 	// Step 2

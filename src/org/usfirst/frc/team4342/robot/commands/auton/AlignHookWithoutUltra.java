@@ -1,14 +1,15 @@
 package org.usfirst.frc.team4342.robot.commands.auton;
 
+import org.usfirst.frc.team4342.robot.commands.auton.AlignHook.HookState;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Aligns the gear placer to place the gear on the hook
+ *
  */
-public class AlignHook extends AutonomousCommand 
+public class AlignHookWithoutUltra extends AutonomousCommand 
 {
 	/**
 	 * Location of the hook to place the gear onto
@@ -35,18 +36,18 @@ public class AlignHook extends AutonomousCommand
 	private boolean robotPos;
 	private double hookAngle;
 	private double yudist, xudist, udist, ydist, xdist, dist, rmain;
-	private double sensorAngle, changeAngle, otherAngle;
+	private double sensorAngle, angleError, otherAngle, maxAngle;
 	private double initL, initR;
-	private final double FINAL_DIST = 36 + 17, ULTRA_DIST = 7.25, TAPE_DIST = 4.1;
+	private final double ULTRA_DIST = 7.25, TAPE_DIST = 4.1, MAX_ANGLE = 48.8;
 
 	/**
-	 * Creates a new <code>AlignHook</code> command
+	 * Creates a new <code>AlignHookWithoutUltra</code> command
 	 * @param drive the <code>TankDrive</code> subsystem
 	 * @param gearPlacer the <code>GearPlacer</code> subsystem
 	 * @param location the location of the hook
 	 * @see Location
 	 */
-    public AlignHook(TankDrive drive, GearPlacer gearPlacer, Location location)
+    public AlignHookWithoutUltra(TankDrive drive, GearPlacer gearPlacer, Location location) 
     {
     	super();
     	
@@ -66,7 +67,7 @@ public class AlignHook extends AutonomousCommand
     {
     	this.location = location;
     }
-    
+
     /**
      * Determines the hook angle based on location, enables drive PID,
      * and sets the hook state to start
@@ -92,9 +93,17 @@ public class AlignHook extends AutonomousCommand
 			hookAngle = 0;
 		
 		if(drive.getHeading() > 0)
+		{
 			robotPos = true;
+			maxAngle = MAX_ANGLE;
+		}
 		else
+		{
 			robotPos = false;
+			maxAngle = -MAX_ANGLE;
+		}
+			
+		angleError = .3;
 		
     	drive.enablePID();
     	
@@ -104,19 +113,20 @@ public class AlignHook extends AutonomousCommand
     }
 
     /**
-     * Aligns the gear placer to the hook
+     * Aligns the gear placer to the hook w/out using
+     * the ultrasonic
      */
     @Override
     protected void execute() 
     {
-		double hookError = 0.1;
+    	double hookError = 0.1;
 		double robotAngle = drive.getHeading();
 		
 		final boolean r = drive.getRightSensor();
 		final boolean l = drive.getLeftSensor();
 		
 		final double d = drive.getUltrasonicDistance();
-    		
+		
 		if(hookState == HookState.START)
 		{
 			if(l && r && (robotAngle-hookAngle) <= hookError)
@@ -125,55 +135,57 @@ public class AlignHook extends AutonomousCommand
 				hookState = HookState.GOSTRAIGHT;
 			}
 			
-			else if((l && robotPos)|| (r && !robotPos))
+			else if(robotAngle == hookAngle)
 			{
-				sensorAngle = robotAngle;
-				
-				udist = d;
-				
-				yudist = Math.abs(udist * Math.cos(Math.toRadians(sensorAngle)));
-				xudist = Math.abs(udist * Math.sin(Math.toRadians(sensorAngle)));
-				
-				xdist = Math.abs(xudist - (TAPE_DIST + (ULTRA_DIST/(Math.sin(((Math.toRadians(90 - Math.abs(sensorAngle))))))))) - 12; //subtract 12 cause too far left on left
-				
-				ydist = Math.abs(yudist - FINAL_DIST);
-				otherAngle = Math.abs(Math.toDegrees(Math.atan(ydist/xdist)));
-				
-				dist = Math.abs(Math.sqrt(Math.pow(xdist, 2) + Math.pow(ydist, 2)));
-				changeAngle = 90 - Math.abs(Math.abs(sensorAngle) + Math.abs(otherAngle));
-				
-				if(r)
-					changeAngle = -changeAngle;
-				
-				hookState = HookState.FIX;
-				
-				SmartDashboard.putNumber("First Angle -", sensorAngle);
-				SmartDashboard.putNumber("Change in Angle -", changeAngle);
-				SmartDashboard.putNumber("other Angle -", otherAngle);
-				SmartDashboard.putNumber("Ultra Dist -", udist);
-				SmartDashboard.putNumber("Ultra Y Dist -", yudist);
-				SmartDashboard.putNumber("Ultra X Dist -", xudist);
-				SmartDashboard.putNumber("X Dist -", xdist);
-				SmartDashboard.putNumber("Y Dist -", ydist);
-				SmartDashboard.putNumber("Dist -", dist);
-				
-				drive.disablePID();
-				initL = drive.getLeftDistance();
-				initR = drive.getRightDistance();
+				yudist = d + 3.5;	
 			}
 			
+			else if(r && !robotPos)
+			{
+				sensorAngle = robotAngle;
+				xdist = yudist / (Math.tan(sensorAngle)) - 8;
+			}
+			
+			else if(r && robotPos)
+			{
+				sensorAngle = robotAngle;
+				xdist = yudist / (Math.tan(sensorAngle)) + 8;
+			}
+			
+			else if(l && robotPos)
+			{
+				sensorAngle = robotAngle;
+				xdist = yudist / (Math.tan(sensorAngle)) + 8;
+			}
+			
+			else if(l && !robotPos)
+			{
+				sensorAngle = robotAngle;
+				xdist = yudist / (Math.tan(sensorAngle)) - 8;
+			}
+			
+			if(!robotPos)
+				drive.setHeading(hookAngle + 90);
 			else
-				drive.setHeading(hookAngle);
-    	}
+				drive.setHeading(hookAngle - 90);
+			
+			if(((robotAngle - (hookAngle + 90)) <= angleError) || ((robotAngle - (hookAngle - 90)) <= angleError))
+			{
+				initL = drive.getLeftDistance();
+				initR = drive.getRightDistance();
+				
+				hookState = HookState.FIX;
+			}
+		}
 		
 		else if(hookState == HookState.FIX)
 		{
-			rmain = drive.remainingDistance(dist, initL, initR);
+			rmain = drive.remainingDistance(xdist, initL, initR);
 			SmartDashboard.putNumber("Remain -", rmain);
 			
 			if(drive.remainingDistance(dist, initL, initR) > 0)
 			{
-				drive.goStraight(.7 , (sensorAngle + changeAngle));
+				drive.goStraight(.7, robotAngle);
 			}
 				
 			else
@@ -185,6 +197,8 @@ public class AlignHook extends AutonomousCommand
 		else if(hookState == HookState.FIX2)
 		{
 			drive.setHeading(hookAngle);
+			
+			sensorAngle = hookAngle;
 			
 			if(r && l)
 			{
@@ -202,11 +216,22 @@ public class AlignHook extends AutonomousCommand
 			if(drive.getUltrasonicDistance() <= 4.5)
 				hookState = HookState.FINISHING;
 		}
+		
 		else if(hookState == HookState.FINISHING)
 		{
 			drive.disablePID();
 			hookState = HookState.FINISHED;
-		}	
+		}
+    }
+
+    /**
+     * Checks the state of the command based on the hook state
+     * @return true if the hook state is equal to finished, false otherwise
+     */
+    @Override
+    protected boolean isFinished() 
+    {
+    	return hookState.equals(HookState.FINISHED) || gearplacer.isInPeg();
     }
 
     /**
@@ -218,15 +243,5 @@ public class AlignHook extends AutonomousCommand
     	drive.setDirection(0);
     	drive.disablePID();
     	drive.set(0, 0);
-    }
-    
-    /**
-     * Checks the state of the command based on the hook state
-     * @return true if the hook state is equal to finished, false otherwise
-     */
-    @Override
-    protected boolean isFinished()
-    {
-    	return hookState.equals(HookState.FINISHED) || gearplacer.isInPeg();
     }
 }

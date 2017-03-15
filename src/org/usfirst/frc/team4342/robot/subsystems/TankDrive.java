@@ -415,9 +415,9 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 		}
 		
 		if (leftIsDead())
-			return Math.abs(DELTA_RIGHT - initialRight);
+			return DELTA_RIGHT;
 		else if (rightIsDead())
-			return Math.abs(DELTA_LEFT - initialLeft);
+			return DELTA_LEFT;
 		
 		return REMAINING;
 	}
