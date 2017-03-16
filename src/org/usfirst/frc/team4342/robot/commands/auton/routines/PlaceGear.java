@@ -58,7 +58,9 @@ public class PlaceGear extends AutonomousRoutine
 			this.addSequential(new GoStraightDistance(DIRECTION, PEG_YAW, DISTANCE, drive));
 			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
 		}
-		
-		//this.addSequential(new LowerGear(placer)); // may not want to run this command at all, power to the pilot
+		else if(this.isUsingTurnUntilSeePeg() && !AlignHook.Location.MIDDLE.equals(location))
+		{
+			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
+		}
 	}
 }
