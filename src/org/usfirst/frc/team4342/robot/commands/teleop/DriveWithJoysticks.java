@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.IO;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Teleop command to drive the <code>TankDrive</code> subsystem
@@ -96,6 +97,8 @@ public class DriveWithJoysticks extends TeleopCommand
 				desiredYaw = BOILER_YAW;
 			else
 				desiredYaw = BOILER_YAW + 45;
+			
+			desiredYaw = SmartDashboard.getNumber("NavX-Target-Yaw", desiredYaw);
 			
 			drive.setHeading(desiredYaw);
 			holdDesiredYaw = true;
