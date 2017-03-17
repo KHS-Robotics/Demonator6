@@ -1,0 +1,60 @@
+package org.usfirst.frc.team4342.robot.commands.auton;
+
+import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+/**
+ * Auton command to orient the robot to the boiler using 
+ * the calculated adjusted yaw using a Raspberry Pi 3
+ * and a USB Camera
+ */
+public class OrientToBoiler extends AutonomousCommand 
+{
+	private TankDrive drive;
+	
+	/**
+	 * Creates a new <code>OrientToBoiler</code> command
+	 * @param drive the <code>TankDrive</code> subsystem
+	 */
+	public OrientToBoiler(TankDrive drive)
+	{
+		this.drive = drive;
+	}
+
+	/**
+	 * Gets the calculated boiler yaw from the pi and sets
+	 * the robot's heading to it. If the boiler yaw is not
+	 * in the SmartDashboard it keeps its current heading
+	 */
+	@Override
+	protected void initialize() 
+	{
+		double boilerYaw = SmartDashboard.getNumber("Boiler-Yaw", drive.getHeading());
+		drive.setHeading(boilerYaw);
+	}
+	
+	/**
+	 * Stops the drive motors
+	 */
+	@Override
+	protected void end() 
+	{
+		drive.disablePID();
+		drive.set(0, 0);
+	}
+	
+	/**
+	 * Gets if the robot is oriented towards the boiler
+	 * @return true if properly oriented, false otherwise
+	 */
+	@Override
+	protected boolean isFinished() 
+	{
+		return drive.onTarget();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	protected void execute() {}
+}
