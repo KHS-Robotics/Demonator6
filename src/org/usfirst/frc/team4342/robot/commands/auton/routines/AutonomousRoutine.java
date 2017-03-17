@@ -24,7 +24,17 @@ public abstract class AutonomousRoutine extends CommandGroup
 		this.alliance = alliance;
 	}
 	
-	public void initialize() {}
+	/**
+	 * Starts the routine
+	 * @param align the hook align feature to use
+	 * @param useVision true to use vision targetting, false otherwise
+	 */
+	public void start(HookAlign align, boolean useVision) 
+	{
+		this.setHookAlign(align);
+		this.setUseVision(useVision);
+		this.start();
+	}
 	
 	/**
 	 * Gets if the robot is on the blue alliance

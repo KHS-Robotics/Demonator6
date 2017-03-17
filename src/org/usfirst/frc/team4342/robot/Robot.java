@@ -136,7 +136,10 @@ public class Robot extends IterativeRobot
 		else
 		{
 			if(IO.shouldCancelAutoCommand())
+			{
 				alignHook.cancel();
+				alignHookV2.cancel();
+			}
 		}
 		
 		Scheduler.getInstance().run();
@@ -224,6 +227,7 @@ public class Robot extends IterativeRobot
 			gearPlacer.cancel();
 			scaler.cancel();
 			alignHook.cancel();
+			alignHookV2.cancel();
 			
 			startedTeleopCommands = false;
 		}
@@ -237,10 +241,7 @@ public class Robot extends IterativeRobot
 		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
 		{
 			IO.getDrive().resetNavX();
-			autonomousRoutine.setHookAlign(hookAlignChooser.getSelected());
-			autonomousRoutine.setUseVision(useVisionChooser.getSelected());
-			autonomousRoutine.initialize();
-			autonomousRoutine.start();
+			autonomousRoutine.start(hookAlignChooser.getSelected(), useVisionChooser.getSelected());
 		}
 	}
 	
