@@ -76,7 +76,7 @@ public class ButtonMap
 		 */
 		public static class Scaler
 		{
-			public static final int SCALE = 5;
+			public static final int SCALE = 10;
 		}
 	}
 }
