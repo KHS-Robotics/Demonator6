@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public abstract class AutonomousRoutine extends CommandGroup
 {
 	private HookAlign align;
+	private boolean useVision;
+	
 	private Alliance alliance;
 	
 	protected AutonomousRoutine() {}
@@ -78,5 +80,24 @@ public abstract class AutonomousRoutine extends CommandGroup
 	public void setHookAlign(HookAlign align) 
 	{
 		this.align = align;
+	}
+	
+	/**
+	 * Used to determine if the routine is using the
+	 * calculated values from off board vision processing
+	 * @param use true to use, false otherwise
+	 */
+	public void setUseVision(boolean use)
+	{
+		this.useVision = use;
+	}
+	
+	/**
+	 * Gets if the routine is using vision
+	 * @return true if using vision, false otherwise
+	 */
+	protected boolean isUsingVision()
+	{
+		return useVision;
 	}
 }

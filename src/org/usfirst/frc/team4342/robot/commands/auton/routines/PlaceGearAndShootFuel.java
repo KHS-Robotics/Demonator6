@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
 import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.auton.GoStraightUntilWithinDistance;
 import org.usfirst.frc.team4342.robot.commands.auton.GoToAngle;
+import org.usfirst.frc.team4342.robot.commands.auton.OrientToBoiler;
 import org.usfirst.frc.team4342.robot.commands.auton.Shoot;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -56,6 +57,9 @@ private static final double PLACE_PEG_DISTANCE_INCHES = 5.0;
 			this.addSequential(new GoToAngle(BOILER_YAW, drive));
 		else
 			this.addSequential(new GoToAngle(-BOILER_YAW, drive));
+		
+		if(this.isUsingVision())
+			this.addSequential(new OrientToBoiler(drive));
 			
 		this.addSequential(new Shoot(shooter, true, 15));
 	}

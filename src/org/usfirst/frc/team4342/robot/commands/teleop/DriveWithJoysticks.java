@@ -98,7 +98,7 @@ public class DriveWithJoysticks extends TeleopCommand
 			else
 				desiredYaw = BOILER_YAW + 45;
 			
-			desiredYaw = SmartDashboard.getNumber("NavX-Target-Yaw", desiredYaw);
+			desiredYaw = SmartDashboard.getNumber("Boiler-Yaw", desiredYaw);
 			
 			drive.setHeading(desiredYaw);
 			holdDesiredYaw = true;

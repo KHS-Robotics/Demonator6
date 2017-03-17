@@ -48,6 +48,7 @@ public class Robot extends IterativeRobot
 	// Autonomous chooser and routine
 	private SendableChooser<AutonomousRoutine> autonomousChooser;
 	private SendableChooser<HookAlign> hookAlignChooser;
+	private SendableChooser<Boolean> useVisionChooser;
 	private AutonomousRoutine autonomousRoutine;
 	
 	private boolean startedTeleopCommands;
@@ -90,7 +91,12 @@ public class Robot extends IterativeRobot
 		hookAlignChooser.addObject("Use Align Hook", HookAlign.ALIGN_HOOK);
 		hookAlignChooser.addObject("Use Turn Until See Peg", HookAlign.TURN_UNTIL_SEE_PEG);
 		SmartDashboard.putData("Use Dead Reckoning Chooser", hookAlignChooser);
-			
+		
+		useVisionChooser = new SendableChooser<Boolean>();
+		useVisionChooser.addDefault("Use delicious Pi", true);
+		useVisionChooser.addObject("Don't use delicious Pi", false);
+		SmartDashboard.putData("Use Vision Chooser", useVisionChooser);
+		
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
 	
@@ -232,6 +238,7 @@ public class Robot extends IterativeRobot
 		{
 			IO.getDrive().resetNavX();
 			autonomousRoutine.setHookAlign(hookAlignChooser.getSelected());
+			autonomousRoutine.setUseVision(useVisionChooser.getSelected());
 			autonomousRoutine.initialize();
 			autonomousRoutine.start();
 		}
