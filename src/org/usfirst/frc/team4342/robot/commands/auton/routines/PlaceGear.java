@@ -25,6 +25,9 @@ public class PlaceGear extends AutonomousRoutine
 	// Step 2
 	private static final double PEG_YAW = 60;
 	
+	// Step 3
+	private static final double AFTER_TURN_DISTANCE = 24;
+	
 	/**
 	 * Creates a new autonomous routine to place a gear on a peg
 	 * @param drive the <code>TankDrive</code> subsystem
@@ -55,7 +58,11 @@ public class PlaceGear extends AutonomousRoutine
 		
 		if(this.isUsingDeadReckoning() && !AlignHook.Location.MIDDLE.equals(location))
 		{
-			this.addSequential(new GoStraightDistance(DIRECTION, PEG_YAW, DISTANCE, drive));
+			if(AlignHook.Location.LEFT.equals(location))
+				this.addSequential(new GoStraightDistance(DIRECTION, PEG_YAW, AFTER_TURN_DISTANCE, drive));
+			else
+				this.addSequential(new GoStraightDistance(DIRECTION, -PEG_YAW, AFTER_TURN_DISTANCE, drive));
+				
 			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
 		}
 		else if(this.isUsingTurnUntilSeePeg() && !AlignHook.Location.MIDDLE.equals(location))

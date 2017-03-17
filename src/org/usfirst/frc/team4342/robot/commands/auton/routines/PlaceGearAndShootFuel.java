@@ -12,9 +12,13 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
+/**
+ * Auton routine to place a gear on a peg and then shoot fuel
+ * into the boiler
+ */
 public class PlaceGearAndShootFuel extends AutonomousRoutine
 {
-private static final double PLACE_PEG_DISTANCE_INCHES = 5.0;
+	private static final double PLACE_PEG_DISTANCE_INCHES = 5.0;
 	
 	// Step 1
 	private static final double START_YAW = 0;
@@ -29,6 +33,13 @@ private static final double PLACE_PEG_DISTANCE_INCHES = 5.0;
 	private static final int BOILER_YAW = 159;
 	private static final double BOILER_DISTANCE = 78.7;
 	
+	/**
+	 * Creates a new <code>PlaceGearAndShootFuel</code> command
+	 * @param drive the <code>TankDrive</code> subsystem
+	 * @param placer the <code>GearPlacer</code> subsystem
+	 * @param shooter the <code>Shooter</code> subsystem
+	 * @param alliance the alliance the robot is on
+	 */
 	public PlaceGearAndShootFuel(TankDrive drive, GearPlacer placer, Shooter shooter, Alliance alliance)
 	{
 		super(alliance);
