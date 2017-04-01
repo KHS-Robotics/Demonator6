@@ -9,20 +9,23 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  * 
  * @see org.usfirst.frc.team4342.robot.commands.auton.AutonomousCommand
  */
-public class GoStraightDistance extends AutonomousCommand
+public class BackUpDistance extends AutonomousCommand
 {
 	private double direction, yaw, leftVal, rightVal, distance;
 	private TankDrive drive;
 	
 	/**
 	 * Creates a new <code>GoStraight</code> command.
+	 * @param timeout the timeout of the command in seconds
 	 * @param direction the forward or backward direction ranging from -1.0 to 1.0
 	 * @param yaw the yaw (angle from -180 to 180) to hold while going straight
 	 * @param distance the fixed distance to straight (in feet)
 	 * @param drive the <code>TankDrive</code> subsystem to output to
 	 */
-	public GoStraightDistance(double direction, double yaw, double distance, TankDrive drive)
+	public BackUpDistance(double timeout, double direction, double yaw, double distance, TankDrive drive)
 	{
+		super(timeout);
+		
 		this.requires(drive);
 		
 		this.direction = direction;
@@ -65,7 +68,7 @@ public class GoStraightDistance extends AutonomousCommand
 	{
 //		if(direction >= 0)
 //		{
-			return drive.remainingDistance(distance, leftVal, rightVal) <= 0;
+			return this.isTimedOut();
 //		}
 //		else
 //			return drive.remainingDistance(distance, leftVal, rightVal) >= 0;

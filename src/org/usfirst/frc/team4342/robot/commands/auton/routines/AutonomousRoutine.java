@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4342.robot.commands.auton.routines;
 
+import org.usfirst.frc.team4342.robot.IO;
+
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -10,9 +12,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public abstract class AutonomousRoutine extends CommandGroup
 {
-	private HookAlign align;
-	private boolean useVision;
-	
 	private Alliance alliance;
 	
 	protected AutonomousRoutine() {}
@@ -24,16 +23,11 @@ public abstract class AutonomousRoutine extends CommandGroup
 		this.alliance = alliance;
 	}
 	
-	/**
-	 * Starts the routine
-	 * @param align the hook align feature to use
-	 * @param useVision true to use vision targetting, false otherwise
-	 */
-	public void start(HookAlign align, boolean useVision) 
+	private boolean useDeadReckoning;
+	
+	public void initialize() 
 	{
-		this.setHookAlign(align);
-		this.setUseVision(useVision);
-		this.start();
+		IO.getGearPlacer().raise();
 	}
 	
 	/**
@@ -60,54 +54,15 @@ public abstract class AutonomousRoutine extends CommandGroup
 	 */
 	protected boolean isUsingDeadReckoning() 
 	{
-		return align == HookAlign.DEAD_RECKONING;
-	}
-	
-	/**
-	 * Gets if the routine is using <code>AlignHook</code>
-	 * @return true if using <code>AlignHook</code>, false otherwise
-	 * @see org.usfirst.frc.team4342.robot.commands.auton.AlignHook
-	 */
-	protected boolean isUsingAlignHook()
-	{
-		return align == HookAlign.ALIGN_HOOK;
-	}
-	
-	/**
-	 * Gets if the routine is using <code>TurnUntilSeePeg</code>
-	 * @return true if using <code>TurnUntilSeePeg</code>, false otherwise
-	 * @see org.usfirst.frc.team4342.robot.commands.auton.TurnUntilSeePeg
-	 */
-	protected boolean isUsingTurnUntilSeePeg()
-	{
-		return align == HookAlign.TURN_UNTIL_SEE_PEG;
+		return useDeadReckoning;
 	}
 
 	/**
 	 * Sets dead reckoning
 	 * @param useDeadReckoning true to use dead reckoning, false otherwise
 	 */
-	public void setHookAlign(HookAlign align) 
+	public void setUseDeadReckoning(boolean useDeadReckoning) 
 	{
-		this.align = align;
-	}
-	
-	/**
-	 * Used to determine if the routine is using the
-	 * calculated values from off board vision processing
-	 * @param use true to use, false otherwise
-	 */
-	public void setUseVision(boolean use)
-	{
-		this.useVision = use;
-	}
-	
-	/**
-	 * Gets if the routine is using vision
-	 * @return true if using vision, false otherwise
-	 */
-	protected boolean isUsingVision()
-	{
-		return useVision;
+		this.useDeadReckoning = useDeadReckoning;
 	}
 }

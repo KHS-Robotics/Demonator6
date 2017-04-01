@@ -56,6 +56,7 @@ public class DriveWithJoysticks extends TeleopCommand
 		final boolean HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW);
 		final boolean AIM_BOILER = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.BOILER_YAW);
 		final boolean GO_TO_LOAD_IN_YAW = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.GO_TO_LOAD_IN_YAW);
+		final boolean ROTATE = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.ROTATE);
 		
 		if(SHIFT)
 		{
@@ -66,6 +67,13 @@ public class DriveWithJoysticks extends TeleopCommand
 				lastTimeShiftedMs = System.currentTimeMillis();
 				drive.shift();
 			}
+		}
+		
+		if(ROTATE)
+		{
+			drive.disablePID();
+			drive.set(RIGHT_Y, RIGHT_Y);
+			return;
 		}
 		
 		if(!holdDesiredYaw && ALIGN_STRAIGHT)

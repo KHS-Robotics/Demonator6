@@ -57,7 +57,7 @@ public class DemonDashboard
 					SmartDashboard.putBoolean("Photo-Right", IO.getDrive().getRightSensor());
 					SmartDashboard.putBoolean("Photo-Left", IO.getDrive().getLeftSensor());
 					SmartDashboard.putNumber("Shooter-Speed ", IO.getShooter().getSpeed());
-					SmartDashboard.putBoolean("GearPlacer-isInPeg", IO.getGearPlacer().isInPeg());
+					//SmartDashboard.putBoolean("GearPlacer-isInPeg", IO.getGearPlacer().isInPeg());
 					SmartDashboard.putNumber("Drive-Enc-Right", IO.getDrive().getRightDistance());
 					SmartDashboard.putNumber("Drive-Enc-Left", IO.getDrive().getLeftDistance());
 					SmartDashboard.putNumber("Drive-Ultra-Dist", IO.getDrive().getUltrasonicDistance());

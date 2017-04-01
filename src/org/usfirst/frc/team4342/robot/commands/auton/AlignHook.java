@@ -227,6 +227,6 @@ public class AlignHook extends AutonomousCommand
     @Override
     protected boolean isFinished()
     {
-    	return hookState.equals(HookState.FINISHED) || gearplacer.isInPeg();
+    	return hookState.equals(HookState.FINISHED);// || gearplacer.isInPeg();
     }
 }

@@ -42,6 +42,7 @@ public class GoStraightUntilWithinDistance extends AutonomousCommand
 	{
 		drive.disablePID();
 		drive.set(0, 0);
+		drive.resetEncoders();
 	}
 
 	/**

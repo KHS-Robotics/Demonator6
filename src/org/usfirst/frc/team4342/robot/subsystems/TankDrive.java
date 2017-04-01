@@ -406,20 +406,55 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 		
 		final double REMAINING = distance - AVERAGE;
 		
-		if (REMAINING > (distance / 4))
-		{
-			if (!leftIsActive())
-				setLeftDead(true);
-			if (!rightIsActive())
-				setRightDead(true);
-		}
-		
-		if (leftIsDead())
-			return DELTA_RIGHT;
-		else if (rightIsDead())
-			return DELTA_LEFT;
+//		if (REMAINING > (distance / 4))
+//		{
+//			if (!leftIsActive())
+//				setLeftDead(true);
+//			if (!rightIsActive())
+//				setRightDead(true);
+//		}
+//		
+//		if (leftIsDead())
+//			return DELTA_RIGHT;
+//		else if (rightIsDead())
+//			return DELTA_LEFT;
 		
 		return REMAINING;
+	}
+	
+	/**
+	 * Calculates the remaining distance the robot needs to drive before
+	 * reaching the desired distance
+	 * @param distance the desired distance (in inches)
+	 * @param initialLeft the initial left encoder distance (in inches, basically a snapshot of {@link #getLeftDistance()})
+	 * @param initialRight the initial right encoder distance (in inches, basically a snapshot of {@link #getRightDistance()})
+	 * @return the remaining distance the robot needs to drive
+	 */
+	public double remainingDistanceNegative(double distance, double initialLeft, double initialRight)
+	{
+		final double CURRENT_RIGHT_VAL = Math.abs(getRightDistance());
+		final double CURRENT_LEFT_VAL = Math.abs(getLeftDistance());
+		final double DELTA_RIGHT = Math.abs(CURRENT_RIGHT_VAL - initialRight);
+		final double DELTA_LEFT = Math.abs(CURRENT_LEFT_VAL - initialLeft);
+		
+		final double AVERAGE = (DELTA_RIGHT + DELTA_LEFT) / 2;
+		
+		final double REMAINING = distance - AVERAGE;
+		
+//		if (REMAINING > (distance / 4))
+//		{
+//			if (!leftIsActive())
+//				setLeftDead(true);
+//			if (!rightIsActive())
+//				setRightDead(true);
+//		}
+//		
+//		if (leftIsDead())
+//			return DELTA_RIGHT;
+//		else if (rightIsDead())
+//			return DELTA_LEFT;
+		
+		return -REMAINING;
 	}
 	
 	/**

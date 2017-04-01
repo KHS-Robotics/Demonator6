@@ -2,7 +2,6 @@ package org.usfirst.frc.team4342.robot.commands.auton.routines;
 
 import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.auton.GoToAngle;
-import org.usfirst.frc.team4342.robot.commands.auton.OrientToBoiler;
 import org.usfirst.frc.team4342.robot.commands.auton.Shoot;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
@@ -18,9 +17,8 @@ public class ShootFuelIntoBoiler extends AutonomousRoutine
 	
 	private static final int OFFSET = 90;
 	
-	// Step 2
-	public static final double RED_SHOOT_YAW = 95;
-	public static final double BLUE_SHOOT_YAW = -100;
+	// Step 2 (if blue alliance)
+	public static final double SHOOT_YAW = -100;
 
 	private static final double SHOOT_SECONDS = 7;
 	
@@ -38,29 +36,27 @@ public class ShootFuelIntoBoiler extends AutonomousRoutine
 		
 		this.drive = drive;
 		
-		if(this.isRedAlliance())
-			this.addSequential(new GoToAngle(RED_SHOOT_YAW, drive));
-		else if(this.isBlueAlliance() && !this.isUsingVision())
-			this.addSequential(new GoToAngle(BLUE_SHOOT_YAW, drive));
+		this.addSequential(new GoToAngle(5, drive));
 		
-		if(this.isUsingVision())
-			this.addSequential(new OrientToBoiler(drive));
-
+		if(this.isBlueAlliance())
+			this.addSequential(new GoToAngle(SHOOT_YAW, drive));
+		
 		this.addSequential(new Shoot(shooter, true, SHOOT_SECONDS));
 		this.addSequential(new GoToAngle(0, drive));
 		this.addSequential(new GoStraightDistance(CROSS_BASELINE_DIRECTION, 0, CROSS_BASELINE_DISTANCE, drive));
+		
 	}
 	
 	@Override
 	public void initialize()
 	{
-		if(this.isRedAlliance())
-		{
-			drive.setYawOffset(OFFSET);
-		}
-		else
-		{
-			drive.setYawOffset(-OFFSET);
-		}
+//		if(this.isRedAlliance())
+//		{
+//			drive.setYawOffset(OFFSET);
+//		}
+//		else
+//		{
+//			drive.setYawOffset(-OFFSET);
+//		}
 	}
 }

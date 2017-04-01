@@ -25,6 +25,8 @@ public class GearPlacer extends DemonSubsystem
 	{
 		this.placer = placer;
 		limitSwitch = ls;
+		
+		this.raise();
 	}
 	
 	/**
@@ -54,7 +56,10 @@ public class GearPlacer extends DemonSubsystem
 	/**
 	 * Gets if the gear placer is aligned properly with the peg
 	 * @return true if the gear placer is aligned, false otherwise
+	 * @deprecated the mount for this caused more harm than good,
+	 * you're on your own
 	 */
+	@Deprecated
 	public boolean isInPeg()
 	{
 		return limitSwitch.get();

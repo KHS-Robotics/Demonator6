@@ -1,20 +1,16 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
-import org.usfirst.frc.team4342.robot.commands.auton.AlignHook_v2;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.CrossBaseline;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.HookAlign;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGear;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearAndShootFuel;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.ShootFuelIntoBoiler;
 import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
 import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
 import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
 import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
-import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -43,11 +39,9 @@ public class Robot extends IterativeRobot
 	private PlaceGearWithSwitchBox gearPlacer;
 	private Scale scaler;
 	private AlignHook alignHook;
-	private AlignHook_v2 alignHookV2;
 	
 	// Autonomous chooser and routine
 	private SendableChooser<AutonomousRoutine> autonomousChooser;
-	private SendableChooser<HookAlign> hookAlignChooser;
 	private SendableChooser<Boolean> useVisionChooser;
 	private AutonomousRoutine autonomousRoutine;
 	
@@ -63,15 +57,13 @@ public class Robot extends IterativeRobot
 		
 		IO.initialize();
 		DemonDashboard.start();
-		PDPLogger.start();
 		
 		Logger.info("Initializing teleop commands...");
 		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
-		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), new JoystickButton(IO.getRightDriveStick(), ButtonMap.DriveStick.Right.ACCUMULATE), IO.getShooter());
+		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
 		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
 		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
 		alignHook = new AlignHook(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE);
-		alignHookV2 = new AlignHook_v2(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE);
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<AutonomousRoutine>();
@@ -79,18 +71,10 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Place Middle Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE));
 		autonomousChooser.addObject("Place Left Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.RIGHT));
 		autonomousChooser.addObject("Place Right Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT));
-		autonomousChooser.addObject("Shoot Fuel into Boiler (Blue)", new ShootFuelIntoBoiler(IO.getDrive(), IO.getShooter(), Alliance.Blue));
-		autonomousChooser.addObject("Shoot Fuel into Boiler (Red)", new ShootFuelIntoBoiler(IO.getDrive(), IO.getShooter(), Alliance.Red));
-		autonomousChooser.addObject("Place Gear and Shoot Fuel (Blue)", new PlaceGearAndShootFuel(IO.getDrive(), IO.getGearPlacer(), IO.getShooter(), Alliance.Blue));
-		autonomousChooser.addObject("Place Gear and Shoot Fuel (Red)", new PlaceGearAndShootFuel(IO.getDrive(), IO.getGearPlacer(), IO.getShooter(), Alliance.Red));
+		autonomousChooser.addObject("Place Gear & Shoot Fuel (Blue)", new PlaceGearAndShootFuel(IO.getDrive(), IO.getGearPlacer(), IO.getShooter(), Alliance.Blue));
+		autonomousChooser.addObject("Place Gear & Shoot Fuel (Red)", new PlaceGearAndShootFuel(IO.getDrive(), IO.getGearPlacer(), IO.getShooter(), Alliance.Red));
 		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
-		
-		hookAlignChooser = new SendableChooser<HookAlign>();
-		hookAlignChooser.addDefault("Use Dead Reckoning", HookAlign.DEAD_RECKONING);
-		hookAlignChooser.addObject("Use Align Hook", HookAlign.ALIGN_HOOK);
-		hookAlignChooser.addObject("Use Turn Until See Peg", HookAlign.TURN_UNTIL_SEE_PEG);
-		SmartDashboard.putData("Use Dead Reckoning Chooser", hookAlignChooser);
 		
 		useVisionChooser = new SendableChooser<Boolean>();
 		useVisionChooser.addDefault("Use delicious Pi", true);
@@ -136,10 +120,7 @@ public class Robot extends IterativeRobot
 		else
 		{
 			if(IO.shouldCancelAutoCommand())
-			{
 				alignHook.cancel();
-				alignHookV2.cancel();
-			}
 		}
 		
 		Scheduler.getInstance().run();
@@ -227,7 +208,6 @@ public class Robot extends IterativeRobot
 			gearPlacer.cancel();
 			scaler.cancel();
 			alignHook.cancel();
-			alignHookV2.cancel();
 			
 			startedTeleopCommands = false;
 		}
@@ -241,7 +221,7 @@ public class Robot extends IterativeRobot
 		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
 		{
 			IO.getDrive().resetNavX();
-			autonomousRoutine.start(hookAlignChooser.getSelected(), useVisionChooser.getSelected());
+			autonomousRoutine.start();
 		}
 	}
 	
@@ -262,15 +242,7 @@ public class Robot extends IterativeRobot
 	{
 		drive.cancel();
 		
-		if(IO.getSwitchBox().getRawButton(ButtonMap.SwitchBox.USE_NEW_ALIGN_HOOK))
-		{
-			alignHookV2.setLocation(location);
-			alignHookV2.start();
-		}
-		else
-		{
-			alignHook.setLocation(location);
-			alignHook.start();
-		}
+		alignHook.setLocation(location);
+		alignHook.start();
 	}
 }

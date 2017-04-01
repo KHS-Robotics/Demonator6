@@ -12,14 +12,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OrientToBoiler extends AutonomousCommand 
 {
 	private TankDrive drive;
+	private double offset;
 	
 	/**
 	 * Creates a new <code>OrientToBoiler</code> command
 	 * @param drive the <code>TankDrive</code> subsystem
 	 */
-	public OrientToBoiler(TankDrive drive)
+	public OrientToBoiler(TankDrive drive, double offset)
 	{
+		super(3);
 		this.drive = drive;
+		this.offset = offset;
 	}
 
 	/**
@@ -30,7 +33,7 @@ public class OrientToBoiler extends AutonomousCommand
 	@Override
 	protected void initialize() 
 	{
-		double boilerYaw = SmartDashboard.getNumber("Boiler-Yaw", drive.getHeading());
+		double boilerYaw = SmartDashboard.getNumber("Boiler-Yaw", drive.getHeading()) + offset;
 		drive.setHeading(boilerYaw);
 	}
 	
@@ -51,7 +54,7 @@ public class OrientToBoiler extends AutonomousCommand
 	@Override
 	protected boolean isFinished() 
 	{
-		return drive.onTarget();
+		return drive.onTarget() || this.isTimedOut();
 	}
 	
 	/** {@inheritDoc} */

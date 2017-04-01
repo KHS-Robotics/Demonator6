@@ -55,7 +55,7 @@ public class GoToAngle extends AutonomousCommand
 	@Override
 	protected boolean isFinished() 
 	{
-		return drive.onTarget();
+		return (Math.abs(drive.getHeading() - yaw) <= 1);
 	}
 	
 	/** {@inheritDoc} */
