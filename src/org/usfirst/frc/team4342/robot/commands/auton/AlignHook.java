@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4342.robot.commands.auton;
 
-import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +27,6 @@ public class AlignHook extends AutonomousCommand
 	
 	private TankDrive drive;
 	private Location location;
-	private GearPlacer gearplacer;
 	
 	private HookState hookState;
 	
@@ -46,15 +44,15 @@ public class AlignHook extends AutonomousCommand
 	 * @param location the location of the hook
 	 * @see Location
 	 */
-    public AlignHook(TankDrive drive, GearPlacer gearPlacer, Location location)
+    public AlignHook(TankDrive drive)
     {
     	super();
     	
     	this.requires(drive);
     	
     	this.drive = drive;
-    	this.location = location;
-    	this.gearplacer = gearPlacer;
+    	
+    	setLocation(Location.MIDDLE);
     }
     
     /**
@@ -65,6 +63,16 @@ public class AlignHook extends AutonomousCommand
     public void setLocation(Location location)
     {
     	this.location = location;
+    }
+    
+    /**
+     * Starts the command with the specified location
+     * @param location the location the command should use
+     */
+    public void start(Location location)
+    {
+    	this.setLocation(location);
+    	this.start();
     }
     
     /**

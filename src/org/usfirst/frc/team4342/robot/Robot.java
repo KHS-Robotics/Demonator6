@@ -5,16 +5,11 @@ import org.usfirst.frc.team4342.robot.commands.auton.routines.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.CrossBaseline;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGear;
 import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearAndShootFuel;
-import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
-import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
-import org.usfirst.frc.team4342.robot.commands.teleop.Scale;
-import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,18 +29,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot 
 {
 	// Teleop commands
-	private DriveWithJoysticks drive;
-	private ShootWithSwitchBox shooter;
-	private PlaceGearWithSwitchBox gearPlacer;
-	private Scale scaler;
 	private AlignHook alignHook;
 	
 	// Autonomous chooser and routine
 	private SendableChooser<AutonomousRoutine> autonomousChooser;
-	private SendableChooser<Boolean> useVisionChooser;
 	private AutonomousRoutine autonomousRoutine;
-	
-	private boolean startedTeleopCommands;
 	
 	/**
 	 * Robot-wide initialization code
@@ -58,12 +46,7 @@ public class Robot extends IterativeRobot
 		IO.initialize();
 		DemonDashboard.start();
 		
-		Logger.info("Initializing teleop commands...");
-		drive = new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive());
-		shooter = new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter());
-		gearPlacer = new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer());
-		scaler = new Scale(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE));
-		alignHook = new AlignHook(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE);
+		alignHook = new AlignHook(IO.getDrive());
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<AutonomousRoutine>();
@@ -76,11 +59,6 @@ public class Robot extends IterativeRobot
 		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
 		
-		useVisionChooser = new SendableChooser<Boolean>();
-		useVisionChooser.addDefault("Use delicious Pi", true);
-		useVisionChooser.addObject("Don't use delicious Pi", false);
-		SmartDashboard.putData("Use Vision Chooser", useVisionChooser);
-		
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
 	
@@ -91,7 +69,6 @@ public class Robot extends IterativeRobot
 	public void teleopInit()
 	{
 		stopAutonomousRoutine();
-		startTeleopCommands();
 	}
 
 	/**
@@ -109,13 +86,11 @@ public class Robot extends IterativeRobot
 		if(!alignHook.isRunning())
 		{
 			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT))
-				startAlignHookCommand(AlignHook.Location.RIGHT);
+				alignHook.start(AlignHook.Location.RIGHT);
 			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_MIDDLE))
-				startAlignHookCommand(AlignHook.Location.MIDDLE);
+				alignHook.start(AlignHook.Location.MIDDLE);
 			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_RIGHT))
-				startAlignHookCommand(AlignHook.Location.LEFT);
-			else if(!drive.isRunning())
-				drive.start();
+				alignHook.start(AlignHook.Location.LEFT);
 		}
 		else
 		{
@@ -133,7 +108,7 @@ public class Robot extends IterativeRobot
 	public void autonomousInit()
 	{
 		stopAutonomousRoutine();
-		stopTeleopCommands();
+		alignHook.cancel();
 
 		autonomousRoutine = autonomousChooser.getSelected();
 		
@@ -157,7 +132,8 @@ public class Robot extends IterativeRobot
 	public void testInit()
 	{
 		stopAutonomousRoutine();
-		stopTeleopCommands();
+		alignHook.cancel();
+		Scheduler.getInstance().run();
 	}
 	
 	/**
@@ -176,41 +152,9 @@ public class Robot extends IterativeRobot
 	public void disabledInit()
 	{
 		stopAutonomousRoutine();
-		stopTeleopCommands();
+		alignHook.cancel();
+		
 		Scheduler.getInstance().run();
-	}
-	
-	/**
-	 * Starts the commands needed for operator control
-	 */
-	private void startTeleopCommands()
-	{
-		if(!startedTeleopCommands)
-		{
-			drive.start();
-			shooter.start();
-			gearPlacer.start();
-			scaler.start();
-			
-			startedTeleopCommands = true;
-		}
-	}
-	
-	/**
-	 * Stops the commands needed for operator control
-	 */
-	private void stopTeleopCommands()
-	{
-		if(startedTeleopCommands)
-		{
-			drive.cancel();
-			shooter.cancel();
-			gearPlacer.cancel();
-			scaler.cancel();
-			alignHook.cancel();
-			
-			startedTeleopCommands = false;
-		}
 	}
 	
 	/**
@@ -232,17 +176,5 @@ public class Robot extends IterativeRobot
 	{
 		if(autonomousRoutine != null)
 			autonomousRoutine.cancel();
-	}
-	
-	/**
-	 * Cancels <code>DriveWithJoyticks</code> and starts <code>AlignHook</code>
-	 * @param location the location of the hook to align
-	 */
-	private void startAlignHookCommand(AlignHook.Location location)
-	{
-		drive.cancel();
-		
-		alignHook.setLocation(location);
-		alignHook.start();
 	}
 }

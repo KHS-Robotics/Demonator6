@@ -40,8 +40,8 @@ public class GoStraightDistance extends AutonomousCommand
 	public void initialize()
 	{
 		drive.shiftLow();
-		leftVal = drive.getLeftDistance();
-		rightVal = drive.getRightDistance();
+		leftVal = Math.abs(drive.getLeftDistance());
+		rightVal = Math.abs(drive.getRightDistance());
 		drive.goStraight(direction, yaw);
 	}
 	
@@ -63,12 +63,7 @@ public class GoStraightDistance extends AutonomousCommand
 	@Override
 	protected boolean isFinished() 
 	{
-//		if(direction >= 0)
-//		{
-			return drive.remainingDistance(distance, leftVal, rightVal) <= 0;
-//		}
-//		else
-//			return drive.remainingDistance(distance, leftVal, rightVal) >= 0;
+		return drive.remainingDistance(distance, leftVal, rightVal) <= 0;
 	}
 	
 	/** {@inheritDoc} */

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 /**
  * Command to scale the airship
  */
-public class Scale extends TeleopCommand
+public class ScaleWithButton extends TeleopCommand
 {
 	private Scaler scaler;
 	private JoystickButton button;
@@ -18,7 +18,7 @@ public class Scale extends TeleopCommand
 	 * @param button the joystick button to poll
 	 * @see org.usfirst.frc.team4342.robot.subsystems.Scaler
 	 */
-	public Scale(Scaler scaler, JoystickButton button)
+	public ScaleWithButton(Scaler scaler, JoystickButton button)
 	{
 		this.requires(scaler);
 		

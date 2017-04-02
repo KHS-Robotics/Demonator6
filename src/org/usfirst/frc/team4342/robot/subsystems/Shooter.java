@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.IO;
+import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -179,6 +182,18 @@ public class Shooter extends DemonSubsystem
 		
 		shooterPID.setSetpoint(setpoint);
 		enableShooterPID();
+	}
+	
+	/**
+	 * <p>Sets the default command to <code>ShotoWithSwitchBox</code></p>
+	 * 
+	 * {@inheritDoc}
+	 * @see ShootWithSwitchBox
+	 */
+	@Override
+	protected void initDefaultCommand()
+	{
+		this.setDefaultCommand(new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter()));
 	}
 	
 	/**

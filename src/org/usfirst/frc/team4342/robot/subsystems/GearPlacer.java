@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.IO;
+import org.usfirst.frc.team4342.robot.commands.teleop.PlaceGearWithSwitchBox;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -51,6 +54,18 @@ public class GearPlacer extends DemonSubsystem
 		
 		placer.set(RAISE);	
 		current = RAISE;
+	}
+	
+	/**
+	 * <p>Sets the default command to <code>PlaceGearWithSwitchBox</code>
+	 * 
+	 * {@inheritDoc}
+	 * @see PlaceGearWithSwitchBox
+	 */
+	@Override
+	protected void initDefaultCommand() 
+	{
+		this.setDefaultCommand(new PlaceGearWithSwitchBox(IO.getSwitchBox(), IO.getGearPlacer()));
 	}
 	
 	/**

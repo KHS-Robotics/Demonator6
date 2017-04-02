@@ -17,11 +17,10 @@ public abstract class DemonSubsystem extends Subsystem
 	}
 	
 	/**
-	 * Calls {@link #setDefaultCommand(edu.wpi.first.wpilibj.command.Command)} 
-	 * with null as the command.
+	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void initDefaultCommand() 
+	protected void initDefaultCommand() 
 	{
 		this.setDefaultCommand(null);
 	}
