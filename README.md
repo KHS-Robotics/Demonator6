@@ -1,4 +1,4 @@
 # Demonator6
-Robot Code for FRC Team 4342 for Steamworks
+Robot Code for FRC Team 4342 for FIRST STEAMWorks.
 
-![Demonator6.PNG](/photos/d6_photo1.png)
+[Demonator6.JPG](http://i.imgur.com/MVJdiC3.jpg)
