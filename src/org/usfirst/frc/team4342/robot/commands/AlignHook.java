@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4342.robot.commands.auton;
+package org.usfirst.frc.team4342.robot.commands;
 
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Aligns the gear placer to place the gear on the hook
  */
-public class AlignHook extends AutonomousCommand 
+public class AlignHook extends CommandBase 
 {
 	/**
 	 * Location of the hook to place the gear onto

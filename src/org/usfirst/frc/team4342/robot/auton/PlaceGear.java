@@ -1,9 +1,9 @@
-package org.usfirst.frc.team4342.robot.commands.auton.routines;
+package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
-import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
-import org.usfirst.frc.team4342.robot.commands.auton.GoStraightUntilWithinDistance;
-import org.usfirst.frc.team4342.robot.commands.auton.GoToAngle;
+import org.usfirst.frc.team4342.robot.commands.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.GoStraightDistance;
+import org.usfirst.frc.team4342.robot.commands.GoStraightUntilWithinDistance;
+import org.usfirst.frc.team4342.robot.commands.GoToAngle;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 

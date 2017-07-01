@@ -1,11 +1,11 @@
-package org.usfirst.frc.team4342.robot.commands.auton.routines;
+package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
-import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
-import org.usfirst.frc.team4342.robot.commands.auton.GoToAngle;
-import org.usfirst.frc.team4342.robot.commands.auton.LowerGear;
-import org.usfirst.frc.team4342.robot.commands.auton.OrientToBoiler;
-import org.usfirst.frc.team4342.robot.commands.auton.Shoot;
+import org.usfirst.frc.team4342.robot.commands.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.GoStraightDistance;
+import org.usfirst.frc.team4342.robot.commands.GoToAngle;
+import org.usfirst.frc.team4342.robot.commands.LowerGear;
+import org.usfirst.frc.team4342.robot.commands.OrientToBoiler;
+import org.usfirst.frc.team4342.robot.commands.StartShooter;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
@@ -32,6 +32,6 @@ public class PlaceGearAndShootFuel extends AutonomousRoutine
 		this.addSequential(new GoStraightDistance(DIRECTION, this.isBlueAlliance() ? PEG_YAW : -PEG_YAW, DISTANCE, drive));
 		this.addSequential(new GoToAngle(this.isRedAlliance() ? BOILER_YAW : -BOILER_YAW, drive));
 		this.addSequential(new OrientToBoiler(drive, this.isRedAlliance() ? 5 : -5));
-		this.addSequential(new Shoot(shooter, true, 15));
+		this.addSequential(new StartShooter(shooter, true));
 	}
 }

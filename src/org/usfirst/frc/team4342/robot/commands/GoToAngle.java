@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4342.robot.commands.auton;
+package org.usfirst.frc.team4342.robot.commands;
 
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -7,7 +7,7 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  * 
  * @see org.usfirst.frc.team4342.robot.commands.auton.AutonomousCommand
  */
-public class GoToAngle extends AutonomousCommand
+public class GoToAngle extends CommandBase
 {
 	private double yaw;
 	private TankDrive drive;

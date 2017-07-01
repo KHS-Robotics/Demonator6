@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import org.usfirst.frc.team4342.robot.IO;
-import org.usfirst.frc.team4342.robot.commands.teleop.ShootWithSwitchBox;
 
 import com.ctre.CANTalon;
 
@@ -13,29 +11,27 @@ import edu.wpi.first.wpilibj.Solenoid;
 /**
  * Shooter subsystem to shoot fuel into the boilers
  */
-public class Shooter extends DemonSubsystem
+public class Shooter extends SubsystemBase
 {
 	public static final double P = 0.007, I = 0.0, D = 0.0082, F = 1 / 1400;
 	
-	private boolean isAccumulating, isAgitating, isShooting, isSetFar;
+	private boolean isAgitating, isShooting, isSetFar;
 	
-	private CANTalon intake, agitator, shooter;
+	private CANTalon agitator, shooter;
 	private Encoder shooterEnc;
 	private Solenoid shootFar, camLight;
 	private PIDController shooterPID;
 	
 	/**
 	 * Creates a new <code>Shooter</code> subsystem
-	 * @param intake the motor to intake fuel
 	 * @param agitator the motor to agitate the fuel to help the shooter
 	 * @param shooter the motor to shoot the fuel
 	 * @param shooterEnc the shoot motor encoder to utilize a rate PID controller
 	 * @param shootFar the solenoid to change the trajectory of the fuel to shoot far or close
 	 * @param camLight the LED ring used for vision processing
 	 */
-	public Shooter(CANTalon intake, CANTalon agitator, CANTalon shooter, Encoder shooterEnc, Solenoid shootFar, Solenoid camLight)
+	public Shooter(CANTalon agitator, CANTalon shooter, Encoder shooterEnc, Solenoid shootFar, Solenoid camLight)
 	{
-		this.intake = intake;
 		this.agitator = agitator;
 		this.shooter = shooter;
 		this.shooterEnc = shooterEnc;
@@ -49,30 +45,6 @@ public class Shooter extends DemonSubsystem
 		shooterPID = new PIDController(P, I, D, F, this.shooterEnc, this.shooter);
 		shooterPID.setInputRange(-1400, 0);
 		shooterPID.setOutputRange(-1, 0);
-	}
-	
-	/**
-	 * Enables the accumulator
-	 */
-	public void accumulate()
-	{
-		if(isAccumulating)
-			return;
-		isAccumulating = true;
-			
-		intake.set(-1.0);
-	}
-	
-	/**
-	 * Disables the accumulator
-	 */
-	public void stopAccumulating()
-	{
-		if(!isAccumulating)
-			return;
-		isAccumulating = false;
-		
-		intake.set(0);
 	}
 	
 	/**
@@ -182,18 +154,6 @@ public class Shooter extends DemonSubsystem
 		
 		shooterPID.setSetpoint(setpoint);
 		enableShooterPID();
-	}
-	
-	/**
-	 * <p>Sets the default command to <code>ShotoWithSwitchBox</code></p>
-	 * 
-	 * {@inheritDoc}
-	 * @see ShootWithSwitchBox
-	 */
-	@Override
-	protected void initDefaultCommand()
-	{
-		this.setDefaultCommand(new ShootWithSwitchBox(IO.getSwitchBox(), IO.getShooter()));
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
 import org.usfirst.frc.team4342.robot.IO;
-import org.usfirst.frc.team4342.robot.commands.teleop.DriveWithJoysticks;
+import org.usfirst.frc.team4342.robot.commands.DriveWithJoysticks;
 
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 /**
  * Tank Drive subsystem to control the drive train
  */
-public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
+public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 {
 	private static final double P = 0.04, I = 0.0001, D = 0.012;
 	private static final Value HIGH_GEAR = Value.kForward, LOW_GEAR = Value.kReverse;
@@ -364,7 +364,8 @@ public class TankDrive extends DemonSubsystem implements PIDSource, PIDOutput
 	@Override
 	protected void initDefaultCommand()
 	{
-		this.setDefaultCommand(new DriveWithJoysticks(IO.getLeftDriveStick(), IO.getRightDriveStick(), IO.getDrive()));
+		IO io = IO.getInstance();
+		this.setDefaultCommand(new DriveWithJoysticks(io.LeftDriveStick, io.RightDriveStick, io.Drive));
 	}
 	
 	/**

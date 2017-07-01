@@ -1,17 +1,12 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import org.usfirst.frc.team4342.robot.ButtonMap;
-import org.usfirst.frc.team4342.robot.IO;
-import org.usfirst.frc.team4342.robot.commands.teleop.ScaleWithButton;
 
 import com.ctre.CANTalon;
-
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * Scaler subsystem to scale the airship
  */
-public class Scaler extends DemonSubsystem
+public class Scaler extends SubsystemBase
 {
 	private CANTalon motor;
 	
@@ -48,18 +43,5 @@ public class Scaler extends DemonSubsystem
 		enabled = false;
 		
 		motor.set(0);
-	}
-	
-	/**
-	 * <p>Sets the default command to <code>ScaleWithButton</code></p>
-	 * 
-	 * {@inheritDoc}
-	 * 
-	 * @see ScaleWithButton
-	 */
-	@Override
-	protected void initDefaultCommand()
-	{
-		this.setDefaultCommand(new ScaleWithButton(IO.getScaler(), new JoystickButton(IO.getSwitchBox(), ButtonMap.SwitchBox.Scaler.SCALE)));
 	}
 }

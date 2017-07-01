@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4342.robot.commands.auton;
+package org.usfirst.frc.team4342.robot.commands;
 
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -6,7 +6,7 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  * Command to go straight until the ultrasonic reads a distance
  * that is less than or equal to the desired distance
  */
-public class GoStraightUntilWithinDistance extends AutonomousCommand 
+public class GoStraightUntilWithinDistance extends CommandBase 
 {
 	private TankDrive drive;
 	private double desiredDistance;

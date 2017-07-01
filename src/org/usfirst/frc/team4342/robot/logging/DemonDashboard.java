@@ -40,6 +40,8 @@ public class DemonDashboard
 	 */
 	private static class DemonDashboardThread extends Thread implements Runnable
 	{
+		private static final IO io = IO.getInstance();
+		
 		/**
 		 * Puts data to the Smart Dashboard every 50ms. The data is retrieved from IO.java
 		 * @see org.usfirst.frc.team4342.robot.IO
@@ -53,15 +55,14 @@ public class DemonDashboard
 			{
 				try
 				{
-					SmartDashboard.putNumber("NavX-Yaw", IO.getDrive().getHeading());
-					SmartDashboard.putBoolean("Photo-Right", IO.getDrive().getRightSensor());
-					SmartDashboard.putBoolean("Photo-Left", IO.getDrive().getLeftSensor());
-					SmartDashboard.putNumber("Shooter-Speed ", IO.getShooter().getSpeed());
-					//SmartDashboard.putBoolean("GearPlacer-isInPeg", IO.getGearPlacer().isInPeg());
-					SmartDashboard.putNumber("Drive-Enc-Right", IO.getDrive().getRightDistance());
-					SmartDashboard.putNumber("Drive-Enc-Left", IO.getDrive().getLeftDistance());
-					SmartDashboard.putNumber("Drive-Ultra-Dist", IO.getDrive().getUltrasonicDistance());
-					SmartDashboard.putBoolean("Shooter-Solenoid", IO.getShooter().isSetFar());
+					SmartDashboard.putNumber("NavX-Yaw", io.Drive.getHeading());
+					SmartDashboard.putBoolean("Photo-Right", io.Drive.getRightSensor());
+					SmartDashboard.putBoolean("Photo-Left", io.Drive.getLeftSensor());
+					SmartDashboard.putNumber("Shooter-Speed ", io.Shooter.getSpeed());
+					SmartDashboard.putNumber("Drive-Enc-Right", io.Drive.getRightDistance());
+					SmartDashboard.putNumber("Drive-Enc-Left", io.Drive.getLeftDistance());
+					SmartDashboard.putNumber("Drive-Ultra-Dist", io.Drive.getUltrasonicDistance());
+					SmartDashboard.putBoolean("Shooter-Solenoid", io.Shooter.isSetFar());
 					
 					Thread.sleep(50);
 				}

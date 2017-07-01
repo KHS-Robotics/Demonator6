@@ -1,6 +1,6 @@
-package org.usfirst.frc.team4342.robot.commands.auton.routines;
+package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.auton.GoStraightDistance;
+import org.usfirst.frc.team4342.robot.commands.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 /**

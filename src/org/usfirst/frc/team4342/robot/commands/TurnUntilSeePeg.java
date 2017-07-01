@@ -1,9 +1,9 @@
-package org.usfirst.frc.team4342.robot.commands.auton;
+package org.usfirst.frc.team4342.robot.commands;
 
-import org.usfirst.frc.team4342.robot.commands.auton.AlignHook.Location;
+import org.usfirst.frc.team4342.robot.commands.AlignHook.Location;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
-public class TurnUntilSeePeg extends AutonomousCommand
+public class TurnUntilSeePeg extends CommandBase
 {
 	private static final int PEG_YAW = 60;
 	private static final double CENTERING_ANGLE = 61.48;

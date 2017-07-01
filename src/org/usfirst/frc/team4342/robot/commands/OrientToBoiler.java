@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4342.robot.commands.auton;
+package org.usfirst.frc.team4342.robot.commands;
 
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * the calculated adjusted yaw using a Raspberry Pi 3
  * and a USB Camera
  */
-public class OrientToBoiler extends AutonomousCommand 
+public class OrientToBoiler extends CommandBase 
 {
 	private TankDrive drive;
 	private double offset;

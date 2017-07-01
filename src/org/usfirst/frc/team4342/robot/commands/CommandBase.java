@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Superclass for all commands used by Demonator
  */
-public abstract class DemonCommand extends Command
+public abstract class CommandBase extends Command
 {
 	private Alliance alliance;
 	
 	/**
 	 * Creates a new <code>DemonCommand</code>
 	 */
-	public DemonCommand()
+	public CommandBase()
 	{
 		super();
 	}
@@ -25,7 +25,7 @@ public abstract class DemonCommand extends Command
 	 * Creates a new <code>DemonCommand</code> with a specified timeout
 	 * @param timeout the timeout of the command in seconds
 	 */
-	public DemonCommand(double timeout)
+	public CommandBase(double timeout)
 	{
 		super(timeout);
 	}

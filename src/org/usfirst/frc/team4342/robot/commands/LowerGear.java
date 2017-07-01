@@ -1,21 +1,21 @@
-package org.usfirst.frc.team4342.robot.commands.auton;
+package org.usfirst.frc.team4342.robot.commands;
 
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 
 /**
- * Command to raise the gear placer
+ * Command to place a gear on a peg on the airship
  * 
  * @see org.usfirst.frc.team4342.robot.commands.auton.AutonomousCommand
  */
-public class RaiseGear extends AutonomousCommand
+public class LowerGear extends CommandBase
 {
 	private GearPlacer placer;
 
 	/**
-	 * Creates a new <code>RaiseGear</code> command.
+	 * Creates a new <code>PlaceGear</code> command.
 	 * @param placer the <code>GearPlacer</code> subsystem
 	 */
-	public RaiseGear(GearPlacer placer)
+	public LowerGear(GearPlacer placer)
 	{
 		super(2);
 		
@@ -25,17 +25,17 @@ public class RaiseGear extends AutonomousCommand
 	}
 	
 	/**
-	 * Raises the gear placer
+	 * Lowers the gear placer
 	 */
 	@Override
-	public void initialize()
+	protected void initialize()
 	{
-		placer.raise();
+		placer.lower();
 	}
-
+	
 	/**
-	 * Returns if the gear placer is raised
-	 * @return true if the gear placer is raised, false otherwise
+	 * Returns if the gear placer is lowered
+	 * @return true if the gear placer is lowered, false otherwise
 	 */
 	@Override
 	protected boolean isFinished() 
@@ -46,7 +46,7 @@ public class RaiseGear extends AutonomousCommand
 	/** {@inheritDoc} */
 	@Override
 	protected void execute() {}
-
+	
 	/** {@inheritDoc} */
 	@Override
 	protected void end() {}

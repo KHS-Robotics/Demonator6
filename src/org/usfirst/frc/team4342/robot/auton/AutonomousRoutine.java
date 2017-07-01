@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4342.robot.commands.auton.routines;
+package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.IO;
 
@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public abstract class AutonomousRoutine extends CommandGroup
 {
+	private boolean useDeadReckoning;
+	
 	private Alliance alliance;
 	
 	protected AutonomousRoutine() {}
@@ -23,11 +25,11 @@ public abstract class AutonomousRoutine extends CommandGroup
 		this.alliance = alliance;
 	}
 	
-	private boolean useDeadReckoning;
-	
-	public void initialize() 
+	@Override
+	public void initialize()
 	{
-		IO.getGearPlacer().raise();
+		IO.getInstance().Drive.resetNavX();
+		IO.getInstance().Drive.resetEncoders();
 	}
 	
 	/**

@@ -1,10 +1,10 @@
 package org.usfirst.frc.team4342.robot;
 
-import org.usfirst.frc.team4342.robot.commands.auton.AlignHook;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.AutonomousRoutine;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.CrossBaseline;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGear;
-import org.usfirst.frc.team4342.robot.commands.auton.routines.PlaceGearAndShootFuel;
+import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
+import org.usfirst.frc.team4342.robot.auton.CrossBaseline;
+import org.usfirst.frc.team4342.robot.auton.PlaceGear;
+import org.usfirst.frc.team4342.robot.auton.PlaceGearAndShootFuel;
+import org.usfirst.frc.team4342.robot.commands.AlignHook;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
@@ -28,10 +28,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot 
 {
-	// Teleop commands
-	private AlignHook alignHook;
-	
 	// Autonomous chooser and routine
+	private SendableChooser<Boolean> useDeadReckoningChooser;
 	private SendableChooser<AutonomousRoutine> autonomousChooser;
 	private AutonomousRoutine autonomousRoutine;
 	
@@ -43,21 +41,23 @@ public class Robot extends IterativeRobot
 	{
 		Logger.info("Bootstrapping Demonator6...");
 		
-		IO.initialize();
+		IO io = IO.getInstance();
 		DemonDashboard.start();
-		
-		alignHook = new AlignHook(IO.getDrive());
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<AutonomousRoutine>();
 		autonomousChooser.addDefault("None", null);
-		autonomousChooser.addObject("Place Middle Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.MIDDLE));
-		autonomousChooser.addObject("Place Left Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.RIGHT));
-		autonomousChooser.addObject("Place Right Gear", new PlaceGear(IO.getDrive(), IO.getGearPlacer(), AlignHook.Location.LEFT));
-		autonomousChooser.addObject("Place Gear & Shoot Fuel (Blue)", new PlaceGearAndShootFuel(IO.getDrive(), IO.getGearPlacer(), IO.getShooter(), Alliance.Blue));
-		autonomousChooser.addObject("Place Gear & Shoot Fuel (Red)", new PlaceGearAndShootFuel(IO.getDrive(), IO.getGearPlacer(), IO.getShooter(), Alliance.Red));
-		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(IO.getDrive()));
+		autonomousChooser.addObject("Place Middle Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignHook.Location.MIDDLE));
+		autonomousChooser.addObject("Place Left Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignHook.Location.RIGHT));
+		autonomousChooser.addObject("Place Right Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignHook.Location.LEFT));
+		autonomousChooser.addObject("Place Gear & Shoot Fuel (Blue)", new PlaceGearAndShootFuel(io.Drive, io.GearPlacer, io.Shooter, Alliance.Blue));
+		autonomousChooser.addObject("Place Gear & Shoot Fuel (Red)", new PlaceGearAndShootFuel(io.Drive, io.GearPlacer, io.Shooter, Alliance.Red));
+		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(io.Drive));
 		SmartDashboard.putData("Autonomous Chooser", autonomousChooser);
+		
+		useDeadReckoningChooser = new SendableChooser<Boolean>();
+		useDeadReckoningChooser.addDefault("Use Dead Reckoning", true);
+		useDeadReckoningChooser.addObject("Don't use Dead Reckoning", false);
 		
 		Logger.info("Finished bootstrapping Demonator6.");
 	}
@@ -77,27 +77,6 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
-		if(IO.getSwitchBox().getRawButton(ButtonMap.SwitchBox.RESET)) // for testing purposes
-		{
-			IO.getDrive().resetNavX();
-			IO.getDrive().resetEncoders();
-		}
-		
-		if(!alignHook.isRunning())
-		{
-			if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT))
-				alignHook.start(AlignHook.Location.RIGHT);
-			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_MIDDLE))
-				alignHook.start(AlignHook.Location.MIDDLE);
-			else if(IO.getLeftDriveStick().getRawButton(ButtonMap.DriveStick.Left.ALIGN_HOOK_RIGHT))
-				alignHook.start(AlignHook.Location.LEFT);
-		}
-		else
-		{
-			if(IO.shouldCancelAutoCommand())
-				alignHook.cancel();
-		}
-		
 		Scheduler.getInstance().run();
 	}
 	
@@ -108,9 +87,8 @@ public class Robot extends IterativeRobot
 	public void autonomousInit()
 	{
 		stopAutonomousRoutine();
-		alignHook.cancel();
-
 		autonomousRoutine = autonomousChooser.getSelected();
+		autonomousRoutine.setUseDeadReckoning(useDeadReckoningChooser.getSelected());
 		
 		startAutonomousRoutine();
 	}
@@ -132,7 +110,6 @@ public class Robot extends IterativeRobot
 	public void testInit()
 	{
 		stopAutonomousRoutine();
-		alignHook.cancel();
 		Scheduler.getInstance().run();
 	}
 	
@@ -152,8 +129,6 @@ public class Robot extends IterativeRobot
 	public void disabledInit()
 	{
 		stopAutonomousRoutine();
-		alignHook.cancel();
-		
 		Scheduler.getInstance().run();
 	}
 	
@@ -164,7 +139,6 @@ public class Robot extends IterativeRobot
 	{
 		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
 		{
-			IO.getDrive().resetNavX();
 			autonomousRoutine.start();
 		}
 	}

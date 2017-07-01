@@ -1,7 +1,6 @@
-package org.usfirst.frc.team4342.robot.commands.teleop;
+package org.usfirst.frc.team4342.robot.commands;
 
 import org.usfirst.frc.team4342.robot.ButtonMap;
-import org.usfirst.frc.team4342.robot.IO;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,8 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * @see org.usfirst.frc.team4342.robot.commands.teleop.TeleopCommand
  */
-public class DriveWithJoysticks extends TeleopCommand
+public class DriveWithJoysticks extends CommandBase
 {	
+	private static final double JOYSTICK_DEADZONE = 0.04;
 	private static final double BOILER_YAW = 135.0;
 	private static final double LOAD_IN_YAW = 28.0;
 	
@@ -129,7 +129,7 @@ public class DriveWithJoysticks extends TeleopCommand
 		}
 		else
 		{
-			if(holdDesiredYaw && (Math.abs(LEFT_Y) > IO.JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > IO.JOYSTICK_DEADZONE))
+			if(holdDesiredYaw && (Math.abs(LEFT_Y) > JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > JOYSTICK_DEADZONE))
 			{	
 				drive.disablePID();
 				holdDesiredYaw = false;
@@ -158,6 +158,12 @@ public class DriveWithJoysticks extends TeleopCommand
 		drive.shiftLow();
 	}
 	
+	@Override
+	protected boolean isFinished()
+	{
+		return false;
+	}
+	
 	/**
 	 * Internal function to adjust output for sensitiviy control
 	 * @param input the desired input before adjustment from -1.0 to 1.0
@@ -174,8 +180,8 @@ public class DriveWithJoysticks extends TeleopCommand
 
 		double output = 0;
 		output = input >= 0 ? 
-				IO.JOYSTICK_DEADZONE + (1 - IO.JOYSTICK_DEADZONE) * (SENSITIVITY*Math.pow(input, 3)) + (1 - SENSITIVITY)*input : 
-			   -IO.JOYSTICK_DEADZONE + (1 - IO.JOYSTICK_DEADZONE) * (SENSITIVITY*Math.pow(input, 3)) + (1 - SENSITIVITY)*input;
+				JOYSTICK_DEADZONE + (1 - JOYSTICK_DEADZONE) * (SENSITIVITY*Math.pow(input, 3)) + (1 - SENSITIVITY)*input : 
+			   -JOYSTICK_DEADZONE + (1 - JOYSTICK_DEADZONE) * (SENSITIVITY*Math.pow(input, 3)) + (1 - SENSITIVITY)*input;
 		
 		return output;
 	}

@@ -1,6 +1,15 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.LowerGear;
+import org.usfirst.frc.team4342.robot.commands.RaiseGear;
+import org.usfirst.frc.team4342.robot.commands.StartAccumulator;
+import org.usfirst.frc.team4342.robot.commands.StartScaler;
+import org.usfirst.frc.team4342.robot.commands.StartShooter;
+import org.usfirst.frc.team4342.robot.commands.StopAccumulator;
+import org.usfirst.frc.team4342.robot.commands.StopScaler;
+import org.usfirst.frc.team4342.robot.commands.StopShooter;
 import org.usfirst.frc.team4342.robot.logging.Logger;
+import org.usfirst.frc.team4342.robot.subsystems.Accumulator;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Scaler;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -15,185 +24,126 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * Class that holds direct access to the <code>Subsystem</code> objects
  */
 public class IO 
 {
-	private IO() {}
+	private static IO instance;
 	
-	private static boolean initialized;
-	
-	public static final double JOYSTICK_DEADZONE = 0.04;
-	
-	// Sensors, motor controllers and cameras
-	private static Joystick switchBox, rightDriveStick, leftDriveStick;
-	private static CANTalon fr, fl, mr, ml, rr, rl, intake, agitator, shooter, scaleMotor;
-	private static AHRS navx;
-	private static DigitalInput rsensor, lsensor, gearPlacerSwitch;
-	private static Ultrasonic ultrasonic;
-	private static DoubleSolenoid placer, shifter;
-	private static Solenoid shootFar, camLight;
-	private static Encoder leftDrive, rightDrive, shooterEnc;
+	public static IO getInstance()
+	{
+		if(instance == null)
+			instance = new IO();
+		
+		return instance;
+	}
 	
 	// Subsystems
-	private static TankDrive drive;
-	private static Shooter shootingSubsystem;
-	private static Scaler scaler;
-	private static GearPlacer gearPlacer;
+	public final GearPlacer GearPlacer;
+	public final Scaler Scaler;
+	public final Accumulator Accumulator;
+	public final Shooter Shooter;
+	public final TankDrive Drive;
 	
-	/**
-	 * Initializes components and subsystems.
-	 */
-	public static void initialize()
+	// Sensors, motor controllers and pneumatics
+	public final Joystick SwitchBox, RightDriveStick, LeftDriveStick;
+	public final CANTalon FrontRight, FrontLeft, MiddleRight, MiddleLeft, RearRight, RearLeft, Intake, Agitator, ShooterMotor, ScaleMotor;
+	public final AHRS NavX;
+	public final DigitalInput RightPhotosensor, LeftPhotosensor;
+	public final Ultrasonic Ultrasonic;
+	public final DoubleSolenoid Placer, Shifter;
+	public final Solenoid ShooterHood, CamLight;
+	public final Encoder LeftDrive, RightDrive, ShooterEnc;
+	
+	private IO() 
 	{
-		if(initialized)
-			return;
-		initialized = true;
-		
-		Logger.info("Initializing components...");
+		Logger.info("Constructing IO...");
 		
 		// Joysticks
-		leftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK_PORT);
-		rightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK_PORT);
-		switchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
+		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK_PORT);
+		RightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK_PORT);
+		SwitchBox = new Joystick(RobotMap.SWITCH_BOX_PORT);
 		
 		// CANTalons
-		fr = new CANTalon(RobotMap.FRONT_RIGHT);
-		fl = new CANTalon(RobotMap.FRONT_LEFT);
-		mr = new CANTalon(RobotMap.MIDDLE_RIGHT);
-		ml = new CANTalon(RobotMap.MIDDLE_LEFT);
-		rr = new CANTalon(RobotMap.REAR_RIGHT);
-		rl = new CANTalon(RobotMap.REAR_LEFT);
-		intake = new CANTalon(RobotMap.INTAKE);
-		agitator = new CANTalon(RobotMap.AGITATOR);
-		shooter = new CANTalon(RobotMap.SHOOTER);
-		scaleMotor = new CANTalon(RobotMap.SCALER);
+		FrontRight = new CANTalon(RobotMap.FRONT_RIGHT);
+		FrontLeft = new CANTalon(RobotMap.FRONT_LEFT);
+		MiddleRight = new CANTalon(RobotMap.MIDDLE_RIGHT);
+		MiddleLeft = new CANTalon(RobotMap.MIDDLE_LEFT);
+		RearRight = new CANTalon(RobotMap.REAR_RIGHT);
+		RearLeft = new CANTalon(RobotMap.REAR_LEFT);
+		Intake = new CANTalon(RobotMap.INTAKE);
+		Agitator = new CANTalon(RobotMap.AGITATOR);
+		ShooterMotor = new CANTalon(RobotMap.SHOOTER);
+		ScaleMotor = new CANTalon(RobotMap.SCALER);
 		
-		fr.enableBrakeMode(true);
-		fl.enableBrakeMode(true);
-		mr.enableBrakeMode(true);
-		ml.enableBrakeMode(true);
-		rr.enableBrakeMode(true);
-		rl.enableBrakeMode(true);
-		intake.enableBrakeMode(false);
-		agitator.enableBrakeMode(false);
-		shooter.enableBrakeMode(false);
-		scaleMotor.enableBrakeMode(true);
+		FrontRight.enableBrakeMode(true);
+		FrontLeft.enableBrakeMode(true);
+		MiddleRight.enableBrakeMode(true);
+		MiddleLeft.enableBrakeMode(true);
+		RearRight.enableBrakeMode(true);
+		RearLeft.enableBrakeMode(true);
+		Intake.enableBrakeMode(false);
+		Agitator.enableBrakeMode(false);
+		ShooterMotor.enableBrakeMode(false);
+		ScaleMotor.enableBrakeMode(true);
 		
 		// NavX
-		navx = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
+		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// DIOs
-		rsensor = new DigitalInput(RobotMap.RIGHT_PHOTO_SENSOR);
-		lsensor = new DigitalInput(RobotMap.LEFT_PHOTO_SENSOR);
-		gearPlacerSwitch = new DigitalInput(RobotMap.GEAR_PLACER_SWITCH);
-		ultrasonic = new Ultrasonic(RobotMap.ULTRASONIC_DIGITAL_OUT, RobotMap.ULTRASONIC_DIGITAL_IN);
+		RightPhotosensor = new DigitalInput(RobotMap.RIGHT_PHOTO_SENSOR);
+		LeftPhotosensor = new DigitalInput(RobotMap.LEFT_PHOTO_SENSOR);
+		Ultrasonic = new Ultrasonic(RobotMap.ULTRASONIC_DIGITAL_OUT, RobotMap.ULTRASONIC_DIGITAL_IN);
 		
-		ultrasonic.setAutomaticMode(true);
+		Ultrasonic.setAutomaticMode(true);
 		
 		// Pneumatics
-	    placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
-	    shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD_CHANNEL, RobotMap.SHIFT_REVERSE_CHANNEL);
-	    shootFar = new Solenoid(RobotMap.SHOOT_FAR_SOLENOID);
+	    Placer = new DoubleSolenoid(RobotMap.PLACER_FORWARD_CHANNEL, RobotMap.PLACER_REVERSE_CHANNEL);
+	    Shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD_CHANNEL, RobotMap.SHIFT_REVERSE_CHANNEL);
+	    ShooterHood = new Solenoid(RobotMap.SHOOT_FAR_SOLENOID);
 	    
 	    // Lights
-	    camLight = new Solenoid(RobotMap.CAMERA_LIGHT_CHANNEL);
+	    CamLight = new Solenoid(RobotMap.CAMERA_LIGHT_CHANNEL);
 
 	    // Encoders
-	    leftDrive = new Encoder(RobotMap.LEFT_DRIVE_ENC_CH_A, RobotMap.LEFT_DRIVE_ENC_CH_B);
-	    rightDrive = new Encoder(RobotMap.RIGHT_DRIVE_ENC_CH_A, RobotMap.RIGHT_DRIVE_ENC_CH_B);
-	    shooterEnc = new Encoder(RobotMap.SHOOTER_ENC_CH_A, RobotMap.SHOOTER_ENC_CH_B);
+	    LeftDrive = new Encoder(RobotMap.LEFT_DRIVE_ENC_CH_A, RobotMap.LEFT_DRIVE_ENC_CH_B);
+	    RightDrive = new Encoder(RobotMap.RIGHT_DRIVE_ENC_CH_A, RobotMap.RIGHT_DRIVE_ENC_CH_B);
+	    ShooterEnc = new Encoder(RobotMap.SHOOTER_ENC_CH_A, RobotMap.SHOOTER_ENC_CH_B);
 	    
-	    leftDrive.setDistancePerPulse((6.0*Math.PI*20)/(64*3*64));
+	    LeftDrive.setDistancePerPulse((6.0*Math.PI*20)/(64*3*64));
 	    
-	    rightDrive.setReverseDirection(true);
-	    rightDrive.setDistancePerPulse((6.0*Math.PI*20)/(64*3*64));
+	    RightDrive.setReverseDirection(true);
+	    RightDrive.setDistancePerPulse((6.0*Math.PI*20)/(64*3*64));
 	    
-	    shooterEnc.setDistancePerPulse(Math.PI / 5.0);
+	    ShooterEnc.setDistancePerPulse(Math.PI / 5.0);
 	    
-	    Logger.info("Initializing subsystems...");
-	    
-	    // Subsystems
-	    drive = new TankDrive(fr, fl, mr, ml, rr, rl, navx, shifter, leftDrive, rightDrive, rsensor, lsensor, ultrasonic);
-	    shootingSubsystem = new Shooter(intake, agitator, shooter, shooterEnc, shootFar, camLight);
-	    scaler = new Scaler(scaleMotor);
-	    gearPlacer = new GearPlacer(placer, gearPlacerSwitch);
-	}
-	
-	/**
-	 * Gets the drive subsystem.
-	 * @return the drive subsystem
-	 */
-	public static TankDrive getDrive()
-	{
-		return drive;
-	}
-	
-	/**
-	 * Gets the shooter subsystem.
-	 * @return the shooter subsystem
-	 */
-	public static Shooter getShooter()
-	{
-		return shootingSubsystem;
-	}
-	
-	/**
-	 * Gets the scaling subsystem.
-	 * @return the scaling subsystem
-	 */
-	public static Scaler getScaler()
-	{
-		return scaler;
-	}
-	
-	/**
-	 * Gets the gear placing subsystem.
-	 * @return the gear placing subsystem
-	 */
-	public static GearPlacer getGearPlacer()
-	{
-		return gearPlacer;
-	}
-	
-	/**
-	 * Gets the left joystick.
-	 * @return the left joystick.
-	 */
-	public static Joystick getLeftDriveStick()
-	{
-		return leftDriveStick;
-	}
-	
-	/**
-	 * Gets the right joystick.
-	 * @return the right joystick
-	 */
-	public static Joystick getRightDriveStick()
-	{
-		return rightDriveStick;
-	}
-	
-	/**
-	 * Gets the switch box subsystem.
-	 * @return the switch box subsystem
-	 */
-	public static Joystick getSwitchBox()
-	{
-		return switchBox;
-	}
-	
-	/**
-	 * Gets if either of the drive sticks are outside of the specified dead zone
-	 * @return true if the right or left drive sticks are outside the dead zone, false otherwise
-	 */
-	public static boolean shouldCancelAutoCommand()
-	{
-		boolean left = Math.abs(getLeftDriveStick().getY()) > (2*JOYSTICK_DEADZONE);
-		boolean right = Math.abs(getRightDriveStick().getY()) > (2*JOYSTICK_DEADZONE);
+	    GearPlacer = new GearPlacer(Placer);
+		Scaler = new Scaler(ScaleMotor);
+		Accumulator = new Accumulator(Intake);
+		Shooter = new Shooter(Agitator, ShooterMotor, ShooterEnc, ShooterHood, CamLight);
+		Drive = new TankDrive(FrontRight, FrontLeft, MiddleRight, MiddleLeft, RearRight, RearLeft, NavX, Shifter, LeftDrive, RightDrive, RightPhotosensor, LeftPhotosensor, Ultrasonic);
 		
-		return left || right;
+		JoystickButton placerButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.GearPlacer.LOWER);
+		placerButton.whenActive(new LowerGear(GearPlacer));
+		placerButton.whenInactive(new RaiseGear(GearPlacer));
+		
+		JoystickButton scaleButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Scaler.SCALE);
+		scaleButton.whenActive(new StartScaler(Scaler));
+		scaleButton.whenInactive(new StopScaler(Scaler));
+		
+		JoystickButton accumulateButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Shooter.ACCUMULATE);
+		accumulateButton.whenActive(new StartAccumulator(Accumulator));
+		accumulateButton.whenInactive(new StopAccumulator(Accumulator));
+		
+		JoystickButton shootFarButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Shooter.SHOOT_FAR);
+		shootFarButton.whenActive(new StartShooter(Shooter, true));
+		shootFarButton.whenInactive(new StopShooter(Shooter));
+		
+		JoystickButton shootCloseButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
+		shootCloseButton.whenActive(new StartShooter(Shooter, false));
+		shootCloseButton.whenInactive(new StopShooter(Shooter));
 	}
 }
