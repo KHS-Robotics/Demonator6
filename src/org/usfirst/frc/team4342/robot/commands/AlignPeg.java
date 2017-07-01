@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Aligns the gear placer to place the gear on the hook
  */
-public class AlignHook extends CommandBase 
+public class AlignPeg extends CommandBase 
 {
 	/**
 	 * Location of the hook to place the gear onto
@@ -44,7 +44,7 @@ public class AlignHook extends CommandBase
 	 * @param location the location of the hook
 	 * @see Location
 	 */
-    public AlignHook(TankDrive drive)
+    public AlignPeg(TankDrive drive)
     {
     	super();
     	

@@ -72,7 +72,7 @@ public class DriveWithJoysticks extends CommandBase
 		if(ROTATE)
 		{
 			drive.disablePID();
-			drive.set(RIGHT_Y, RIGHT_Y);
+			drive.set(-RIGHT_Y, RIGHT_Y);
 			return;
 		}
 		

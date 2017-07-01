@@ -32,6 +32,7 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	private Ultrasonic ultrasonic;
 	private PIDController yawPID;
 	
+	private boolean invertRight, invertLeft;
 	private Value currentGear;
 	private double direction;
 	private double offset;
@@ -82,6 +83,16 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		disablePID();
 	}
 	
+	public void setRightInverted(boolean inverted)
+	{
+		this.invertRight = inverted;
+	}
+	
+	public void setLeftInverted(boolean inverted)
+	{
+		this.invertLeft = inverted;
+	}
+	
 	/**
 	 * Sets the left and right sides of the drive train 
 	 * to the specified outputs
@@ -90,8 +101,9 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	 */
 	public void set(double left, double right)
 	{
-		left = normalizeOutput(left);
-		right = normalizeOutput(right);
+		left = invertLeft ? -normalizeOutput(left) : normalizeOutput(left);
+		right = invertRight ? -normalizeOutput(right) : normalizeOutput(right);
+		
 		
 		fr.set(right);
 		fl.set(left);
@@ -99,6 +111,11 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		ml.set(left);
 		rr.set(right);
 		rl.set(left);
+	}
+	
+	public void stopMotors()
+	{
+		this.set(0, 0);
 	}
 	
 	/**

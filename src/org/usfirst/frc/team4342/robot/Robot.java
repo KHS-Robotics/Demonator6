@@ -4,9 +4,10 @@ import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.auton.CrossBaseline;
 import org.usfirst.frc.team4342.robot.auton.PlaceGear;
 import org.usfirst.frc.team4342.robot.auton.PlaceGearAndShootFuel;
-import org.usfirst.frc.team4342.robot.commands.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.AlignPeg;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
+import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -43,13 +44,14 @@ public class Robot extends IterativeRobot
 		
 		IO io = IO.getInstance();
 		DemonDashboard.start();
+		PDPLogger.start();
 		
 		Logger.info("Initializing autonomous routines...");
 		autonomousChooser = new SendableChooser<AutonomousRoutine>();
 		autonomousChooser.addDefault("None", null);
-		autonomousChooser.addObject("Place Middle Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignHook.Location.MIDDLE));
-		autonomousChooser.addObject("Place Left Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignHook.Location.RIGHT));
-		autonomousChooser.addObject("Place Right Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignHook.Location.LEFT));
+		autonomousChooser.addObject("Place Middle Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignPeg.Location.MIDDLE));
+		autonomousChooser.addObject("Place Left Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignPeg.Location.RIGHT));
+		autonomousChooser.addObject("Place Right Gear", new PlaceGear(io.Drive, io.GearPlacer, AlignPeg.Location.LEFT));
 		autonomousChooser.addObject("Place Gear & Shoot Fuel (Blue)", new PlaceGearAndShootFuel(io.Drive, io.GearPlacer, io.Shooter, Alliance.Blue));
 		autonomousChooser.addObject("Place Gear & Shoot Fuel (Red)", new PlaceGearAndShootFuel(io.Drive, io.GearPlacer, io.Shooter, Alliance.Red));
 		autonomousChooser.addObject("Cross Baseline", new CrossBaseline(io.Drive));

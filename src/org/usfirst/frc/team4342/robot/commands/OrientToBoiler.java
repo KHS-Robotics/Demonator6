@@ -17,10 +17,14 @@ public class OrientToBoiler extends CommandBase
 	/**
 	 * Creates a new <code>OrientToBoiler</code> command
 	 * @param drive the <code>TankDrive</code> subsystem
+	 * @param offset number of degrees to overshoot or undershoto
 	 */
 	public OrientToBoiler(TankDrive drive, double offset)
 	{
 		super(3);
+		
+		this.requires(drive);
+		
 		this.drive = drive;
 		this.offset = offset;
 	}

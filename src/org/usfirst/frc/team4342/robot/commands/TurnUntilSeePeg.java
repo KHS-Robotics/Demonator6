@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-import org.usfirst.frc.team4342.robot.commands.AlignHook.Location;
+import org.usfirst.frc.team4342.robot.commands.AlignPeg.Location;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 public class TurnUntilSeePeg extends CommandBase

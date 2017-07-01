@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.AlignPeg;
 import org.usfirst.frc.team4342.robot.commands.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.GoToAngle;
 import org.usfirst.frc.team4342.robot.commands.LowerGear;
@@ -27,7 +27,7 @@ public class PlaceGearAndShootFuel extends AutonomousRoutine
 	{
 		super(alliance);
 		
-		this.addSequential(new PlaceGear(drive, placer, this.isRedAlliance() ? AlignHook.Location.LEFT : AlignHook.Location.RIGHT));
+		this.addSequential(new PlaceGear(drive, placer, this.isRedAlliance() ? AlignPeg.Location.LEFT : AlignPeg.Location.RIGHT));
 		this.addSequential(new LowerGear(placer));
 		this.addSequential(new GoStraightDistance(DIRECTION, this.isBlueAlliance() ? PEG_YAW : -PEG_YAW, DISTANCE, drive));
 		this.addSequential(new GoToAngle(this.isRedAlliance() ? BOILER_YAW : -BOILER_YAW, drive));

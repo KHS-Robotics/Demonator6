@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.AlignHook;
+import org.usfirst.frc.team4342.robot.commands.AlignPeg;
 import org.usfirst.frc.team4342.robot.commands.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.GoStraightUntilWithinDistance;
 import org.usfirst.frc.team4342.robot.commands.GoToAngle;
@@ -32,23 +32,23 @@ public class PlaceGear extends AutonomousRoutine
 	 * @param drive the <code>TankDrive</code> subsystem
 	 * @param placer the <code>GearPlacer</code> subsystem
 	 * @param location the location of the peg
-	 * @see AlignHook.Location
+	 * @see AlignPeg.Location
 	 */
-	public PlaceGear(TankDrive drive, GearPlacer placer, AlignHook.Location location)
+	public PlaceGear(TankDrive drive, GearPlacer placer, AlignPeg.Location location)
 	{
-		if(AlignHook.Location.MIDDLE.equals(location))
+		if(AlignPeg.Location.MIDDLE.equals(location))
 		{
 			this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, DISTANCE, drive));
 			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
 		}
-		else if(AlignHook.Location.LEFT.equals(location))
+		else if(AlignPeg.Location.LEFT.equals(location))
 		{
 			this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, LEFT_DISTANCE, drive));
 			this.addSequential(new GoToAngle(-PEG_YAW, drive));
 			this.addSequential(new GoStraightDistance(DIRECTION, -PEG_YAW, PEG_DISTANCE, drive));
 			this.addSequential(new GoStraightUntilWithinDistance(drive, PLACE_PEG_DISTANCE_INCHES));
 		}
-		else if(AlignHook.Location.RIGHT.equals(location))
+		else if(AlignPeg.Location.RIGHT.equals(location))
 		{
 			this.addSequential(new GoStraightDistance(DIRECTION, START_YAW, RIGHT_DISTANCE, drive));
 			this.addSequential(new GoToAngle(PEG_YAW, drive));

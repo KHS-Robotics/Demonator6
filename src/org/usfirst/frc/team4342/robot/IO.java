@@ -1,11 +1,13 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.AlignPeg;
 import org.usfirst.frc.team4342.robot.commands.LowerGear;
 import org.usfirst.frc.team4342.robot.commands.RaiseGear;
 import org.usfirst.frc.team4342.robot.commands.StartAccumulator;
 import org.usfirst.frc.team4342.robot.commands.StartScaler;
 import org.usfirst.frc.team4342.robot.commands.StartShooter;
 import org.usfirst.frc.team4342.robot.commands.StopAccumulator;
+import org.usfirst.frc.team4342.robot.commands.StopDriveTrain;
 import org.usfirst.frc.team4342.robot.commands.StopScaler;
 import org.usfirst.frc.team4342.robot.commands.StopShooter;
 import org.usfirst.frc.team4342.robot.logging.Logger;
@@ -145,5 +147,9 @@ public class IO
 		JoystickButton shootCloseButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
 		shootCloseButton.whenActive(new StartShooter(Shooter, false));
 		shootCloseButton.whenInactive(new StopShooter(Shooter));
+		
+		JoystickButton alignPegButton = new JoystickButton(LeftDriveStick, ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT);
+		alignPegButton.whenActive(new AlignPeg(Drive));
+		alignPegButton.whenReleased(new StopDriveTrain(Drive));
 	}
 }
