@@ -19,6 +19,8 @@ public class GoToAngle extends CommandBase
 	 */
 	public GoToAngle(double yaw, TankDrive drive)
 	{
+		super(3);
+		
 		this.requires(drive);
 		
 		this.yaw = yaw;
@@ -55,7 +57,7 @@ public class GoToAngle extends CommandBase
 	@Override
 	protected boolean isFinished() 
 	{
-		return (Math.abs(drive.getHeading() - yaw) <= 1);
+		return (Math.abs(drive.getHeading() - yaw) <= 1) || this.isTimedOut();
 	}
 	
 	/** {@inheritDoc} */

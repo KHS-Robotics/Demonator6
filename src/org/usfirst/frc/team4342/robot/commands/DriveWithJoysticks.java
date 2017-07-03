@@ -20,7 +20,6 @@ public class DriveWithJoysticks extends CommandBase
 	private boolean holdDesiredYaw;
 	private double desiredYaw;
 	
-	private long lastTimeShiftedMs;
 	private boolean usedShiftHighAndGoStraight;
 	
 	private Joystick leftJoystick, rightJoystick;
@@ -51,30 +50,10 @@ public class DriveWithJoysticks extends CommandBase
 		final boolean SHIFT_AND_HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT_AND_HOLD_CURRENT_YAW);
 		final double LEFT_Y = leftJoystick.getY();
 		final double RIGHT_Y = -rightJoystick.getY();
-		final boolean SHIFT = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT);
 		final boolean ALIGN_STRAIGHT = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.ALIGN_STRAIGHT);
 		final boolean HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW);
 		final boolean AIM_BOILER = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.BOILER_YAW);
 		final boolean GO_TO_LOAD_IN_YAW = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.GO_TO_LOAD_IN_YAW);
-		final boolean ROTATE = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.ROTATE);
-		
-		if(SHIFT)
-		{
-			final long CURRENT_TIME = System.currentTimeMillis();
-			
-			if(CURRENT_TIME - lastTimeShiftedMs >= 500)
-			{
-				lastTimeShiftedMs = System.currentTimeMillis();
-				drive.shift();
-			}
-		}
-		
-		if(ROTATE)
-		{
-			drive.disablePID();
-			drive.set(-RIGHT_Y, RIGHT_Y);
-			return;
-		}
 		
 		if(!holdDesiredYaw && ALIGN_STRAIGHT)
 		{

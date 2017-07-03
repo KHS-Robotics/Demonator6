@@ -104,7 +104,6 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		left = invertLeft ? -normalizeOutput(left) : normalizeOutput(left);
 		right = invertRight ? -normalizeOutput(right) : normalizeOutput(right);
 		
-		
 		fr.set(right);
 		fl.set(left);
 		mr.set(right);

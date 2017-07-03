@@ -3,6 +3,8 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.AlignPeg;
 import org.usfirst.frc.team4342.robot.commands.LowerGear;
 import org.usfirst.frc.team4342.robot.commands.RaiseGear;
+import org.usfirst.frc.team4342.robot.commands.RotateWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.Shift;
 import org.usfirst.frc.team4342.robot.commands.StartAccumulator;
 import org.usfirst.frc.team4342.robot.commands.StartScaler;
 import org.usfirst.frc.team4342.robot.commands.StartShooter;
@@ -147,6 +149,12 @@ public class IO
 		JoystickButton shootCloseButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
 		shootCloseButton.whenActive(new StartShooter(Shooter, false));
 		shootCloseButton.whenInactive(new StopShooter(Shooter));
+		
+		JoystickButton rotateWithJoystickButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.ROTATE);
+		rotateWithJoystickButton.whileActive(new RotateWithJoystick(RightDriveStick, Drive));
+		
+		JoystickButton shiftJoystickButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.ROTATE);
+		shiftJoystickButton.whenActive(new Shift(Drive));
 		
 		JoystickButton alignPegButton = new JoystickButton(LeftDriveStick, ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT);
 		alignPegButton.whenActive(new AlignPeg(Drive));
