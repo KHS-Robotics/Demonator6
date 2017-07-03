@@ -48,7 +48,7 @@ public class DriveWithJoysticks extends CommandBase
 	protected void execute()
 	{
 		final boolean SHIFT_AND_HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT_AND_HOLD_CURRENT_YAW);
-		final double LEFT_Y = leftJoystick.getY();
+		final double LEFT_Y = -leftJoystick.getY();
 		final double RIGHT_Y = -rightJoystick.getY();
 		final boolean ALIGN_STRAIGHT = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.ALIGN_STRAIGHT);
 		final boolean HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW);
@@ -67,7 +67,7 @@ public class DriveWithJoysticks extends CommandBase
 			drive.setHeading(desiredYaw);
 			holdDesiredYaw = true;
 		}
-		else if(!holdDesiredYaw &&  SHIFT_AND_HOLD_CURRENT_YAW)
+		else if(!holdDesiredYaw && SHIFT_AND_HOLD_CURRENT_YAW)
 		{
 			usedShiftHighAndGoStraight = true;
 			
@@ -80,7 +80,7 @@ public class DriveWithJoysticks extends CommandBase
 		{
 			if(this.isBlueAlliance())
 				desiredYaw = -BOILER_YAW;
-			else  if(this.isRedAlliance())
+			else if(this.isRedAlliance())
 				desiredYaw = BOILER_YAW;
 			else
 				desiredYaw = BOILER_YAW + 45;

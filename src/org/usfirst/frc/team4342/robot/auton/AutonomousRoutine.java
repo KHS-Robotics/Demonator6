@@ -30,6 +30,7 @@ public abstract class AutonomousRoutine extends CommandGroup
 	{
 		IO.getInstance().Drive.resetNavX();
 		IO.getInstance().Drive.resetEncoders();
+		IO.getInstance().Drive.shiftLow();
 	}
 	
 	/**

@@ -346,7 +346,7 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		double left = direction + output;
 		double right = direction - output;
 		
-		this.set(-left, right);
+		this.set(left, right);
 	}
 	
 	/**

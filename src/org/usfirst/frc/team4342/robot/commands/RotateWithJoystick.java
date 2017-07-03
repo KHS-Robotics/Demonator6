@@ -21,15 +21,8 @@ public class RotateWithJoystick extends InstantCommand
 	@Override
 	protected void initialize()
 	{
-		final double Y = joystick.getY();
+		final double Y = -joystick.getY();
 		drive.disablePID();
-		drive.set(-Y, Y);
-	}
-	
-	@Override
-	protected void interrupted()
-	{
-		drive.disablePID();
-		drive.set(0, 0);
+		drive.set(Y, Y);
 	}
 }

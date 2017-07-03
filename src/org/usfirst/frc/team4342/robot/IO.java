@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4342.robot;
 
-import org.usfirst.frc.team4342.robot.commands.AlignPeg;
 import org.usfirst.frc.team4342.robot.commands.LowerGear;
 import org.usfirst.frc.team4342.robot.commands.RaiseGear;
 import org.usfirst.frc.team4342.robot.commands.RotateWithJoystick;
@@ -9,7 +8,6 @@ import org.usfirst.frc.team4342.robot.commands.StartAccumulator;
 import org.usfirst.frc.team4342.robot.commands.StartScaler;
 import org.usfirst.frc.team4342.robot.commands.StartShooter;
 import org.usfirst.frc.team4342.robot.commands.StopAccumulator;
-import org.usfirst.frc.team4342.robot.commands.StopDriveTrain;
 import org.usfirst.frc.team4342.robot.commands.StopScaler;
 import org.usfirst.frc.team4342.robot.commands.StopShooter;
 import org.usfirst.frc.team4342.robot.logging.Logger;
@@ -129,35 +127,32 @@ public class IO
 		Accumulator = new Accumulator(Intake);
 		Shooter = new Shooter(Agitator, ShooterMotor, ShooterEnc, ShooterHood, CamLight);
 		Drive = new TankDrive(FrontRight, FrontLeft, MiddleRight, MiddleLeft, RearRight, RearLeft, NavX, Shifter, LeftDrive, RightDrive, RightPhotosensor, LeftPhotosensor, Ultrasonic);
+		Drive.setLeftInverted(true);
 		
 		JoystickButton placerButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.GearPlacer.LOWER);
-		placerButton.whenActive(new LowerGear(GearPlacer));
-		placerButton.whenInactive(new RaiseGear(GearPlacer));
+		placerButton.whenPressed(new LowerGear(GearPlacer));
+		placerButton.whenReleased(new RaiseGear(GearPlacer));
 		
 		JoystickButton scaleButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Scaler.SCALE);
-		scaleButton.whenActive(new StartScaler(Scaler));
-		scaleButton.whenInactive(new StopScaler(Scaler));
+		scaleButton.whenPressed(new StartScaler(Scaler));
+		scaleButton.whenReleased(new StopScaler(Scaler));
 		
 		JoystickButton accumulateButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Shooter.ACCUMULATE);
-		accumulateButton.whenActive(new StartAccumulator(Accumulator));
-		accumulateButton.whenInactive(new StopAccumulator(Accumulator));
+		accumulateButton.whenPressed(new StartAccumulator(Accumulator));
+		accumulateButton.whenReleased(new StopAccumulator(Accumulator));
 		
 		JoystickButton shootFarButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Shooter.SHOOT_FAR);
-		shootFarButton.whenActive(new StartShooter(Shooter, true));
-		shootFarButton.whenInactive(new StopShooter(Shooter));
+		shootFarButton.whenPressed(new StartShooter(Shooter, true));
+		shootFarButton.whenReleased(new StopShooter(Shooter));
 		
 		JoystickButton shootCloseButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.Shooter.SHOOT_CLOSE);
-		shootCloseButton.whenActive(new StartShooter(Shooter, false));
-		shootCloseButton.whenInactive(new StopShooter(Shooter));
+		shootCloseButton.whenPressed(new StartShooter(Shooter, false));
+		shootCloseButton.whenReleased(new StopShooter(Shooter));
 		
 		JoystickButton rotateWithJoystickButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.ROTATE);
-		rotateWithJoystickButton.whileActive(new RotateWithJoystick(RightDriveStick, Drive));
+		rotateWithJoystickButton.whileHeld(new RotateWithJoystick(RightDriveStick, Drive));
 		
 		JoystickButton shiftJoystickButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.ROTATE);
-		shiftJoystickButton.whenActive(new Shift(Drive));
-		
-		JoystickButton alignPegButton = new JoystickButton(LeftDriveStick, ButtonMap.DriveStick.Left.ALIGN_HOOK_LEFT);
-		alignPegButton.whenActive(new AlignPeg(Drive));
-		alignPegButton.whenReleased(new StopDriveTrain(Drive));
+		shiftJoystickButton.whenPressed(new Shift(Drive));
 	}
 }
