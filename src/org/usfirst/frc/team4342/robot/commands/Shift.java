@@ -21,7 +21,7 @@ public class Shift extends InstantCommand
 	@Override
 	protected void initialize()
 	{
-		if(System.currentTimeMillis() - lastTimeUsed <= DEBOUNCE_TIME_MS)
+		if(System.currentTimeMillis() - lastTimeUsed >= DEBOUNCE_TIME_MS)
 			drive.shift();
 		
 		lastTimeUsed = System.currentTimeMillis();
