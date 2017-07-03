@@ -21,7 +21,7 @@ public class ShiftLow extends InstantCommand
 	@Override
 	protected void initialize()
 	{
-		if(System.currentTimeMillis() - lastTimeUsed <= DEBOUNCE_TIME_MS)
+		if(System.currentTimeMillis() - lastTimeUsed >= DEBOUNCE_TIME_MS)
 			drive.shiftLow();
 		
 		lastTimeUsed = System.currentTimeMillis();
