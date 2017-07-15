@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class DriveWithJoysticks extends CommandBase
 {	
-	private static final double JOYSTICK_DEADZONE = 0.04;
+	private static final double JOYSTICK_DEADZONE = 0.06;
 	
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
@@ -56,7 +56,6 @@ public class DriveWithJoysticks extends CommandBase
 	{
 		drive.disablePID();
 		drive.set(0, 0);
-		drive.shiftLow();
 	}
 	
 	@Override

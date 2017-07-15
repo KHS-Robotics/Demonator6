@@ -23,6 +23,6 @@ public class RotateWithJoystick extends InstantCommand
 	{
 		final double Y = -joystick.getY();
 		drive.disablePID();
-		drive.set(Y, Y);
+		drive.set(Y, -Y);
 	}
 }

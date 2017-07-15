@@ -19,5 +19,6 @@ public class StopDriveTrain extends InstantCommand
 	protected void initialize()
 	{
 		drive.stopMotors();
+		drive.shiftLow();
 	}
 }

@@ -34,7 +34,6 @@ public class GoToAngle extends CommandBase
 	@Override
 	protected void initialize()
 	{
-		drive.shiftLow();
 		drive.enablePID();
 		drive.setHeading(yaw);
 	}
@@ -57,7 +56,7 @@ public class GoToAngle extends CommandBase
 	@Override
 	protected boolean isFinished() 
 	{
-		return (Math.abs(drive.getHeading() - yaw) <= 1) || this.isTimedOut();
+		return drive.onTarget() || this.isTimedOut();
 	}
 	
 	/** {@inheritDoc} */

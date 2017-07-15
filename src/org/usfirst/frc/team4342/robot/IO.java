@@ -13,6 +13,7 @@ import org.usfirst.frc.team4342.robot.commands.StartAccumulator;
 import org.usfirst.frc.team4342.robot.commands.StartScaler;
 import org.usfirst.frc.team4342.robot.commands.StartShooter;
 import org.usfirst.frc.team4342.robot.commands.StopAccumulator;
+import org.usfirst.frc.team4342.robot.commands.StopDriveTrain;
 import org.usfirst.frc.team4342.robot.commands.StopScaler;
 import org.usfirst.frc.team4342.robot.commands.StopShooter;
 import org.usfirst.frc.team4342.robot.logging.Logger;
@@ -157,17 +158,19 @@ public class IO
 		JoystickButton rotateWithJoystickButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.ROTATE);
 		rotateWithJoystickButton.whileHeld(new RotateWithJoystick(RightDriveStick, Drive));
 		
-		JoystickButton shiftJoystickButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.ROTATE);
+		JoystickButton shiftJoystickButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.SHIFT);
 		shiftJoystickButton.whenPressed(new Shift(Drive));
 		
 		JoystickButton holdCurrentYawButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW);
-		holdCurrentYawButton.whileHeld(new HoldCurrentYaw(Drive));
+		holdCurrentYawButton.whenPressed(new HoldCurrentYaw(RightDriveStick, Drive));
+		holdCurrentYawButton.whenReleased(new StopDriveTrain(Drive));
 		
 		JoystickButton alignStraightButton = new JoystickButton(LeftDriveStick, ButtonMap.DriveStick.Left.ALIGN_STRAIGHT);
 		alignStraightButton.whenPressed(new GoToAngle(0, Drive));
 		
 		JoystickButton shiftAndHoldCurrentYaw = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.SHIFT_AND_HOLD_CURRENT_YAW);
-		shiftAndHoldCurrentYaw.whenPressed(new ShiftHighAndHoldCurrentYaw(Drive));
+		shiftAndHoldCurrentYaw.whenPressed(new ShiftHighAndHoldCurrentYaw(RightDriveStick, Drive));
+		shiftAndHoldCurrentYaw.whenReleased(new StopDriveTrain(Drive));
 		
 		JoystickButton aimBoiler = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.BOILER_YAW);
 		aimBoiler.whenPressed(new AimBoiler(Drive));

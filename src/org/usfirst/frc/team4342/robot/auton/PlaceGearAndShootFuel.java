@@ -4,7 +4,7 @@ import org.usfirst.frc.team4342.robot.commands.AlignPeg;
 import org.usfirst.frc.team4342.robot.commands.GoStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.GoToAngle;
 import org.usfirst.frc.team4342.robot.commands.LowerGear;
-import org.usfirst.frc.team4342.robot.commands.OrientToBoiler;
+import org.usfirst.frc.team4342.robot.commands.AimBoiler;
 import org.usfirst.frc.team4342.robot.commands.StartShooter;
 import org.usfirst.frc.team4342.robot.subsystems.GearPlacer;
 import org.usfirst.frc.team4342.robot.subsystems.Shooter;
@@ -31,7 +31,7 @@ public class PlaceGearAndShootFuel extends AutonomousRoutine
 		this.addSequential(new LowerGear(placer));
 		this.addSequential(new GoStraightDistance(DIRECTION, this.isBlueAlliance() ? PEG_YAW : -PEG_YAW, DISTANCE, drive));
 		this.addSequential(new GoToAngle(this.isRedAlliance() ? BOILER_YAW : -BOILER_YAW, drive));
-		this.addSequential(new OrientToBoiler(drive, this.isRedAlliance() ? 5 : -5));
+		this.addSequential(new AimBoiler(drive));
 		this.addSequential(new StartShooter(shooter, true));
 	}
 }

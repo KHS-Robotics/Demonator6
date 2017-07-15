@@ -79,7 +79,7 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		yawPID.setInputRange(-180.0, 180.0);
 		yawPID.setOutputRange(-1.0, 1.0);
 		yawPID.setContinuous();
-		yawPID.setAbsoluteTolerance(3);
+		yawPID.setAbsoluteTolerance(2);
 		disablePID();
 	}
 	
@@ -114,6 +114,7 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	
 	public void stopMotors()
 	{
+		this.disablePID();
 		this.set(0, 0);
 	}
 	
