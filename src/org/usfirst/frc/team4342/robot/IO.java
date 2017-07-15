@@ -1,9 +1,14 @@
 package org.usfirst.frc.team4342.robot;
 
+import org.usfirst.frc.team4342.robot.commands.AimBoiler;
+import org.usfirst.frc.team4342.robot.commands.GoToAngle;
+import org.usfirst.frc.team4342.robot.commands.GoToLoadInYaw;
+import org.usfirst.frc.team4342.robot.commands.HoldCurrentYaw;
 import org.usfirst.frc.team4342.robot.commands.LowerGear;
 import org.usfirst.frc.team4342.robot.commands.RaiseGear;
 import org.usfirst.frc.team4342.robot.commands.RotateWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.Shift;
+import org.usfirst.frc.team4342.robot.commands.ShiftAndHoldCurrentYaw;
 import org.usfirst.frc.team4342.robot.commands.StartAccumulator;
 import org.usfirst.frc.team4342.robot.commands.StartScaler;
 import org.usfirst.frc.team4342.robot.commands.StartShooter;
@@ -154,5 +159,20 @@ public class IO
 		
 		JoystickButton shiftJoystickButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.ROTATE);
 		shiftJoystickButton.whenPressed(new Shift(Drive));
+		
+		JoystickButton holdCurrentYawButton = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW);
+		holdCurrentYawButton.whenPressed(new HoldCurrentYaw(Drive));
+		
+		JoystickButton alignStraightButton = new JoystickButton(LeftDriveStick, ButtonMap.DriveStick.Left.ALIGN_STRAIGHT);
+		alignStraightButton.whenPressed(new GoToAngle(0, Drive));
+		
+		JoystickButton shiftAndHoldCurrentYaw = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.SHIFT_AND_HOLD_CURRENT_YAW);
+		shiftAndHoldCurrentYaw.whenPressed(new ShiftAndHoldCurrentYaw(Drive));
+		
+		JoystickButton aimBoiler = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.BOILER_YAW);
+		aimBoiler.whenPressed(new AimBoiler(Drive));
+		
+		JoystickButton goToLoadInYaw = new JoystickButton(LeftDriveStick, ButtonMap.DriveStick.Left.GO_TO_LOAD_IN_YAW);
+		goToLoadInYaw.whenPressed(new GoToLoadInYaw(Drive));
 	}
 }

@@ -1,9 +1,7 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Teleop command to drive the <code>TankDrive</code> subsystem
@@ -14,13 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveWithJoysticks extends CommandBase
 {	
 	private static final double JOYSTICK_DEADZONE = 0.04;
-	private static final double BOILER_YAW = 135.0;
-	private static final double LOAD_IN_YAW = 28.0;
-	
-	private boolean holdDesiredYaw;
-	private double desiredYaw;
-	
-	private boolean usedShiftHighAndGoStraight;
 	
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
@@ -47,82 +38,13 @@ public class DriveWithJoysticks extends CommandBase
 	@Override
 	protected void execute()
 	{
-		final boolean SHIFT_AND_HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.SHIFT_AND_HOLD_CURRENT_YAW);
 		final double LEFT_Y = -leftJoystick.getY();
 		final double RIGHT_Y = -rightJoystick.getY();
-		final boolean ALIGN_STRAIGHT = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.ALIGN_STRAIGHT);
-		final boolean HOLD_CURRENT_YAW = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.HOLD_CURRENT_YAW);
-		final boolean AIM_BOILER = rightJoystick.getRawButton(ButtonMap.DriveStick.Right.BOILER_YAW);
-		final boolean GO_TO_LOAD_IN_YAW = leftJoystick.getRawButton(ButtonMap.DriveStick.Left.GO_TO_LOAD_IN_YAW);
-		
-		if(!holdDesiredYaw && ALIGN_STRAIGHT)
-		{
-			desiredYaw = 0;
-			drive.setHeading(desiredYaw);
-			holdDesiredYaw = true;
-		}
-		else if(!holdDesiredYaw && HOLD_CURRENT_YAW)
-		{
-			desiredYaw = drive.getHeading();
-			drive.setHeading(desiredYaw);
-			holdDesiredYaw = true;
-		}
-		else if(!holdDesiredYaw && SHIFT_AND_HOLD_CURRENT_YAW)
-		{
-			usedShiftHighAndGoStraight = true;
-			
-			drive.shiftHigh();
-			desiredYaw = drive.getHeading();
-			drive.setHeading(desiredYaw);
-			holdDesiredYaw = true;
-		}
-		else if(!holdDesiredYaw && AIM_BOILER)
-		{
-			if(this.isBlueAlliance())
-				desiredYaw = -BOILER_YAW;
-			else if(this.isRedAlliance())
-				desiredYaw = BOILER_YAW;
-			else
-				desiredYaw = BOILER_YAW + 45;
-			
-			desiredYaw = SmartDashboard.getNumber("Boiler-Yaw", desiredYaw);
-			
-			drive.setHeading(desiredYaw);
-			holdDesiredYaw = true;
-		}
-		else if(!holdDesiredYaw && GO_TO_LOAD_IN_YAW)
-		{
-			if(this.isBlueAlliance())
-				desiredYaw = LOAD_IN_YAW;
-			else if(this.isRedAlliance())
-				desiredYaw = -LOAD_IN_YAW;
-			else
-				desiredYaw = 0;
-			
-			drive.setHeading(desiredYaw);
-			holdDesiredYaw = true;
-		}
-		else if(holdDesiredYaw && (HOLD_CURRENT_YAW || SHIFT_AND_HOLD_CURRENT_YAW || AIM_BOILER))
-		{
-			drive.goStraight(adjust(RIGHT_Y), desiredYaw);
-		}
-		else
-		{
-			if(holdDesiredYaw && (Math.abs(LEFT_Y) > JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > JOYSTICK_DEADZONE))
-			{	
-				drive.disablePID();
-				holdDesiredYaw = false;
-			}
-			else if(!holdDesiredYaw)
-			{
-				if(usedShiftHighAndGoStraight)
-				{
-					usedShiftHighAndGoStraight = false;
-					drive.shiftLow();
-				}
-				
-				drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
-			}
+
+		if(Math.abs(LEFT_Y) > JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > JOYSTICK_DEADZONE)
+		{	
+			drive.disablePID();
+			drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
 		}
 	}
 	
@@ -144,7 +66,7 @@ public class DriveWithJoysticks extends CommandBase
 	}
 	
 	/**
-	 * Internal function to adjust output for sensitiviy control
+	 * Internal function to adjust output for sensitivity control
 	 * @param input the desired input before adjustment from -1.0 to 1.0
 	 * @return the adjusted output
 	 */
