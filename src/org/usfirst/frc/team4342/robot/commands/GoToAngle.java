@@ -9,7 +9,7 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
  */
 public class GoToAngle extends CommandBase
 {
-	private double yaw;
+	protected double yaw;
 	private TankDrive drive;
 	
 	/**

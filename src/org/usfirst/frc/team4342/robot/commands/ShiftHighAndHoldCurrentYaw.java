@@ -4,11 +4,11 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ShiftAndHoldCurrentYaw extends CommandGroup 
+public class ShiftHighAndHoldCurrentYaw extends CommandGroup 
 {
-	public ShiftAndHoldCurrentYaw(TankDrive drive)
+	public ShiftHighAndHoldCurrentYaw(TankDrive drive)
 	{
-		this.addParallel(new Shift(drive));
+		this.addParallel(new ShiftHigh(drive));
 		this.addParallel(new HoldCurrentYaw(drive));
 	}
 }
